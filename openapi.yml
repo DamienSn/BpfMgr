@@ -26,5 +26,4 @@ paths:
           in: query
           schema:
             type: string
-      responses:
         
