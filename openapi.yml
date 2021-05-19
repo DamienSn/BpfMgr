@@ -26,4 +26,24 @@ paths:
           in: query
           schema:
             type: string
+      responses:
+        '200':
+          description: 'Sample response: Details about a user by ID'
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
         
