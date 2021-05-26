@@ -12,6 +12,8 @@ app.get('/', (req, res) => {
     res.json({'message': 'BpfMgr API v1'});
 })
 
+require('./routes/user.route.js')(app);
+
 app.listen(PORT, () => {
     console.log(`App listening at port ${PORT}`);
 });
