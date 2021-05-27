@@ -1,6 +1,6 @@
 openapi: '3.0.2'
 info:
-  title: API Title
+  title: BpfMgr API
   version: '1.0'
 servers:
   - url: https://api.server.test/v1
@@ -10,40 +10,8 @@ paths:
       responses:
         '200':
           description: OK
-  /bpfs:
+  /users/:id:
     get:
-      summary: 'BPFS: Retourne un liste de bpf'
-      parameters:
-        - name: id
-          in: query
-          schema:
-            type: integer
-        - name: dpt
-          in: query
-          schema:
-            type: number
-        - name: name
-          in: query
-          schema:
-            type: string
       responses:
-        '200':
-          description: 'Sample response: Details about a user by ID'
-          headers:
-            x-next:
-              description: A link to the next page of responses
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-
-        
+          '200':
+            description: OK

@@ -1,5 +1,6 @@
 module.exports = app => {
     const users = require('../controllers/user.controller.js');
+    const authController = require('../controllers/auth.controller.js');
 
     app.post('/users/create', users.create);
 
@@ -7,7 +8,9 @@ module.exports = app => {
 
     app.delete('/users/delete/:id', users.delete);
 
-    app.get('/users/connect', users.connect);
+    // auth
+    app.post('/users/login', authController.logIn);
+    app.post('/users/logout', authController.logOut)
 
     app.put('/users/update/:id', users.update);
 

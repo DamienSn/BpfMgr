@@ -1,6 +1,7 @@
 // Use connection define in db.js
 const { query } = require("./db.js");
 const sql = require("./db.js");
+const bcrypt = require('bcrypt');
 
 const User = function (user) {
     this.email = user.email;
@@ -10,8 +11,14 @@ const User = function (user) {
     this.permissions = user.permissions;
 };
 
+async function crypt(str) {
+    const salt = await bcrypt.genSalt();
+    return await bcrypt.hash(str, salt);
+}
+
 // Create a new user
-User.create = (user, result) => {
+User.create = async (user, result) => {
+    user.password = await crypt(user.password);
     sql.query("INSERT INTO users SET ?", user, (err, res) => {
         if (err) {
             console.error("There were un error during creating user " + err);
@@ -27,7 +34,7 @@ User.create = (user, result) => {
 User.getAll = (result) => {
     sql.query("SELECT * FROM users", (err, res) => {
         if (err) {
-            console.error("There were un error during creating user " + err);
+            console.error("There were un error during getting all users " + err);
             result(err, null);
             return;
         }
@@ -58,13 +65,15 @@ User.delete = (id, result) => {
 };
 
 // Get an user by ID
-User.getOne = (id, result) => {
-    sql.query("SELECT * FROM users WHERE id=?", id, (err, res) => {
-        if (err) {
-            result(null, "There were an error : " + err);
-            return;
-        }
-        result(null, res);
+User.getOne = async (id, result) => {
+
+    return new Promise((resolve, reject)=>{
+        sql.query(`SELECT * FROM users WHERE id=${id}`, (err, res) => {
+            if (err) {
+                return reject("There were an error : " + err);
+            }
+            return resolve(res);
+        });
     });
 };
 
@@ -87,18 +96,16 @@ User.update = (id, user, result) => {
 };
 
 // Connect an user
-User.connect = (email, password, result) => {
-    sql.query(`SELECT * FROM users WHERE email=?`, email, (err, res) => {
-        if(err) {
-            result(null, 'Error : ' + err);
-            return;
-        }
-        if(res[0].password == password) {
-            result(null, {message: 'success', user_id: res[0].id});
-        } else {
-            result(null, {messsage: 'error: bad password'});
-        }
-    })
+User.connect = async (email, password) => {
+
+    return new Promise((resolve, reject)=>{
+        sql.query(`SELECT * FROM users WHERE email=?`, email,  (error, results)=>{
+            if(error){
+                return reject(error);
+            }
+            return resolve(results);
+        });
+    });
 }
 
 module.exports = User;

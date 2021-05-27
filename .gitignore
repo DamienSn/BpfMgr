@@ -2,3 +2,4 @@
 *.sql
 schema.png
 node_modules
+.env
