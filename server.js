@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config({path: './config/.env'});
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -12,7 +13,7 @@ app.get('/', (req, res) => {
     res.json({'message': 'BpfMgr API v1'});
 })
 
-require('./routes/user.route.js')(app);
+require('./routes/user.routes.js')(app);
 
 app.listen(PORT, () => {
     console.log(`App listening at port ${PORT}`);
