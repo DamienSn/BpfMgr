@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
 })
 
 require('./routes/user.routes.js')(app);
+require('./routes/cities.routes.js')(app);
 
 
 // server

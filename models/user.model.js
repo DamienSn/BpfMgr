@@ -78,10 +78,11 @@ User.getOne = async (id, result) => {
 };
 
 // Update an user by ID
-User.update = (id, user, result) => {
+User.update = async (id, user, result) => {
+    const encrypted = await crypt(user.password);
     sql.query(
         'UPDATE users SET email=?, password=?, name=?, bio=?, permissions=? WHERE id=?',
-        [user.email, user.password, user.name, user.bio, user.permissions, id],
+        [user.email, encrypted, user.name, user.bio, user.permissions, id],
         (err, res) => {
             if (err) {
                 result(null, 'There were an error during updating user (id=' + id + ') : ' + err);
@@ -99,11 +100,19 @@ User.update = (id, user, result) => {
 User.connect = async (email, password) => {
 
     return new Promise((resolve, reject)=>{
-        sql.query(`SELECT * FROM users WHERE email=?`, email,  (error, results)=>{
+        sql.query(`SELECT * FROM users WHERE email=?`, email,  async (error, results)=>{
             if(error){
                 return reject(error);
             }
-            return resolve(results);
+
+            // compare passwords
+            const auth = await bcrypt.compare(password, results[0].password);
+
+            if (auth) {
+                return resolve(results);
+            } else {
+                return reject({message: 'incorrect password'});
+            }
         });
     });
 }
