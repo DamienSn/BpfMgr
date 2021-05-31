@@ -81,8 +81,8 @@ User.getOne = async (id, result) => {
 User.update = async (id, user, result) => {
     const encrypted = await crypt(user.password);
     sql.query(
-        'UPDATE users SET email=?, password=?, name=?, bio=?, permissions=? WHERE id=?',
-        [user.email, encrypted, user.name, user.bio, user.permissions, id],
+        'UPDATE users SET email=?, password=?, name=?, bio=?, permissions=?, avatar=? WHERE id=?',
+        [user.email, encrypted, user.name, user.bio, user.permissions, user.avatar, id],
         (err, res) => {
             if (err) {
                 result(null, 'There were an error during updating user (id=' + id + ') : ' + err);

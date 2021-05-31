@@ -18,7 +18,7 @@ module.exports = app => {
     app.put('/users/update/:id', users.update);
 
     // photo
-    app.post('/users/upload', upload.single('file') ,uploadController.uploadProfil);
+    app.post('/users/upload', upload.single('file'), uploadController.uploadProfil);
 
     app.get('/users/:id', users.getOne);
 
