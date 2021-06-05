@@ -1,5 +1,5 @@
 <?php
-$json = file_get_contents('provinces.json');
+$json = file_get_contents('data/provinces.json');
 $json = json_decode($json);
 
 const HOST = 'http://localhost:3306';

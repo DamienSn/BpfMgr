@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script
+            src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""
+        ></script>
+
+        <!-- Load Esri Leaflet from CDN -->
+        <script src="https://unpkg.com/esri-leaflet@3.0.0/dist/esri-leaflet.js"></script>
+        <script src="https://unpkg.com/esri-leaflet-vector@3.0.0/dist/esri-leaflet-vector.js"></script>
+    </head>
+    <body>
+        <script>
+            const queryLayer = L.esri.query({
+                url: "https://services5.arcgis.com/x7yCK2swiqKDYsU6/ArcGIS/rest/services/VELOENFRANCE/FeatureServer/0",
+            });
+
+            queryLayer.where(`REFERENCE_SOUSTYPEPOI=101`).run((err, res) => {
+                console.log(res);
+
+                let data = JSON.stringify(res);
+
+                function download(filename, text) {
+                    var element = document.createElement("a");
+                    element.setAttribute(
+                        "href",
+                        "data:text/plain;charset=utf-8," +
+                            encodeURIComponent(text)
+                    );
+                    element.setAttribute("download", filename);
+
+                    element.style.display = "none";
+                    document.body.appendChild(element);
+
+                    element.click();
+
+                    document.body.removeChild(element);
+                }
+
+                // Start file download.
+                download("data.json", data);
+            });
+        </script>
+    </body>
+</html>

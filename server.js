@@ -33,5 +33,5 @@ require('./routes/cities.routes.js')(app);
 
 // server
 app.listen(PORT, () => {
-    console.log(`App listening at port ${PORT}`);
+    console.log(`Server listening at port ${PORT}`);
 });
