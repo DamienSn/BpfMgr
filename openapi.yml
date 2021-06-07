@@ -1,17 +1,50 @@
-openapi: '3.0.2'
+openapi: 3.1.0
 info:
   title: BpfMgr API
-  version: '1.0'
-servers:
-  - url: https://api.server.test/v1
+  version: 1.0.0
+  contact:
+    name: Damien STÉPHAN
+    email: damienstephan07@gmail.com
+  description: Api of BpfMgr
 paths:
-  /test:
+  /users/all:
     get:
+      summary: Get all users
+      description: ''
+      parameters: []
+      operationId: ''
       responses:
         '200':
-          description: OK
-  /users/:id:
+          description: Ok
+          content:
+            application/json:
+              schema: {}
+  '/users/:id':
     get:
+      summary: Get one user by id
+      description: ''
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: []
+          description: ID of the user
+      operationId: ''
       responses:
-          '200':
-            description: OK
+        default:
+          description: Default response
+      tags:
+        - users
+security: []
+servers:
+  - url: 'localhost:3000'
+    description: Local server
+    variables: {}
+components:
+  links: {}
+  callbacks: {}
+  schemas: {}
+tags:
+  - name: users
