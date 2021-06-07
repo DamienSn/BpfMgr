@@ -63,12 +63,11 @@ module.exports.getOne = (params, result) => {
 
     console.log(parameters);
 
-    const query = sql.query(queryGetOne, parameters, (err, res) => {
+    sql.query(queryGetOne, parameters, (err, res) => {
         if (err) {
             result(err, null);
             return;
         }
         result(null, res);
     });
-    console.log(query);
 };
