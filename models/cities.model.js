@@ -1,12 +1,23 @@
 const citiesRoutes = require("../routes/cities.routes");
+const Pagination = require("../utils/paging.utils");
 const sql = require("./db");
+
+const limit = 25;
+const pagination = new Pagination(limit);
 
 /**
  * Get all cities
+ * @param {number} page page to go
  * @param {function} result error; data;
  */
-module.exports.getAll = (result) => {
-    sql.query("SELECT * FROM cities", (err, res) => {
+module.exports.getAll = (page, result) => {
+    const queryGetAll = `SELECT * FROM cities
+    LIMIT ${limit}
+    OFFSET ${pagination.page(page)}`
+
+    console.log(queryGetAll);
+
+    sql.query(queryGetAll, (err, res) => {
         if (err) {
             result(err, null);
             return;

@@ -2,7 +2,11 @@ const { query } = require('express');
 const CitiesModel = require('../models/cities.model');
 
 exports.getAll = (req, res) => {
-    CitiesModel.getAll((err, data) => {
+    const page = req.query.page;
+
+    console.log(typeof page);
+
+    CitiesModel.getAll(page, (err, data) => {
         if (err) {
             res.status(500).json({message: 'error', error: err});
         } else {
