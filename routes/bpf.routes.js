@@ -1,7 +1,8 @@
 const router = require("express").Router();
+const bpfController = require("../controllers/bpf.controller");
 
 // new
-router.post("/create");
+router.post("/create", bpfController.create);
 
 // get one
 router.post("/get/one");
