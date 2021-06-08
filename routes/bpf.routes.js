@@ -11,5 +11,6 @@ router.post("/get/all/by_user");
 
 // delete
 router.delete("/delete");
+router.delete("/delete/all");
 
 module.exports = router;
