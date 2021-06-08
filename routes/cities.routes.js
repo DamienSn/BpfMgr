@@ -1,8 +1,9 @@
-const CitiesController = require('../controllers/cities.controller');
+const router = require("express").Router();
+const CitiesController = require("../controllers/cities.controller");
 
-module.exports = app => {
-    app.get('/cities/all', CitiesController.getAll);
+router.get("/all", CitiesController.getAll);
 
-    // Get one city (Post datas to get);
-    app.post('/cities/', CitiesController.getOne);
-}
+// Get one city (Post datas to get);
+router.post("/", CitiesController.getOne);
+
+module.exports = router;

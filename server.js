@@ -4,6 +4,11 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const {checkUser, requireAuth} = require('./middlewares/auth.middleware');
 
+// Require routes
+const userRoutes = require('./routes/user.routes.js');
+const citiesRoutes = require('./routes/cities.routes.js');
+const bpfRoutes = require('./routes/bpf.routes');
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -27,8 +32,9 @@ app.get('/', (req, res) => {
     res.json({'message': 'BpfMgr API v1'});
 })
 
-require('./routes/user.routes.js')(app);
-require('./routes/cities.routes.js')(app);
+app.use('/users', userRoutes);
+app.use('/cities', citiesRoutes);
+app.use('/bpf', bpfRoutes);
 
 
 // server

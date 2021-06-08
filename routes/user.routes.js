@@ -1,25 +1,30 @@
-module.exports = app => {
-    const users = require('../controllers/user.controller.js');
-    const authController = require('../controllers/auth.controller.js');
-    const uploadController = require('../controllers/upload.controller');
-    const multer = require('multer');
-    const upload = multer();
+const router = require("express").Router();
 
-    app.post('/users/create', users.create);
+const users = require("../controllers/user.controller.js");
+const authController = require("../controllers/auth.controller.js");
+const uploadController = require("../controllers/upload.controller");
+const multer = require("multer");
+const upload = multer();
 
-    app.get('/users/all', users.getAll);
+router.post("/create", users.create);
 
-    app.delete('/users/delete/:id', users.delete);
+router.get("/all", users.getAll);
 
-    // auth
-    app.post('/users/login', authController.logIn);
-    app.post('/users/logout', authController.logOut)
+router.delete("/delete/:id", users.delete);
 
-    app.put('/users/update/:id', users.update);
+// auth
+router.post("/login", authController.logIn);
+router.post("/logout", authController.logOut);
 
-    // photo
-    app.post('/users/upload', upload.single('file'), uploadController.uploadProfil);
+router.put("/update/:id", users.update);
 
-    app.get('/users/:id', users.getOne);
+// photo
+router.post(
+    "/upload",
+    upload.single("file"),
+    uploadController.uploadProfil
+);
 
-}
+router.get("/:id", users.getOne);
+
+module.exports = router;

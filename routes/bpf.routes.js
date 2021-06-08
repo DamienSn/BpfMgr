@@ -1,10 +1,15 @@
-modules.exports = app => {
-    // new
-    app.post('/bpfs/create')
+const router = require("express").Router();
 
-    // get
-    app.get('/bpfs/get');
+// new
+router.post("/create");
 
-    // delete
-    app.delete('/bpf/delete');
-}
+// get one
+router.post("/get/one");
+
+// get all by user
+router.post("/get/all/by_user");
+
+// delete
+router.delete("/delete");
+
+module.exports = router;

@@ -15,8 +15,6 @@ module.exports.getAll = (page, result) => {
     LIMIT ${limit}
     OFFSET ${pagination.page(page)}`
 
-    console.log(queryGetAll);
-
     sql.query(queryGetAll, (err, res) => {
         if (err) {
             result(err, null);
