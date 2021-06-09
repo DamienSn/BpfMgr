@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Swagger UI</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.24.2/swagger-ui.css" >
+  <style>
+    html
+    {
+      box-sizing: border-box;
+      overflow: -moz-scrollbars-vertical;
+      overflow-y: scroll;
+    }
+    *,
+    *:before,
+    *:after
+    {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin:0;
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+
+<div id="swagger-ui"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.24.2/swagger-ui-bundle.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.24.2/swagger-ui-standalone-preset.js"> </script>
+<script>
+window.onload = function() {
+
+  var spec = {"openapi": "3.0.0", "info": {"title": "BpfMgr", "version": "1.0"}, "servers": [{"url": "http://localhost:3000"}], "paths": {"/users/delete/{id}": {"parameters": [{"schema": {"type": "string"}, "name": "id", "in": "path", "required": true, "description": "User id"}], "delete": {"summary": "Delete user", "operationId": "delete-users-delete-id", "responses": {"200": {"description": "OK"}}, "description": "Delete user by ID", "tags": ["users"]}}, "/users/update/{id}": {"put": {"summary": "Update user", "operationId": "put-users-update", "responses": {"200": {"description": "OK"}}, "requestBody": {"content": {"application/json": {"schema": {"description": "", "type": "object", "properties": {"email": {"type": "string", "minLength": 1}, "password": {"type": "string", "minLength": 1}, "name": {"type": "string", "minLength": 1}, "bio": {"type": "string", "minLength": 1}, "permissions": {"type": "string", "minLength": 1}}, "required": ["email", "password", "name", "bio", "permissions"], "x-examples": {"example-1": {"email": "damienstephan07@gmail.com", "password": "1234", "name": "Damien STEPHAN", "bio": "Chasseur de BPF", "permissions": "adm"}}}}}}, "description": "Update user by ID", "tags": ["users"]}, "parameters": [{"schema": {"type": "string"}, "name": "id", "in": "path", "required": true, "description": "User id"}]}, "/users/{id}": {"parameters": [{"schema": {"type": "string"}, "name": "id", "in": "path", "required": true, "description": "user id"}], "get": {"summary": "Get user by id", "tags": ["users"], "responses": {"200": {"description": "OK"}}, "operationId": "get-users-id", "description": "Get an user by his ID"}}, "/users/all": {"get": {"summary": "Get all users", "tags": ["users"], "responses": {"200": {"description": "OK"}}, "operationId": "get-users-all", "description": "All users"}}, "/users/login": {"post": {"summary": "Connect user", "operationId": "post-users-connect", "responses": {"200": {"description": "OK"}}, "description": "Connect user", "requestBody": {"content": {"application/json": {"schema": {"description": "", "type": "object", "properties": {"email": {"type": "string", "minLength": 1}, "password": {"type": "string", "minLength": 1}}, "required": ["email", "password"], "x-examples": {"example-1": {"email": "damienstephan07@gmail.com", "password": "1234"}}}}}}, "tags": ["users"]}, "parameters": []}, "/users/logout": {"post": {"summary": "Disconnect user", "operationId": "post-users-logout", "responses": {"200": {"description": "OK"}}, "description": "Log out the user", "parameters": [], "tags": ["users"]}}, "/users/jwtid": {"get": {"summary": "ID from JWT", "tags": ["users"], "responses": {"200": {"description": "OK"}}, "operationId": "get-users-jwtid", "description": "Get id of the user with jwt token", "parameters": [{"schema": {"type": "string"}, "in": "cookie", "name": "jwt", "description": "JWT Token"}]}}, "/users/upload": {"post": {"summary": "Upload profile picture", "operationId": "post-users-upload", "responses": {"200": {"description": "OK"}}, "description": "Upload user photo", "requestBody": {"content": {"application/json": {"schema": {"type": "object", "properties": {"name": {"type": "string"}, "user_id": {"type": "string"}, "file": {"anyOf": []}}}}}}, "tags": ["users"]}}, "/cities/all": {"get": {"summary": "All cities", "responses": {"200": {"description": "OK"}}, "operationId": "get-cities-all", "description": "Get all cities", "tags": ["cities"]}}, "/bpf/create": {"post": {"summary": "Create a BPF", "operationId": "post-bpf-create", "responses": {"200": {"description": "OK"}}, "requestBody": {"content": {"application/json": {"schema": {"type": "object", "properties": {"id": {"type": "number"}, "date": {"type": "string"}}}}}, "description": ""}, "description": "Create a bpf into db", "tags": ["bpf"]}}, "/bpf/get/all_by_user": {"get": {"summary": "Get all bpfs by user", "tags": ["bpf"], "responses": {"200": {"description": "OK"}}, "operationId": "get-bpf-get-all_by_user", "description": "Get all bpfs by user", "parameters": [{"schema": {"type": "number"}, "in": "query", "name": "id", "description": "User id"}]}}, "/bpf/delete": {"delete": {"summary": "Delete a bpf", "operationId": "delete-bpf-delete", "responses": {"200": {"description": "OK"}}, "description": "Delete one bpf", "requestBody": {"content": {"application/json": {"schema": {"type": "object", "properties": {"userId": {"type": "number"}, "cityId": {"type": "number"}}}}}}, "tags": ["bpf"]}}, "/bpf/delete/all": {"delete": {"summary": "Delete all bpfs", "operationId": "delete-bpf-delete-all", "responses": {"200": {"description": "OK"}}, "description": "Delete all bpfs of an user", "parameters": [{"schema": {"type": "number"}, "in": "query", "name": "userId", "description": "user id"}], "tags": ["bpf"]}}}, "components": {"schemas": {"User": {"title": "User", "type": "object", "description": "", "examples": [], "properties": {"id": {"type": "integer", "description": "Unique identifier for the given user."}, "name": {"type": "string"}, "email": {"type": "string"}, "password": {"type": "string", "format": "email"}, "avatar": {"format": "date", "example": "1997-10-31", "type": "string"}, "bio": {"type": "string", "description": "Set to true if the user's email has been verified."}, "permissions": {"type": "string", "format": "date", "description": "The date that the user was created."}}, "required": ["id", "name", "email", "password", "bio", "permissions"]}}}};
+
+  // Build a system
+  const ui = SwaggerUIBundle({
+    spec: spec,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  })
+
+  window.ui = ui
+}
+</script>
+</body>
+
+</html>
