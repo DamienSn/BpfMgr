@@ -8,7 +8,7 @@ router.post("/create", bpfController.create);
 router.post("/get/one");
 
 // get all by user
-router.post("/get/all/by_user");
+router.get("/get/all_by_user");
 
 // delete
 router.delete("/delete");

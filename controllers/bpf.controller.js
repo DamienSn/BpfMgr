@@ -28,8 +28,41 @@ exports.getOne = (req, res) => {
     })
 };
 
-exports.getAllByUser = (req, res) => {};
+/**
+ * Call model to select bpfs of user
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.getAllByUser = (req, res) => {
+    bpfModel.getAllByUser(req.query.id, (err, data) => {
+        err ?
+        res.status(200).json({message: 'error', error: err})
+        : res.status(200).json({message: 'ok', data});
+    })
+};
 
-exports.deleteOne = (req, res) => {};
+/**
+ * Call model to delete bpf
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.deleteOne = (req, res) => {
+    bpfModel.deleteOne(req.body, (err, data) => {
+        err ?
+        res.status(200).json({message: 'error', error: err})
+        : res.status(200).json({message: 'ok', data});
+    })
+};
 
-exports.deleteAllByUser = (req, res) => {};
+/**
+ * Call model to delete all user's bpf
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.deleteAllByUser = (req, res) => {
+    bpfModel.deleteAllByUser(req.query.userId, (error, data) => {
+        error ?
+        res.status(200).json({message: 'error', error})
+        : res.status(200).json({message: 'ok', data});
+    })
+};
