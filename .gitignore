@@ -1,5 +1,5 @@
 .vscode
 *.sql
-schema.png
+db_schema.png
 node_modules
 .env
