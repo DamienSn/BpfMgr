@@ -64,8 +64,13 @@ module.exports.getOne = (params, result) => {
  */
 module.exports.getAllByUser = (id, result) => {
     id = parseInt(id);
-    const queryGetAllByUser = `SELECT * FROM bpfs
-    WHERE user=?`
+    const queryGetAllByUser = `
+    SELECT bpfs.id, bpfs.user, bpfs.date, cities.name, cities.departement, cities.province, provinces.name, cities.lat, cities.long, users.email, users.name
+    FROM bpfs
+    INNER JOIN cities ON bpfs.id=cities.id
+    INNER JOIN users ON bpfs.user=users.id
+    INNER JOIN provinces ON cities.province=provinces.id
+    WHERE bpfs.user=?`
 
     sql.query(queryGetAllByUser, id)
     .then(res => result(null, res))
