@@ -1,8 +1,9 @@
 const express = require('express');
-require('dotenv').config({path: './config/.env'});
+require('dotenv').config()
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const {checkUser, requireAuth} = require('./middlewares/auth.middleware');
+const cors = require('cors');
 
 // Require routes
 const userRoutes = require('./routes/user.routes.js');
@@ -12,6 +13,16 @@ const bpfRoutes = require('./routes/bpf.routes');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    'allowedHeaders': ['sessionId', 'Content-Type'],
+    'exposedHeaders': ['sessionId'],
+    'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    'preflightContinue': false
+  }
+  app.use(cors(corsOptions));
 
 // Convert body to JSON
 app.use(bodyParser.json());
