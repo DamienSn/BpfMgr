@@ -122,7 +122,8 @@ exports.createByPhoto = (req, res) => {
                     }
                 }
             );
-        });
+        })
+        .catch(err => console.error(err))
 };
 
 function createBpfWherePhotoIsGood (city, userId, date) {    

@@ -1,6 +1,7 @@
 const sql = require("./db.js");
 const {promisify} = require("util");
 const { query } = require("./db.js");
+const sqlString = require('sqlstring');
 
 sql.query = promisify(sql.query);
 
@@ -13,16 +14,16 @@ sql.query = promisify(sql.query);
 module.exports.create = (params, result) => {
     let {name, date, userId} = params;
 
-    const queryInsert = `INSERT INTO bpfs(id, user, date)
+    const queryInsert = `INSERT INTO bpfs(bpf_city_id, bpf_user_id, bpf_date)
     VALUES(?, ?, ?)`;
 
-    const querySelectCity = `SELECT id FROM cities
-    WHERE name LIKE "%${name}%"`;
+    const querySelectCity = `SELECT city_id FROM cities
+    WHERE city_name LIKE ${sqlString.escape(name)}`;
 
    sql.query(querySelectCity)
    .then(
        (res) => {
-           const cityId = res[0].id;
+           const cityId = res[0].city_id;
            sql.query(queryInsert, [cityId, userId, date])
            .then(
                res => {
@@ -48,9 +49,15 @@ module.exports.create = (params, result) => {
 module.exports.getOne = (params, result) => {
     const {id, date} = params;
 
-    const queryGetOne = `SELECT * FROM bpfs*
-    WHERE id=${id}
-    OR date=${date}`;
+    const queryGetOne = `
+    SELECT bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
+    FROM bpfs
+    INNER JOIN cities ON bpf_city_id=city_id
+    INNER JOIN users ON bpf_user_id=user_id
+    INNER JOIN provinces ON city_province_id=province_id
+    INNER JOIN departements ON city_departement=dpt_id
+    WHERE bpf_city_id=${sqlString.escape(id)}
+    OR bpf_date=${sqlString.escape(date)}`;
 
     sql.query(queryGetOne)
     .then(res => result(null, res))
@@ -65,12 +72,13 @@ module.exports.getOne = (params, result) => {
 module.exports.getAllByUser = (id, result) => {
     id = parseInt(id);
     const queryGetAllByUser = `
-    SELECT bpfs.id, bpfs.user, bpfs.date, cities.name, cities.departement, cities.province, provinces.name, cities.lat, cities.long, users.email, users.name
+    SELECT bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
     FROM bpfs
-    INNER JOIN cities ON bpfs.id=cities.id
-    INNER JOIN users ON bpfs.user=users.id
-    INNER JOIN provinces ON cities.province=provinces.id
-    WHERE bpfs.user=?`
+    INNER JOIN cities ON bpf_city_id=city_id
+    INNER JOIN users ON bpf_user_id=user_id
+    INNER JOIN provinces ON city_province_id=province_id
+    INNER JOIN departements ON city_departement=dpt_id
+    WHERE bpf_user_id=?`
 
     sql.query(queryGetAllByUser, id)
     .then(res => result(null, res))
@@ -86,7 +94,7 @@ module.exports.deleteOne = (params, result) => {
     const {userId, cityId} = params;
 
     const queryDeleteOne = `DELETE FROM bpfs
-    WHERE user=? AND id=?`;
+    WHERE bpf_user_id=? AND bpf_city_id=?`;
 
     sql.query(queryDeleteOne, [userId, cityId])
     .then(res => result(null, res))
@@ -100,7 +108,7 @@ module.exports.deleteOne = (params, result) => {
  */
 module.exports.deleteAllByUser = (userId, result) => {
     const queryDeleteAll = `DELETE from bpfs
-    WHERE user=?`;
+    WHERE bpf_user_id=?`;
 
     sql.query(queryDeleteAll, userId)
     .then(res => result(null, res))
