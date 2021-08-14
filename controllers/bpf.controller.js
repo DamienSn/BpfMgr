@@ -1,5 +1,9 @@
 const bpfModel = require("../models/bpf.model");
-var ExifImage = require('exif').ExifImage;
+const fs = require("fs");
+const { promisify } = require("util");
+const pipeline = promisify(require("stream").pipeline);
+const ExifImage = require("exif").ExifImage;
+const { processExif } = require("../utils/exif.utils");
 
 /**
  * Call model to create bpf into DB
@@ -71,40 +75,70 @@ exports.deleteAllByUser = (req, res) => {
 /* ======== UPLOAD ======== */
 
 exports.createByPhoto = (req, res) => {
-    try {
+
         // Format de l'image
-/*         if (
+        if (
             req.file.detectedMimeType != "image/jpg" &&
             req.file.detectedMimeType != "image/png" &&
             req.file.detectedMimeType != "image/jpeg"
         ) {
             throw Error("invalid file");
-        } */
+        }
 
         // Taille de l'image
-/*         if (req.file.size > 7000000000) throw Error("max size");
- */
-        console.log(req.body);
+        if (req.file.size > 7000000000) throw Error("max size");
 
-        processImg(req.body.file, req.body.userId, req.body.date);
-    } catch (err) {
-        console.error(err);
-        return res.status(201).json({ err });
-    }
+        // Store image
+        const fileName = req.body.userId + ".jpg";
+
+        pipeline(
+            req.file.stream,
+            fs.createWriteStream(
+                `${__dirname}/../../client/public/uploads/bpfs/${fileName}`
+            )
+        ).then(() => {
+            // Read exif of the image to know location
+            new ExifImage(
+                {
+                    image: `${__dirname}/../../client/public/uploads/bpfs/${fileName}`,
+                },
+                function (error, exifData) {
+                    if (error) console.log("Error: " + error.message);
+                    else {
+                        processExif(exifData)
+                            .then((response) => {
+                                // Get the date of the BPF
+                                let date;
+
+                                req.body.date === 'photo' ?
+                                date = exifData.exif.DateTimeOriginal :
+                                date = req.body.date
+
+                                createBpfWherePhotoIsGood(response, req.body.userId, date)
+                                .then(r => res.status(200).json({message: 'ok', data: r}))
+                                .catch(e => res.status(200).json({message: 'error', error: e}))
+                            })
+                            .catch((err) => console.error(err));
+                    }
+                }
+            );
+        });
 };
 
-function processImg(file, userId, date) {
-    readGpsExif(file);
-}
+function createBpfWherePhotoIsGood (city, userId, date) {    
+    return new Promise((resolve, reject) => {
+        const data = {
+            name: city.name,
+            userId,
+            date
+        }
 
-function readGpsExif(file) {
-    console.log(typeof file);
-    try {
-        new ExifImage({ image: file }, function (error, exifData) {
-            if (error) console.log("Error: " + error.message);
-            else console.log(exifData); // Do something with your data!
+        bpfModel.create(data, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
         });
-    } catch (error) {
-        console.log("Error: " + error.message);
-    }
+    })
 }

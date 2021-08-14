@@ -1,7 +1,6 @@
 const sql = require("./db.js");
 const {promisify} = require("util");
 const { query } = require("./db.js");
-const router = require("../routes/bpf.routes.js");
 
 sql.query = promisify(sql.query);
 
@@ -63,10 +62,10 @@ module.exports.getOne = (params, result) => {
  * @param {number} id Id of the user
  * @param {*} result 
  */
-module.exportsGetAllByUser = (id, result) => {
-
+module.exports.getAllByUser = (id, result) => {
+    id = parseInt(id);
     const queryGetAllByUser = `SELECT * FROM bpfs
-    WHERE id=?`
+    WHERE user=?`
 
     sql.query(queryGetAllByUser, id)
     .then(res => result(null, res))
