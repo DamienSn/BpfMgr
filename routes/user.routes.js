@@ -12,6 +12,11 @@ router.get("/all", users.getAll);
 
 router.delete("/delete/:id", users.delete);
 
+// verify email
+router.get('/verify_email', users.verifyEmail);
+// new password
+router.get('/reset_password', users.resetPassword)
+
 // auth
 router.post("/login", authController.logIn);
 router.post("/logout", authController.logOut);

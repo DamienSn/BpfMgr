@@ -11,9 +11,14 @@ const pagination = new Pagination(limit);
  * @param {function} result error; data;
  */
 module.exports.getAll = (page, result) => {
-    const queryGetAll = `SELECT * FROM cities
-    LIMIT ${limit}
-    OFFSET ${pagination.page(page)}`
+    let queryGetAll = null;
+    if (page) {
+        queryGetAll = `SELECT * FROM cities
+        LIMIT ${limit}
+        OFFSET ${pagination.page(page)}`
+    } else {
+        queryGetAll = `SELECT * FROM cities`
+    }
 
     sql.query(queryGetAll, (err, res) => {
         if (err) {

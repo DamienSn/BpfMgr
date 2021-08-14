@@ -19,6 +19,8 @@ async function crypt(str) {
 // Create a new user
 User.create = async (user, result) => {
     user.password = await crypt(user.password);
+    user.verification_code = randomCode();
+    user.verified = false;
     sql.query("INSERT INTO users SET ?", user, (err, res) => {
         if (err) {
             console.error("There were un error during creating user " + err);
@@ -26,7 +28,7 @@ User.create = async (user, result) => {
             return;
         }
 
-        result(null, { message: `User ${user.email} created succesfully` });
+        result(null, { message: `User ${user.email} created succesfully`, data: {verification_code: user.verification_code} });
     });
 };
 
@@ -65,7 +67,7 @@ User.delete = (id, result) => {
 };
 
 // Get an user by ID
-User.getOne = async (id, result) => {
+User.getOne = async (id) => {
 
     return new Promise((resolve, reject)=>{
         sql.query(`SELECT * FROM users WHERE id=${id}`, (err, res) => {
@@ -79,10 +81,9 @@ User.getOne = async (id, result) => {
 
 // Update an user by ID
 User.update = async (id, user, result) => {
-    const encrypted = await crypt(user.password);
     sql.query(
         'UPDATE users SET email=?, password=?, name=?, bio=?, permissions=?, avatar=? WHERE id=?',
-        [user.email, encrypted, user.name, user.bio, user.permissions, user.avatar, id],
+        [user.email, user.password, user.name, user.bio, user.permissions, user.avatar, id],
         (err, res) => {
             if (err) {
                 result(null, 'There were an error during updating user (id=' + id + ') : ' + err);
@@ -117,4 +118,65 @@ User.connect = async (email, password) => {
     });
 }
 
+/**
+ * Verifier le code de vérification de l'email
+ * @param {string} code Code de vérification
+ * @param {number | string} userId User ID
+ * @param {Function} result 
+ */
+User.verifyEmail = async (code, userId, result) => {
+    let dbCode = null;
+    sql.query('SELECT verification_code FROM users WHERE id=?', userId, async (err, res) => {
+        if (err) {
+            result(err, null);
+            return;
+        }
+        dbCode = res[0].verification_code;
+
+        const right = code == dbCode;
+        if (right) {
+            sql.query('UPDATE users SET verified=1 WHERE id=?', userId, (err, res) => {
+                if (err) {
+                    result(err, null);
+                    return;
+                } else {
+                    result(null, res);
+                    return;
+                }
+            })
+        } else {
+            result('wrong code', null);
+        }
+    })
+}
+
+/**
+ * Update password of an user itno the DB
+ * @param {Object} param0 new password and user_id
+ * @param {Function} result callback
+ */
+User.updatePassword = async ({password, email}, result) => {
+    password = await crypt(password);
+    sql.query('UPDATE users SET password=? WHERE email=?', [password, email], (err, res) => {
+        if (err) {
+            result(err, null);
+            return;
+        } else {
+            result(null, res);
+            return;
+        }
+    })
+}
+
 module.exports = User;
+
+function randomCode () {
+    let code = [];
+    for (let i=0; i<6; i++) {
+        code.push(Math.floor(Math.random() * 10))
+    }
+    code = code.join('');
+    code = parseInt(code);
+    return code;
+}
+

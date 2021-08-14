@@ -10,7 +10,8 @@ module.exports.uploadProfil = async (req, res) => {
         if (
             req.file.detectedMimeType != "image/jpg" &&
             req.file.detectedMimeType != "image/png" &&
-            req.file.detectedMimeType != "image/jpeg"
+            req.file.detectedMimeType != "image/jpeg" &&
+            req.file.detectedMimeType != "image/gif"
         ) {
             throw Error("invalid file");
         }
