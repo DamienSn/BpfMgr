@@ -1,4 +1,5 @@
 const citiesModel = require("../models/cities.model");
+const {logger} = require('../logs/logger');
 
 module.exports.processExif = async (exifData) => {
 
@@ -11,8 +12,12 @@ module.exports.processExif = async (exifData) => {
         const { GPSLatitude: lat, GPSLongitude: long } = exifData.gps;
 
         checkIfLocationIsBpf(lat, long)
-            .then((city) => resolve(city))
-            .catch((e) => reject(e));
+            .then((city) => {
+                resolve(city)
+            })
+            .catch((e) => {
+                reject(e)
+            });
     });
 };
 
@@ -25,7 +30,8 @@ function checkIfLocationIsBpf(lat, long) {
     return new Promise((resolve, reject) => {
         citiesModel.getAll(null, (err, data) => {
             if (err) {
-                console.error(err);
+                logger.error(err)
+                reject(err)
             } else {
                 // Calculer la lat et long min et max
                 const margin = 0.005;
@@ -38,17 +44,25 @@ function checkIfLocationIsBpf(lat, long) {
                     longMax: long + margin,
                 };
 
+                let found = false;
+
                 // Trouver la ville qui correspond
                 data.forEach((city) => {
                     if (
-                        city.lat >= coords.latMin &&
-                        city.lat <= coords.latMax &&
-                        city.long >= coords.longMin &&
-                        city.long <= coords.longMax
+                        city.city_lat >= coords.latMin &&
+                        city.city_lat <= coords.latMax &&
+                        city.city_long >= coords.longMin &&
+                        city.city_long <= coords.longMax
                     ) {
+                        found = true;
                         resolve(city);
+                        return;
                     }
                 });
+
+                if (!found) {
+                    reject('no city found :(');
+                }
             }
         });
     });

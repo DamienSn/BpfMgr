@@ -4,6 +4,7 @@ const { promisify } = require("util");
 const pipeline = promisify(require("stream").pipeline);
 const ExifImage = require("exif").ExifImage;
 const { processExif } = require("../utils/exif.utils");
+const {logger} = require("../logs/logger");
 
 /**
  * Call model to create bpf into DB
@@ -97,6 +98,7 @@ exports.createByPhoto = (req, res) => {
                 `${__dirname}/../../client/public/uploads/bpfs/${fileName}`
             )
         ).then(() => {
+            console.log('reading image exif')
             // Read exif of the image to know location
             new ExifImage(
                 {
@@ -107,6 +109,8 @@ exports.createByPhoto = (req, res) => {
                     else {
                         processExif(exifData)
                             .then((response) => {
+                                console.log('processed exif')
+
                                 // Get the date of the BPF
                                 let date;
 
@@ -118,21 +122,28 @@ exports.createByPhoto = (req, res) => {
                                 .then(r => res.status(200).json({message: 'ok', data: r}))
                                 .catch(e => res.status(200).json({message: 'error', error: e}))
                             })
-                            .catch((err) => console.error(err));
+                            .catch((err) => {
+                                logger.error(err);
+                                res.status(200).json({message: 'error', error: err});
+                            });
                     }
                 }
             );
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+            logger.error(err);
+            res.status(200).json({message: 'error', error: e});
+        })
 };
 
 function createBpfWherePhotoIsGood (city, userId, date) {    
     return new Promise((resolve, reject) => {
         const data = {
-            name: city.name,
+            name: city.city_name,
             userId,
             date
         }
+        console.log(data)
 
         bpfModel.create(data, (err, data) => {
             if (err) {
