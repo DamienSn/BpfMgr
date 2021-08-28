@@ -18,10 +18,16 @@ async function crypt(str) {
 
 // Create a new user
 User.create = async (user, result) => {
-    user.password = await crypt(user.password);
-    user.verification_code = randomCode();
-    user.verified = false;
-    sql.query("INSERT INTO users SET ?", user, (err, res) => {
+    let data = {
+        user_password: user.password,
+        user_email: user.email,
+        user_name: user.name,
+        user_permissions: user.permissions
+    }
+    data.user_password = await crypt(data.user_password);
+    data.user_verification_code = randomCode();
+    data.user_verified = false;
+    sql.query("INSERT INTO users SET ?", data, (err, res) => {
         if (err) {
             console.error("There were un error during creating user " + err);
             result(err, null);
@@ -48,7 +54,7 @@ User.getAll = (result) => {
 // Delete an user with id
 User.delete = (id, result) => {
     sql.query(
-        `DELETE FROM users WHERE id=? AND NOT permissions='adm'`,
+        `DELETE FROM users WHERE user_id=? AND NOT user_permissions='adm'`,
         id,
         (err, res) => {
             if (err) {
@@ -70,7 +76,7 @@ User.delete = (id, result) => {
 User.getOne = async (id) => {
 
     return new Promise((resolve, reject)=>{
-        sql.query(`SELECT * FROM users WHERE id=${id}`, (err, res) => {
+        sql.query(`SELECT * FROM users WHERE user_id=${id}`, (err, res) => {
             if (err) {
                 return reject("There were an error : " + err);
             }
@@ -82,7 +88,7 @@ User.getOne = async (id) => {
 // Update an user by ID
 User.update = async (id, user, result) => {
     sql.query(
-        'UPDATE users SET email=?, password=?, name=?, bio=?, permissions=?, avatar=? WHERE id=?',
+        'UPDATE users SET user_email=?, user_password=?, user_name=?, user_bio=?, user_permissions=?, user_avatar=? WHERE user_id=?',
         [user.email, user.password, user.name, user.bio, user.permissions, user.avatar, id],
         (err, res) => {
             if (err) {
@@ -101,7 +107,7 @@ User.update = async (id, user, result) => {
 User.connect = async (email, password) => {
 
     return new Promise((resolve, reject)=>{
-        sql.query(`SELECT * FROM users WHERE email=?`, email,  async (error, results)=>{
+        sql.query(`SELECT * FROM users WHERE user_email=?`, email,  async (error, results)=>{
             if(error){
                 return reject(error);
             }
@@ -126,7 +132,7 @@ User.connect = async (email, password) => {
  */
 User.verifyEmail = async (code, userId, result) => {
     let dbCode = null;
-    sql.query('SELECT verification_code FROM users WHERE id=?', userId, async (err, res) => {
+    sql.query('SELECT user_verification_code FROM users WHERE user_id=?', userId, async (err, res) => {
         if (err) {
             result(err, null);
             return;
@@ -135,7 +141,7 @@ User.verifyEmail = async (code, userId, result) => {
 
         const right = code == dbCode;
         if (right) {
-            sql.query('UPDATE users SET verified=1 WHERE id=?', userId, (err, res) => {
+            sql.query('UPDATE users SET user_verified=1 WHERE user_id=?', userId, (err, res) => {
                 if (err) {
                     result(err, null);
                     return;
@@ -157,7 +163,7 @@ User.verifyEmail = async (code, userId, result) => {
  */
 User.updatePassword = async ({password, email}, result) => {
     password = await crypt(password);
-    sql.query('UPDATE users SET password=? WHERE email=?', [password, email], (err, res) => {
+    sql.query('UPDATE users SET user_password=? WHERE user_email=?', [password, email], (err, res) => {
         if (err) {
             result(err, null);
             return;
