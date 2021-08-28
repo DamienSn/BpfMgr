@@ -27,6 +27,7 @@ const logger = winston.createLogger({
         }),
         new winston.transports.Console({
             format: winston.format.combine(
+                winston.format.colorize(),
                 winston.format.timestamp(),
                 winston.format.errors({ stack: true }),
                 logFormat
