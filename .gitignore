@@ -3,3 +3,5 @@
 db_schema.png
 node_modules
 .env
+# Ignore logs
+*.log

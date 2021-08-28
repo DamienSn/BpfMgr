@@ -2,8 +2,12 @@ const express = require('express');
 require('dotenv').config()
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const {checkUser, requireAuth} = require('./middlewares/auth.middleware');
 const cors = require('cors');
+const {logger} = require('./logs/logger');
+
+// Import middlewares
+const {checkUser, requireAuth} = require('./middlewares/auth.middleware');
+const logRequests = require('./middlewares/access.middleware');
 
 // Require routes
 const userRoutes = require('./routes/user.routes.js');
@@ -31,6 +35,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Parse cookies
 app.use(cookieParser());
 
+// Access logs with logRequests middleware
+app.use(logRequests);
+
 
 // jwt
 app.get('*', checkUser);
@@ -50,5 +57,5 @@ app.use('/bpf', bpfRoutes);
 
 // server
 app.listen(PORT, () => {
-    console.log(`Server listening at port ${PORT}`);
+    logger.info(`Server listening at port ${PORT}`)
 });
