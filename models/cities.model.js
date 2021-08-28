@@ -26,6 +26,7 @@ module.exports.getAll = (page, result) => {
             return;
         }
         result(null, res);
+        return;
     });
 };
 
@@ -36,7 +37,7 @@ module.exports.getAll = (page, result) => {
  */
 module.exports.search = (params, result) => {
     sql.query(
-        "SELECT * FROM cities WHERE name LIKE '%?%'",
+        "SELECT * FROM cities WHERE city_name LIKE '%?%'",
         params,
         (err, res) => {
             if (err) {
@@ -63,11 +64,11 @@ module.exports.search = (params, result) => {
  */
 module.exports.getOne = (params, result) => {
     const queryGetOne = `SELECT * FROM cities
-    WHERE id=?
-    OR name LIKE "%${params.name}%"
-    OR departement=?
-    OR province LIKE "%${params.province}%"
-    OR poi_id=?`;
+    WHERE city_id=?
+    OR city_name LIKE "%${params.name}%"
+    OR city_departement=?
+    OR city_province_id LIKE "%${params.province}%"
+    OR city_poi_id=?`;
 
     const parameters = [
         params.id,
