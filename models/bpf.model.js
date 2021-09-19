@@ -97,13 +97,19 @@ module.exports.getAllByUser = (id, result) => {
  * @param {*} result
  */
 module.exports.deleteOne = (params, result) => {
-    const { userId, cityId } = params;
+    const { userId, city } = params;
 
+    const queryCity = "SELECT city_id FROM cities WHERE city_name LIKE ?";
     const queryDeleteOne = `DELETE FROM bpfs
     WHERE bpf_user_id=? AND bpf_city_id=?`;
 
-    sql.query(queryDeleteOne, [userId, cityId])
-        .then((res) => result(null, res))
+    sql.query(queryCity, [city])
+        .then((res) => {
+            const cityId = res[0].city_id;
+            sql.query(queryDeleteOne, [userId, cityId])
+                .then((res) => result(null, res))
+                .catch((err) => result(err, null));
+        })
         .catch((err) => result(err, null));
 };
 
