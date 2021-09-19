@@ -74,7 +74,6 @@ User.delete = (id, result) => {
 
 // Get an user by ID
 User.getOne = async (id) => {
-
     return new Promise((resolve, reject)=>{
         sql.query(`SELECT * FROM users WHERE user_id=${id}`, (err, res) => {
             if (err) {
@@ -113,7 +112,7 @@ User.connect = async (email, password) => {
             }
 
             // compare passwords
-            const auth = await bcrypt.compare(password, results[0].password);
+            const auth = await bcrypt.compare(password, results[0].user_password);
 
             if (auth) {
                 return resolve(results);
