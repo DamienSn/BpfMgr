@@ -13,6 +13,7 @@ const logRequests = require('./middlewares/access.middleware');
 const userRoutes = require('./routes/user.routes.js');
 const citiesRoutes = require('./routes/cities.routes.js');
 const bpfRoutes = require('./routes/bpf.routes');
+const bcnRoutes = require('./routes/bcn.routes');
 
 const app = express();
 
@@ -53,7 +54,7 @@ app.get('/', (req, res) => {
 app.use('/users', userRoutes);
 app.use('/cities', citiesRoutes);
 app.use('/bpf', bpfRoutes);
-
+app.use('/bcn', bcnRoutes);
 
 // server
 app.listen(PORT, () => {

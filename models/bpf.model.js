@@ -2,6 +2,7 @@ const sql = require("./db.js");
 const { promisify } = require("util");
 const { query } = require("./db.js");
 const sqlString = require("sqlstring");
+const bcnModel = require('./bcn.model')
 
 sql.query = promisify(sql.query);
 
@@ -18,24 +19,46 @@ module.exports.create = (params, result) => {
 
     const queryVerify = `SELECT * FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?`;
 
-    const querySelectCity = `SELECT city_id FROM cities
+    const queryBcn = `SELECT * FROM bcns WHERE bcn_user_id=? AND bcn_dpt=?`
+
+    const querySelectCity = `SELECT city_id, city_departement FROM cities
     WHERE city_name LIKE ${sqlString.escape(name)}`;
 
     sql.query(querySelectCity)
         .then((res) => {
             const cityId = res[0].city_id;
+            const dpt = res[0].city_departement;
 
             // Verify is the city isn't yet validated
             sql.query(queryVerify, [userId, cityId])
                 .then((res) => {
                     if (res.length == 0) {
+                        // Create BPF
                         sql.query(queryInsert, [cityId, userId, date])
                             .then((res) => {
-                                result(null, res);
+                                // Verify if BCN is validated
+                                sql.query(queryBcn, [userId, dpt])
+                                .then(res => {
+                                    if (res.length == 0) {
+                                        sql.query('SELECT bpf_id FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?', [userId, cityId])
+                                        .then(res => {
+                                            bcnModel.create({userId, bpfId: res[0].bpf_id, dpt, cityId}, (err, data) => {
+                                                err
+                                                    ? result(err, null)
+                                                    : result(null, err)
+                                            })
+                                        })
+                                        .catch(err => result(err, null))
+                                    } else {
+                                        result(null, res);
+                                    }
+                                })
+                                .catch(err => result(err, null));
                             })
                             .catch((err) => {
                                 result(err, null);
                             });
+
                     } else {
                         result("existing yet", null);
                     }
@@ -56,7 +79,7 @@ module.exports.getOne = (params, result) => {
     const { id, date } = params;
 
     const queryGetOne = `
-    SELECT bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
+    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
     FROM bpfs
     INNER JOIN cities ON bpf_city_id=city_id
     INNER JOIN users ON bpf_user_id=user_id
@@ -78,7 +101,7 @@ module.exports.getOne = (params, result) => {
 module.exports.getAllByUser = (id, result) => {
     id = parseInt(id);
     const queryGetAllByUser = `
-    SELECT bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
+    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
     FROM bpfs
     INNER JOIN cities ON bpf_city_id=city_id
     INNER JOIN users ON bpf_user_id=user_id
