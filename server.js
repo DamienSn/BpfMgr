@@ -42,7 +42,7 @@ app.use(logRequests);
 // jwt
 app.get('*', checkUser);
 app.get('/users/jwtid', requireAuth, (req, res) => {
-    res.status(200).json({message: 'success', id: res.locals.user.id});
+    res.status(200).json({message: 'success', id: res.locals.user.user_id});
 })
 
 // routes

@@ -27,7 +27,7 @@ exports.logIn = async (req, res) => {
             res.status(200).send({message: 'error', error});
         });
 
-        const token = createToken(user[0].id);
+        const token = createToken(user[0].user_id);
         res.cookie("jwt", token, { httpOnly: true, maxAge });
         res.status(200).send({
             message: "connected",

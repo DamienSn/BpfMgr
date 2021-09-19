@@ -16,7 +16,6 @@ module.exports.checkUser = (req, res, next) => {
                 res.cookie('jwt', '', {maxAge: 1});
                 next();
             }
-
             let user = await UserModel.getOne(decodedToken.id);
             res.locals.user = user[0];
 
@@ -42,7 +41,6 @@ module.exports.requireAuth = (req, res, next) => {
                 console.log(err);
                 res.status(200).json({message: 'no token'})
             } else {
-                console.log(decodedToken.id);
                 next();
             }
         })
