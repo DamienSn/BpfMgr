@@ -1,0 +1,26 @@
+@mixin heading1 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 60px;
+    font-weight: lighter;
+    letter-spacing: -0.5px;
+}
+
+@mixin heading2 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 48px;
+}
+
+@mixin heading3 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 34px;
+    letter-spacing: 0.25px;
+}
+
+@mixin heading4 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 24px;
+}
+
+@mixin boxShadow {
+    box-shadow: 1px 1px 10px $blueDark;
+}

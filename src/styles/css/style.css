@@ -1,0 +1,510 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+header {
+  width: 100%;
+  height: 80px;
+  background: #045678;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+#banner {
+  width: 100%;
+  background: #2699d1;
+  position: relative;
+  overflow: hidden;
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+  margin-top: 80px;
+}
+
+.menu-toggle {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: #fff;
+}
+
+.brand img {
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .profile-icon, .profile-icon img {
+    width: 50px;
+    color: #fff;
+}
+
+.profile-icon img {
+    border-radius: 50%;
+}
+
+.profile-icon:hover img {
+    transform: scale(0.95);
+} */
+.user-menu-commands #log-in-btn {
+  color: #fff;
+  font-size: 40px;
+}
+
+.user-menu-commands #log-in-btn:hover {
+  transform: scale(0.95);
+}
+
+.user-menu-commands {
+  position: relative;
+}
+
+.tooltip-profile {
+  z-index: 999;
+  position: absolute;
+  bottom: -150;
+  right: 0;
+  width: 200px;
+  background: #f0f7f4;
+  border-radius: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.tooltip-profile.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  cursor: pointer;
+  color: #000;
+  border-bottom: 1px solid #2699d1 !important;
+}
+
+.tooltip-item:first-of-type {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.tooltip-item:last-of-type {
+  border-bottom: none !important;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.tooltip-item:hover {
+  background: #2699d1;
+  color: #fff;
+}
+
+.profile-btn {
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  will-change: transform;
+}
+
+.profile-btn:hover {
+  transform: scale(0.95);
+}
+
+@media screen and (max-width: 600px) {
+  .menu-toggle span {
+    display: none;
+  }
+
+  .menu-toggle {
+    width: 25px;
+  }
+}
+@media screen and (max-width: 1600px) {
+  #banner {
+    height: 200px !important;
+  }
+}
+#log-popup {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#log-popup.active {
+  display: block;
+}
+
+.menu {
+  background: #045678;
+}
+
+.menu {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 24px;
+  margin-top: 80px;
+  color: #fff !important;
+  padding: 15px;
+  width: 220px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.menu li {
+  @apply py-10;
+  cursor: pointer;
+  text-decoration: none;
+  list-style-type: none;
+  height: 60px;
+  width: 100%;
+}
+
+.menu li a {
+  display: flex;
+  align-items: center;
+}
+
+.menu span {
+  @apply text-lg;
+  font-family: "Open Sans", sans-serif;
+  font-weight: normal;
+}
+
+.menu.reduced span {
+  display: none;
+}
+
+.menu.reduced {
+  width: 74px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@media screen and (max-width: 600px) {
+  .menu {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    width: 100% !important;
+    height: 75px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu ul {
+    display: flex;
+  }
+
+  main {
+    margin-left: 0 !important;
+  }
+
+  .menu li {
+    @apply px-2 py-0;
+  }
+}
+.nav-link span.svg-container {
+  position: relative;
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.nav-link span.svg-container::before {
+  content: "";
+  width: 100%;
+  height: 4px;
+  background: #2699d1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform-origin: center;
+  transform: scale(0);
+  transition: transform 0.4s ease-in-out;
+  will-change: transform;
+}
+
+.nav-link span.svg-container.active::before, .nav-link span.svg-container:hover::before, .menu li:hover span.svg-container::before {
+  transform: scale(1);
+}
+
+.profile-page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 15px 0;
+  border-bottom: 2px solid #2699d1;
+  border-top: 2px solid #2699d1;
+}
+
+.profile-header > * {
+  padding: 15px;
+}
+
+.profile-header .picture {
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+}
+
+.params-page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.params-block {
+  padding: 15px 0;
+  border-top: 2px solid #2699d1;
+}
+
+.params-block .content, .params-block .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.params-block-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#picture-block {
+  margin-top: 15px;
+  flex-direction: row;
+}
+
+.params-block-content > * {
+  padding: 15px;
+}
+
+.params-block .picture {
+  width: 215px;
+  height: 215px;
+  background-size: cover;
+  background-position: center;
+  margin-right: 15px;
+}
+
+.stat-number {
+  height: 100px;
+  width: 120px;
+  @apply flex justify-center items-center flex-col shadow-lg m-3 bg-white px-1;
+}
+
+.stat-bar {
+  @apply flex items-center;
+}
+
+.verify_account {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 15px;
+}
+
+.search-settings-panel.active {
+  visibility: visible;
+}
+
+.search-settings-panel {
+  visibility: hidden;
+}
+
+*,
+::before,
+::after {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+body {
+  background: #f0f7f4;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  height: 100vh;
+}
+
+h1 {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 60px;
+  font-weight: lighter;
+  letter-spacing: -0.5px;
+}
+
+h2 {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 48px;
+}
+
+h3 {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 34px;
+  letter-spacing: 0.25px;
+}
+
+h4 {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 24px;
+}
+
+/* =============== Buttons =============== */
+.btn {
+  @apply py-2 px-4 rounded;
+}
+
+.btn-blue {
+  @apply bg-blue-500 text-white;
+}
+
+.btn-red {
+  @apply bg-red-500 text-white;
+}
+
+.btn-outline-blue {
+  @apply bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white border border-blue-500 hover:border-transparent rounded;
+}
+
+.btn-outline-red {
+  @apply bg-transparent hover:bg-red-500 text-red-700 hover:text-white border border-red-500 hover:border-transparent rounded;
+}
+
+.icon-btn {
+  @apply flex content-around items-start;
+}
+
+/* ============ INPUTS =============== */
+.label {
+  @apply block text-sm font-medium text-gray-700;
+}
+
+.input {
+  @apply bg-gray-300 p-3 w-72 space-x-4 rounded-lg outline-none focus:ring-indigo-600;
+}
+
+textarea {
+  resize: none;
+}
+
+main.menu-toggled {
+  margin-left: 265px;
+}
+
+main.menu-collapse {
+  margin-left: 90px;
+}
+
+.drop-files {
+  border: 2px dashed #2699d1 !important;
+}
+
+.alert {
+  background: #2699d1;
+  border-radius: 15px;
+  padding: 15px;
+  margin: 15px;
+}
+
+.alert-red {
+  background: #b40818;
+  color: #fff;
+}
+
+.alert-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.icon-sm {
+  @apply h-5 w-5 mb-1;
+  display: inline;
+}
+
+.icon-md {
+  @apply h-10 w-10 mb-1;
+  display: inline;
+}
+
+.icon-lg {
+  @apply h-16 w-16 mb-1;
+  display: inline;
+}
+
+.login-img {
+  background-image: url("../../img/man.jpg");
+  background-size: cover;
+  background-position: top;
+}
+
+.toast {
+  display: none;
+}
+
+.toast.active {
+  display: block;
+  z-index: 999;
+}
+
+.pill-active {
+  @apply bg-blue-400 text-white font-bold;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: calc(100vh - 80px - 15px);
+  margin-top: 15px;
+}
+
+/*# sourceMappingURL=style.css.map */

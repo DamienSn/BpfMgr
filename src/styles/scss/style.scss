@@ -1,0 +1,164 @@
+// Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
+@import "./_mixins";
+@import "./_variables";
+
+@import "./header.scss";
+@import "./login.scss";
+@import "./menu.scss";
+@import "./profile.scss";
+@import "./settings.scss";
+@import "./stats.scss";
+@import "./verify_account.scss";
+@import "./list.scss";
+
+*,
+::before,
+::after {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+body {
+    background: #f0f7f4;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    height: 100vh;
+}
+
+h1 {
+    @include heading1();
+}
+
+h2 {
+    @include heading2();
+}
+
+h3 {
+    @include heading3();
+}
+
+h4 {
+    @include heading4();
+}
+
+/* =============== Buttons =============== */
+.btn {
+    @apply py-2 px-4 rounded;
+}
+
+.btn-blue {
+    @apply bg-blue-500 text-white;
+}
+
+.btn-red {
+    @apply bg-red-500 text-white;
+}
+
+.btn-outline-blue {
+    @apply bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white border border-blue-500 hover:border-transparent rounded;
+}
+
+.btn-outline-red {
+    @apply bg-transparent hover:bg-red-500 text-red-700 hover:text-white border border-red-500 hover:border-transparent rounded;
+}
+
+.icon-btn {
+    @apply flex content-around items-start;
+}
+
+/* ============ INPUTS =============== */
+.label {
+    @apply block text-sm font-medium text-gray-700;
+}
+
+.input {
+    @apply bg-gray-300 p-3 w-72 space-x-4 rounded-lg outline-none focus:ring-indigo-600;
+}
+
+textarea {
+    resize: none;
+}
+
+// Content
+main.menu-toggled {
+    margin-left: 250px + 15px;
+}
+
+main.menu-collapse {
+    margin-left: 75px + 15px;
+}
+
+// Drop files
+.drop-files {
+    border: 2px dashed $blueSky !important;
+}
+
+// Alerts
+.alert {
+    background: $blueSky;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 15px;
+}
+
+.alert-red {
+    background: $red;
+    color: #fff;
+}
+
+.alert-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+// Icons
+.icon-sm {
+    @apply h-5 w-5 mb-1;
+    display: inline;
+}
+
+.icon-md {
+    @apply h-10 w-10 mb-1;
+    display: inline;
+}
+
+.icon-lg {
+    @apply h-16 w-16 mb-1;
+    display: inline;
+}
+
+.login-img {
+    background-image: url("../../img/man.jpg");
+    background-size: cover;
+    background-position: top;
+}
+
+// Toasts
+.toast {
+    display: none;
+}
+
+.toast.active {
+    display: block;
+    z-index: 999;
+}
+
+// Nav pills
+.pill-active {
+    @apply bg-blue-400 text-white font-bold;
+}
+
+// Map
+.leaflet-container {
+    width: 100%;
+    height: calc(100vh - 80px - 15px);
+    margin-top: 15px;
+}
