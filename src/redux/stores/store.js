@@ -4,12 +4,14 @@ import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import dptsReducer from "../reducers/dpts.reducer";
 import provincesReducer from "../reducers/provinces.reducer";
+import citiesReducer from "../reducers/cities.reducer";
 
 const store = createStore(
     combineReducers({
         user: userReducer,
         dpts: dptsReducer,
-        provinces: provincesReducer
+        provinces: provincesReducer,
+        cities: citiesReducer
     }),
     composeWithDevTools(applyMiddleware(thunk))
 )
