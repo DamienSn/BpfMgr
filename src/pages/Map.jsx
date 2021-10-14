@@ -30,9 +30,19 @@ import homeMarker from '../img/icons/marker-home.svg';
 // Colors of dpts
 import colors from '../utilities/colors-dpts.json'
 
+// Redux
+import { useSelector } from 'react-redux'
+import { dptsSelector } from '../redux/selectors/dpts.selectors'
+import { provincesSelector } from '../redux/selectors/provinces.selectors'
+
+
+
+
 function MapContainerBpf() {
     const uid = useContext(UidContext);
-    const [dptCtlState, setDptCtlState] = useState(false);
+
+    // Filters
+    const [dptFilter, setDptFilter] = useState("");
 
     return (
         <main className={`${uid && 'menu-toggled menu-collapse'}`}>
@@ -64,12 +74,12 @@ function MapContainerBpf() {
                     {/* Marker Layers */}
                     {/* Done BPF layer */}
                     <LayersControl.Overlay checked name="Mes BPF">
-                        <DoneLayer />
+                        <DoneLayer filter={{ dpt: dptFilter }} />
                     </LayersControl.Overlay>
 
                     {/* Others BPF layer */}
                     <LayersControl.Overlay name="BPF non faits">
-                        <CitiesLayer />
+                        <CitiesLayer filter={{ dpt: dptFilter }} />
                     </LayersControl.Overlay>
 
                     {/* Provinces */}
@@ -87,9 +97,12 @@ function MapContainerBpf() {
                 {/* Others */}
                 <BpfMap />
 
+                <DptCtl handler={setDptFilter} />
+                <ProvinceCtl handler={setDptFilter} />
+                <GoToCtl />
+
                 {/* Search */}
                 <SearchControl position="bottomleft" />
-                <DptCtl />
 
             </MapContainer>
         </main >
@@ -121,7 +134,7 @@ function BpfMap() {
     )
 }
 
-function DoneLayer() {
+function DoneLayer(props) {
     const uid = useContext(UidContext);
 
     // State
@@ -134,42 +147,44 @@ function DoneLayer() {
     return (
         <LayerGroup>
             {userBpfs.map(bpf => {
-                let iconUrl = iconMarkerCheckBlue
+                if (props.filter.dpt.includes(bpf.city_departement) || props.filter.dpt === "") {
+                    let iconUrl = iconMarkerCheckBlue
 
-                if (colors[bpf.city_departement] === "blue") {
-                    iconUrl = iconMarkerCheckBlue;
-                } else if (colors[bpf.city_departement] === "yellow") {
-                    iconUrl = iconMarkerCheckYellow
-                } else if (colors[bpf.city_departement] === "red") {
-                    iconUrl = iconMarkerCheckRed
-                } else if (colors[bpf.city_departement] === "green") {
-                    iconUrl = iconMarkerCheckGreen
-                } else if (colors[bpf.city_departement] === "orange") {
-                    iconUrl = iconMarkerCheckOrange
-                } else {
-                    iconUrl = iconMarkerCheck;
+                    if (colors[bpf.city_departement] === "blue") {
+                        iconUrl = iconMarkerCheckBlue;
+                    } else if (colors[bpf.city_departement] === "yellow") {
+                        iconUrl = iconMarkerCheckYellow
+                    } else if (colors[bpf.city_departement] === "red") {
+                        iconUrl = iconMarkerCheckRed
+                    } else if (colors[bpf.city_departement] === "green") {
+                        iconUrl = iconMarkerCheckGreen
+                    } else if (colors[bpf.city_departement] === "orange") {
+                        iconUrl = iconMarkerCheckOrange
+                    } else {
+                        iconUrl = iconMarkerCheck;
+                    }
+
+                    const icon = L.icon({
+                        iconUrl,
+                        iconSize: [40, 60]
+                    })
+
+                    return (
+                        <Marker position={[bpf.city_lat, bpf.city_long]} icon={icon} key={bpf.bpf_id}>
+                            <Popup>
+                                {`${bpf.city_name} (${bpf.city_departement})`}<br />
+                                Validé le : {new Date(bpf.bpf_date).toLocaleDateString()}<br />
+                                <a href={`/map/${bpf.bpf_city_id}`}>Plus d'infos</a>
+                            </Popup>
+                        </Marker>
+                    )
                 }
-
-                const icon = L.icon({
-                    iconUrl,
-                    iconSize: [40, 60]
-                })
-
-                return (
-                    <Marker position={[bpf.city_lat, bpf.city_long]} icon={icon} key={bpf.bpf_id}>
-                        <Popup>
-                            {`${bpf.city_name} (${bpf.city_departement})`}<br />
-                            Validé le : {new Date(bpf.bpf_date).toLocaleDateString()}<br />
-                            <a href={`/map/${bpf.bpf_city_id}`}>Plus d'infos</a>
-                        </Popup>
-                    </Marker>
-                )
             })}
         </LayerGroup>
     )
 }
 
-function CitiesLayer() {
+function CitiesLayer(props) {
     const uid = useContext(UidContext);
 
     // State
@@ -195,15 +210,19 @@ function CitiesLayer() {
 
     return (
         <LayerGroup>
-            {displayedCities.map((city, i) =>
-                <Marker position={[city.city_lat, city.city_long]} key={i} icon={city.icon}>
-                    <Popup>
-                        {`${city.city_name} (${city.city_departement})`}<br />
-                        Non validé<br />
-                        <a href={`/map/${city.city_id}`}>Plus d'infos</a>
-                    </Popup>
-                </Marker>
-            )}
+            {displayedCities.map((city, i) => {
+                if (props.filter.dpt.includes(city.city_departement) || props.filter.dpt === "") {
+                    return (
+                        <Marker position={[city.city_lat, city.city_long]} key={i} icon={city.icon}>
+                            <Popup>
+                                {`${city.city_name} (${city.city_departement})`}<br />
+                                Non validé<br />
+                                <a href={`/map/${city.city_id}`}>Plus d'infos</a>
+                            </Popup>
+                        </Marker>
+                    )
+                }
+            })}
         </LayerGroup>
     )
 
@@ -297,55 +316,58 @@ function DptsLayer() {
 /**
  * Departement Control
  */
-function DptCtl() {
-        // Control
-        const map = useMap();
+function DptCtl(props) {
+    // Control
+    const map = useMap();
 
     // List of dpts and provinces
-    const [dpts, setDpts] = useState([]);
+    const dpts = useSelector(dptsSelector);
 
-    useEffect(() => {
-        fetchDpts();
-        const Ctl = L.Control.extend({
-            options: {
-                position: 'topleft',
-                placeholder: 'Sélectionner un département'
-            },
-            initialize: (options) => {
-                // L.Util.setOptions(this, options);
-            },
-            onAdd: function () {
-                const container = L.DomUtil.create('div', 'dpt-container');
-                this.input = L.DomUtil.create('input', 'dpt-input', container)
-                this.input.setAttribute('placeholder', 'Filtrer par département')
-                this.datalist = L.DomUtil.create('datalist', '', container)
-                this.datalist.setAttribute('id', 'dpts-list');
-                dpts.forEach((dpt, index) => {
-                    const option = L.DomUtil.create('option', this.datalist);
-                    option.setAttribute('value', dpt.code);
-                    option.setAttribute('key', index);
-                    option.textContent = dpt.nom
-                })
-                this.input.setAttribute('list', 'dpts-list')
-    
-                return container;
-            },
-            onRemove: {}
-        })
-
-        new Ctl().addTo(map)
-    }, [])
-
-    const fetchDpts = () => {
-        axios({
-            method: 'get',
-            url: 'https://geo.api.gouv.fr/departements',
-            // withCredentials: true
-        })
-            .then(res => setDpts(res.data))
-            .catch(err => console.error(err))
-    }
     return null;
+}
+
+/**
+ * Province Control
+ */
+function ProvinceCtl(props) {
+    // Control
+    const map = useMap();
+
+    // List of dpts and provinces
+    const provinces = useSelector(provincesSelector);
+
+    const handleProvinceSelectChange = (e) => {
+        let val = e.target.value;
+        provinces.forEach(pro => {
+            if (pro.province_name == val) {
+                props.handler(pro.province_dpts);
+            } else if (e.target.value === "") {
+                props.handler("")
+            }
+        })
+    }
+
+    return (
+        <div className="leaflet-top leaflet-left">
+            <div className="leaflet-control leaflet-bar">
+                <input type="text" list="province-ctl-list" placeholder="Filtrer par province" onInput={handleProvinceSelectChange} />
+                <datalist id="province-ctl-list">
+                    {provinces.map((province, index) =>
+                        <option value={province.province_name} key={index}>{province.province_dpts.join(", ")}</option>
+                    )}
+                </datalist>
+            </div>
+        </div>
+    )
+}
+
+/**
+ * Aller à la réunion
+ */
+function GoToCtl() {
+    const map = useMap();
+    // map.panTo()
+    return <button>Aller à La Réunion</button>
 }
 
 export default MapContainerBpf;
