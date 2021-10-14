@@ -3,7 +3,12 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 // Modules
 import axios from "axios";
+
+// Redux
 import { useDispatch } from "react-redux";
+import { getUser } from "./redux/actions/user.actions";
+import { getDpts } from "./redux/actions/dpts.actions"
+import { getProvinces } from './redux/actions/provinces.actions'
 
 // Styles
 import "./styles/css/style.css";
@@ -13,16 +18,16 @@ import Header from "./components/Header";
 import Log from "./components/Log";
 import Home from "./pages/Home";
 import { useEffect, useState } from "react";
-import { UidContext} from "./components/AppContext";
+import { UidContext } from "./components/AppContext";
 import Menu from "./components/Menu";
 import Banner from "./components/Banner";
 import Profile from "./pages/Profile";
-import { getUser } from "./redux/actions/user.actions";
 import Settings from "./pages/Settings";
 import VerifyAccount from "./components/VerifyAccount";
 import List from "./pages/List";
 import Add from "./pages/Add";
 import MapContainerBpf from "./pages/Map";
+import Search from './pages/Search';
 
 function App() {
     const [uid, setUid] = useState(null);
@@ -50,30 +55,39 @@ function App() {
         };
         fetchToken();
 
-        if (uid) dispatch(getUser(uid));
+        // Init redux state
+        if (uid) {
+            dispatch(getUser(uid));
+        }
     }, [uid, dispatch]);
+    
+    useEffect(() => {
+        dispatch(getDpts());
+        dispatch(getProvinces());
+    }, [dispatch])
 
     // TODO: Loader ?
     return (
         <div className="App">
             <UidContext.Provider value={uid}>
-                    <Router>
-                        <Header />
-                        <Banner />
-                        <Log />
-                        {uid && <Menu />}
-                        <Route path="/" exact component={Home} />
-                        <Route path="/profile" exact component={Profile} />
-                        <Route path="/settings" exact component={Settings} />
-                        <Route
-                            path="/verify_account"
-                            exact
-                            component={VerifyAccount}
-                        />
-                        <Route path="/list" exact component={List} />
-                        <Route path="/add" exact component={Add} />
-                        <Route path="/map" component={MapContainerBpf} />
-                    </Router>
+                <Router>
+                    <Header />
+                    <Banner />
+                    <Log />
+                    {uid && <Menu />}
+                    <Route path="/" exact component={Home} />
+                    <Route path="/profile" exact component={Profile} />
+                    <Route path="/settings" exact component={Settings} />
+                    <Route
+                        path="/verify_account"
+                        exact
+                        component={VerifyAccount}
+                    />
+                    <Route path="/list" exact component={List} />
+                    <Route path="/add" exact component={Add} />
+                    <Route path="/map" component={MapContainerBpf}/>
+                    <Route path="/search" component={Search}/>
+                </Router>
             </UidContext.Provider>
         </div>
     );
