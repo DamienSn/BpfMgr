@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { getUser } from "./redux/actions/user.actions";
 import { getDpts } from "./redux/actions/dpts.actions"
 import { getProvinces } from './redux/actions/provinces.actions'
+import { getCities } from './redux/actions/cities.actions'
 
 // Styles
 import "./styles/css/style.css";
@@ -64,6 +65,7 @@ function App() {
     useEffect(() => {
         dispatch(getDpts());
         dispatch(getProvinces());
+        dispatch(getCities());
     }, [dispatch])
 
     // TODO: Loader ?

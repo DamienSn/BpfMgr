@@ -1,0 +1,41 @@
+.map-pane {
+    z-index: 999;
+    top : 80px;
+    transition: 0.5s;
+    height: 100%;
+    width: 24rem;
+    transform: translate(24rem, 0);
+    overflow: auto;
+}
+
+.map-pane.active {
+    transform: none;
+}
+
+.map-pane-body {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 100px;
+}
+
+.map-pane-info {
+    flex-grow: 1;
+}
+
+.map-pane-description {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.map-pane-picture {
+    height: 20vh;
+    width: 100%;
+    background-size: cover;
+    position: relative;
+}
+
+.map-pane-picture-fullscreen {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}

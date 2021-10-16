@@ -16,6 +16,7 @@
 @import "./stats.scss";
 @import "./verify_account.scss";
 @import "./list.scss";
+@import "./map.scss";
 
 *,
 ::before,
@@ -68,6 +69,15 @@ h4 {
 .btn-outline-red {
     @apply bg-transparent hover:bg-red-500 text-red-700 hover:text-white border border-red-500 hover:border-transparent rounded;
 }
+
+.btn-outline-white {
+    @apply bg-transparent text-gray-200 border border-gray-200 rounded;
+}
+
+.btn-outline-white:hover {
+    @apply border-2;
+}
+
 
 .icon-btn {
     @apply flex content-around items-start;

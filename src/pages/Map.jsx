@@ -3,7 +3,6 @@ import { useContext } from 'react'
 import { UidContext } from '../components/AppContext'
 import { MapIcon } from '@heroicons/react/outline'
 import { getAllBpfs, getAllCities } from '../utilities/bpfRequests'
-import axios from 'axios'
 
 // Map components
 import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, LayerGroup, GeoJSON, ZoomControl } from '@monsonjeremy/react-leaflet'
@@ -35,11 +34,16 @@ import { useSelector } from 'react-redux'
 import { dptsSelector } from '../redux/selectors/dpts.selectors'
 import { provincesSelector } from '../redux/selectors/provinces.selectors'
 
-
-
+// Other components
+import MapPane from '../components/MapPane'
+import { useDispatch } from 'react-redux'
+import { setPane } from '../redux/actions/pane.actions'
 
 function MapContainerBpf() {
     const uid = useContext(UidContext);
+
+    // Pane
+    const pane = useSelector(state => state.mapPane)
 
     // Filters
     const [dptFilter, setDptFilter] = useState("");
@@ -48,6 +52,8 @@ function MapContainerBpf() {
         <main className={`${uid && 'menu-toggled menu-collapse'}`}>
             <h2><MapIcon className="icon-md" />&nbsp;Carte</h2>
 
+            <MapPane id={pane.id} validated={pane.validated} active={pane.active}/>
+        
             <MapContainer fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false}>
 
                 <ZoomControl position="bottomleft" />
@@ -56,8 +62,15 @@ function MapContainerBpf() {
                 <LayersControl position="bottomleft">
 
                     {/* Map Layers */}
+                    {/* CyclOSM */}
+                    <LayersControl.BaseLayer checked name="CyclOSM">
+                        <TileLayer
+                            attribution='Kartendaten: © <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: © <a href="http://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                            url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
+                        />
+                    </LayersControl.BaseLayer>
                     {/* OSM */}
-                    <LayersControl.BaseLayer checked name="OpenStreetMap">
+                    <LayersControl.BaseLayer name="OpenStreetMap">
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -136,6 +149,7 @@ function BpfMap() {
 
 function DoneLayer(props) {
     const uid = useContext(UidContext);
+    const dispatch = useDispatch();
 
     // State
     const [userBpfs, setUserBpfs] = useState([]);
@@ -143,6 +157,14 @@ function DoneLayer(props) {
     useEffect(() => {
         getAllBpfs(uid, setUserBpfs);
     }, [uid])
+
+    function handleInfoClick (e) {
+        dispatch(setPane({
+            id: JSON.parse(e.target.attributes["data-city"].value).bpf_city_id,
+            validated: true,
+            active: true
+        }))
+    }
 
     return (
         <LayerGroup>
@@ -166,7 +188,7 @@ function DoneLayer(props) {
 
                     const icon = L.icon({
                         iconUrl,
-                        iconSize: [40, 60]
+                        iconSize: [30, 30]
                     })
 
                     return (
@@ -174,7 +196,7 @@ function DoneLayer(props) {
                             <Popup>
                                 {`${bpf.city_name} (${bpf.city_departement})`}<br />
                                 Validé le : {new Date(bpf.bpf_date).toLocaleDateString()}<br />
-                                <a href={`/map/${bpf.bpf_city_id}`}>Plus d'infos</a>
+                                <a href="#" data-city={JSON.stringify(bpf)} onClick={handleInfoClick}>Plus d'infos</a>
                             </Popup>
                         </Marker>
                     )
@@ -186,6 +208,7 @@ function DoneLayer(props) {
 
 function CitiesLayer(props) {
     const uid = useContext(UidContext);
+    const dispatch = useDispatch();
 
     // State
     const [userBpfs, setUserBpfs] = useState([]);
@@ -208,6 +231,14 @@ function CitiesLayer(props) {
         setDisplayedCities(toState)
     }, [cities])
 
+    function handleInfoClick (e) {
+        dispatch(setPane({
+            id: JSON.parse(e.target.attributes["data-city"].value).city_id,
+            validated: false,
+            active: true
+        }))
+    }
+
     return (
         <LayerGroup>
             {displayedCities.map((city, i) => {
@@ -217,7 +248,7 @@ function CitiesLayer(props) {
                             <Popup>
                                 {`${city.city_name} (${city.city_departement})`}<br />
                                 Non validé<br />
-                                <a href={`/map/${city.city_id}`}>Plus d'infos</a>
+                                <a href="#" data-city={JSON.stringify(city)} onClick={handleInfoClick}>Plus d'infos</a>
                             </Popup>
                         </Marker>
                     )
@@ -238,55 +269,55 @@ function getColoredIcon(dpt) {
         return new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
+            iconSize: [15, 25],
+            iconAnchor: [0, 0],
+            popupAnchor: [0, 0],
+            shadowSize: [25, 25]
         });
     } else if (colors[dpt] === "yellow") {
         return new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
+            iconSize: [15, 25],
+            iconAnchor: [0, 0],
+            popupAnchor: [0, 0],
+            shadowSize: [25, 25]
         });
     } else if (colors[dpt] === "red") {
         return new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
+            iconSize: [15, 25],
+            iconAnchor: [0, 0],
+            popupAnchor: [0, 0],
+            shadowSize: [25, 25]
         });
     } else if (colors[dpt] === "green") {
         return new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
+            iconSize: [15, 25],
+            iconAnchor: [0, 0],
+            popupAnchor: [0, 0],
+            shadowSize: [25, 25]
         });
     } else if (colors[dpt] === "orange") {
         return new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
+            iconSize: [15, 25],
+            iconAnchor: [0, 0],
+            popupAnchor: [0, 0],
+            shadowSize: [25, 25]
         });
     } else {
         return new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
+            iconSize: [15, 25],
+            iconAnchor: [0, 0],
+            popupAnchor: [0, 0],
+            shadowSize: [25, 25]
         });
     }
 }
@@ -305,7 +336,7 @@ function SearchControl() {
 
 function ProvincesLayer() {
     return (
-        <GeoJSON data={provincesShapes} />
+        <GeoJSON data={provincesShapes} style={{color: 'orangered'}}/>
     )
 }
 
@@ -323,7 +354,24 @@ function DptCtl(props) {
     // List of dpts and provinces
     const dpts = useSelector(dptsSelector);
 
-    return null;
+    const Control = L.Control.extend({
+        options: {
+            position: 'topleft'
+        },
+        initialize(options) {
+            L.Util.setOptions(this, options)
+        },
+        onAdd() {
+            const container = L.DomUtil.create('div');
+            const input = L.DomUtil.create('input', container);
+
+            
+            return container;
+        },
+        onRemove() {}
+    })
+
+    return <button></button>;
 }
 
 /**
