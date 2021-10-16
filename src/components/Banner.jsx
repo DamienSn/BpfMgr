@@ -9,7 +9,7 @@ export default function Banner() {
     useEffect(() => {
         return history.listen((location) => { 
            console.log(`You changed the page to: ${location.pathname}`) 
-           if(location.pathname.includes('/map')) {
+           if(location.pathname.includes('/map') || location.pathname === '/search') {
                setDisplay(false)
            } else {
                setDisplay(true);
@@ -18,7 +18,7 @@ export default function Banner() {
      },[history])
 
      useEffect(() => {
-         if (window.location.pathname.includes('/map')) {
+         if (window.location.pathname.includes('/map') || location.pathname === '/search') {
              setDisplay(false);
          }
      }, [])

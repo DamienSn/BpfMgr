@@ -2,45 +2,41 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { XIcon, ExternalLinkIcon, SupportIcon } from '@heroicons/react/outline'
 import sendEmail from '../utilities/email.js';
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function Log() {
-    const [signUp, setSignUp] = useState(false);
-    const [signIn, setSignIn] = useState(true);
-    const [passwordLost, setPasswordLost] = useState(false);
+    const dispatch = useDispatch();
+    const tab = useSelector(state => state.logModal)
 
     const handleClick = () => {
-        if (signIn != signUp) {
-            signIn ? setSignIn(false) : setSignIn(true);
-            signUp ? setSignUp(false) : setSignUp(true);
+        if (tab === "in") {
+            dispatch({ type: 'SET_LOG_MODAL', payload: 'up' })
         } else {
-            setSignIn(true);
-            setSignUp(false);
+            dispatch({ type: 'SET_LOG_MODAL', payload: 'in' })
         }
-        setPasswordLost(false);
     }
 
     const handleLostButtonClick = () => {
-        setSignIn(false);
-        setSignUp(false);
-        setPasswordLost(true);
+        dispatch({ type: 'SET_LOG_MODAL', payload: 'pwd' })
     }
 
     return (
         // Modal
-        <div className="flex flex-col w-28/100 bg-gray-200 p-5 rounded-3xl" style={{ zIndex: 999 }} id="log-popup">
+        <div className={`flex flex-col w-28/100 bg-gray-200 p-5 rounded-3xl ${tab && 'active'}`} style={{ zIndex: 999 }} id="log-popup">
             {/* Modal head */}
             <div className="flex justify-end">
-                <button onClick={() => { document.querySelector('#log-popup').classList.remove('active') }}>
+                <button onClick={() => dispatch({ type: 'SET_LOG_MODAL', payload: false })}>
                     <XIcon className="icon-sm"></XIcon>
                 </button>
             </div>
             <div>
-                {signUp && <SignUp />}
-                {signIn && <SignIn />}
-                {passwordLost && <PasswordLost />}
+                {tab === "up" && <SignUp />}
+                {tab === "in" && <SignIn />}
+                {tab === "pwd" && <PasswordLost />}
                 <div className="flex flex-wrap">
                     {
-                        !passwordLost &&
+                        tab !== "pwd" &&
                         <button className="btn btn-outline-red mr-4" onClick={handleLostButtonClick}>
                             <SupportIcon className="icon-sm" />&nbsp;
                             Mot de passe oublié ?
@@ -48,7 +44,7 @@ function Log() {
                     }
                     <button onClick={handleClick} className='btn btn-outline-blue'>
                         <ExternalLinkIcon className="icon-sm" />&nbsp;
-                        {signIn ? 'S\'inscrire' : 'Se connecter'}
+                        {tab === "in" ? 'S\'inscrire' : 'Se connecter'}
                     </button>
                 </div>
             </div>

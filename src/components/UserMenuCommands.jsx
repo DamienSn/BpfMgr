@@ -1,13 +1,15 @@
 import { UidContext } from './AppContext';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import {LoginIcon} from '@heroicons/react/outline'
+import { LoginIcon } from '@heroicons/react/outline'
 import axios from 'axios';
-import {useSelector} from 'react-redux';
-import {userSelector} from '../redux/selectors/user.selectors';
+import { useSelector } from 'react-redux';
+import { userSelector } from '../redux/selectors/user.selectors';
+import { useDispatch } from 'react-redux';
 
 export default function UserMenuCommands() {
     const uid = useContext(UidContext);
+    const dispatch = useDispatch();
 
     const handleProfileBtnClick = (e) => {
         document.querySelector('.tooltip-profile').classList.toggle('active');
@@ -50,22 +52,31 @@ export default function UserMenuCommands() {
             )
                 :
                 (
-                    <button onClick={() => {document.querySelector('#log-popup').classList.add('active')}}>
-                        <LoginIcon className="icon-md" />
-                    </button>
+                    <>
+                        <button
+                            onClick={() => dispatch({ type: 'SET_LOG_MODAL', payload: 'in' })}
+                            className="border border-white py-2 px-4 mr-1 rounded bg-gray-100 text-black focus:outline-none focus:ring-4">
+                            Connexion
+                        </button>
+                        <button
+                            onClick={() => dispatch({ type: 'SET_LOG_MODAL', payload: 'up' })}
+                            className="py-2 px-4 rounded border border-white hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-4">
+                            Inscription
+                        </button>
+                    </>
                 )
             }
         </div>
     )
 }
 
-function signOut () {
+function signOut() {
     axios({
         url: `${import.meta.env.VITE_API_URL}users/logout`,
         method: 'post',
         withCredentials: true
     })
-    .then((res) => {
-        window.location = '/';
-    })
+        .then((res) => {
+            window.location = '/';
+        })
 }

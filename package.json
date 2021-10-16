@@ -22,6 +22,7 @@
     "leaflet": "^1.7.1",
     "leaflet-fullscreen": "^1.0.2",
     "leaflet-geosearch": "^3.5.0",
+    "lightgallery": "^2.2.1",
     "moment": "^2.29.1",
     "postcss": "^7.0.36",
     "react": "^17.0.2",
