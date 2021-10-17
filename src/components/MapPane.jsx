@@ -6,7 +6,9 @@ import { useDispatch } from 'react-redux'
 
 // Lightbox
 import LightGallery from 'lightgallery/react';
+import lgZoom from 'lightgallery/plugins/zoom';
 import 'lightgallery/css/lightgallery.css';
+import 'lightgallery/css/lg-zoom.css';
 
 function MapPane(props) {
     const dispatch = useDispatch();
@@ -45,10 +47,13 @@ function MapPane(props) {
             <div className="map-pane-body">
                 <div className="map-pane-info">
                     <h2>{city && city.city_name}</h2>
+
                     {/* City image */}
-                    <LightGallery onInit={onInitGallery}>
+                    <LightGallery plugins={[lgZoom]} onInit={onInitGallery} controls={false} download={false}>
                         <a href={`/img/cities/${city ? city.city_id : "1"}.jpg")`}>
+                            {/* Mini */}
                             <div className="map-pane-picture mb-8" style={{ backgroundImage: `url("/img/${city ? 'cities/' + city.city_id : 'bg-ventoux'}.jpg")` }}>
+                                {/* Fullscreen button */}
                                 <button className="map-pane-picture-fullscreen bg-gray-100 shadow-md rounded-md w-6 h-6">
                                     <ArrowsExpandIcon className="icon-sm" />
                                 </button>
