@@ -45,7 +45,7 @@ export default function UserMenuCommands() {
                     </div>
                     <style>
                         {`.profile-btn {
-                            background-image: url(${userData.user_avatar ? userData.user_avatar : '/icons/person-outline.svg'});
+                            background-image: url(${userData.user_avatar ? userData.user_avatar : `https://avatars.dicebear.com/api/initials/${encodeURI(userData.user_name)}.svg`});
                         }`}
                     </style>
                 </>

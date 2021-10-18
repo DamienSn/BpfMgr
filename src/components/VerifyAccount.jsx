@@ -46,12 +46,12 @@ function VerifyAccount() {
                 :
                 <>
                     <h2>Vérifier votre compte</h2>
-                    <p>Pour utiliser BpfMgr, merci de vérifier votre compte. <br />Un email contenant votre code de vérification vous a été envoyé. <strong>Vérifiez vos spams !</strong><br /><strong onClick={reSendEmail} style={{ cursor: 'pointer' }}>Renvoyer le mail</strong></p>
+                    <p>Pour utiliser BpfMgr, merci de vérifier votre compte. <br />Un email contenant votre code de vérification vous a été envoyé. <strong>Vérifiez vos spams !</strong><br /><strong className="text-blue-500 underline" onClick={reSendEmail} style={{ cursor: 'pointer' }}>Renvoyer le mail</strong></p>
                     <form onSubmit={handleSubmit} className="verify_account">
                         <label htmlFor="code">Code de vérification (envoyé par mail)</label>
-                        <input type="text" id="code" onChange={e => setCode(e.target.value)} />
-                        <button type="submit">Vérifier mon compte</button>
-                        <p>{error}</p>
+                        <input className="input" type="text" id="code" onChange={e => setCode(e.target.value)} />
+                        <button type="submit" className="btn btn-blue mt-4">Vérifier mon compte</button>
+                        <p className="text-red-500">{error}</p>
                     </form>
                 </>
             }

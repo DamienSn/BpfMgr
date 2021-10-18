@@ -1,8 +1,18 @@
 import { HomeIcon, PlusCircleIcon, CollectionIcon, MapIcon, SearchIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react';
+import { useHistory } from 'react-router';
 
 export default function Menu() {
+    const history = useHistory();
+
+    useEffect(() => {
+        return history.listen((location) => { 
+           document.querySelector('.menu').classList.add('reduced');
+           document.querySelector('main').classList.add('menu-collapse')
+        }) 
+     },[history])
+
     const removeActiveLinks = () => {
         const icons = document.querySelectorAll('.nav-link span.svg-container');
         icons.forEach((icon) => {
@@ -17,22 +27,22 @@ export default function Menu() {
 
     const activateLinks = () => {
         removeActiveLinks();
-        const location = window.location.pathname;
+        const location = window.location.hash;
 
         switch (location) {
-            case '/':
+            case '#/':
                 activateIcon(0);
                 break;
-            case '/add':
+            case '#/add':
                 activateIcon(1);
                 break;
-            case '/list':
+            case '#/list':
                 activateIcon(2);
                 break;
-            case '/map':
+            case '#/map':
                 activateIcon(3);
                 break;
-            case '/search':
+            case '#/search':
                 activateIcon(4);
                 break;
             default:

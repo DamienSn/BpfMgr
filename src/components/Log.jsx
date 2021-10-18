@@ -131,11 +131,10 @@ function SignUp() {
             withCredentials: true
         })
             .then(res => {
-
                 if (res.data.message.includes('created')) {
                     sendEmail(true, {
                         to: email,
-                        verificationCode: res.data.data.verification_code,
+                        verificationCode: res.data.data.user_verification_code,
                         clientName: name
                     })
                         .then(res => {
@@ -148,7 +147,7 @@ function SignUp() {
                                     password
                                 }
                             })
-                                .then(res => window.location = '/verify_account')
+                                .then(res => window.location = '/#/verify_account')
                         })
                         .catch(err => console.log(err))
                 }

@@ -17,6 +17,7 @@
 @import "./verify_account.scss";
 @import "./list.scss";
 @import "./map.scss";
+@import "./search.scss";
 
 *,
 ::before,
@@ -121,12 +122,6 @@ main.menu-collapse {
 .alert-red {
     background: $red;
     color: #fff;
-}
-
-.alert-content {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
 }
 
 // Icons

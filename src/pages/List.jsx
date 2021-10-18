@@ -95,7 +95,7 @@ function List() {
 
                 <NavPills handler={handlePills} />
 
-                <SearchBar action={setSearchFilter} />
+                <SearchBar action={setSearchFilter} label={true}/>
 
                 {/* Departement */}
                 <div>
