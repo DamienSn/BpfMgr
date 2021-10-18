@@ -19,7 +19,7 @@ function Home() {
                             title="Vérifier votre compte"
                             content="Merci de vérifier votre compte."
                             action="Vérifier votre compte"
-                            href="/verify_account"
+                            href="/#/verify_account"
                             color="red"
                         />
                     }

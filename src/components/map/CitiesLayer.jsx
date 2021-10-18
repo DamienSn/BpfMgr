@@ -38,7 +38,7 @@ export default function CitiesLayer(props) {
 
     function handleInfoClick(e) {
         dispatch(setPane({
-            id: JSON.parse(e.target.attributes["data-city"].value).city_id,
+            id: e.target.attributes["data-city"].value,
             validated: false,
             active: true
         }))
@@ -52,8 +52,8 @@ export default function CitiesLayer(props) {
                         <Marker position={[city.city_lat, city.city_long]} key={i} icon={city.icon}>
                             <Popup>
                                 {`${city.city_name} (${city.city_departement})`}<br />
-                                Non validé<br />
-                                <a href="#" data-city={JSON.stringify(city)} onClick={handleInfoClick}>Plus d'infos</a>
+                                Non validé<br/>
+                                <span className="underline text-blue-600 cursor-pointer" data-city={city.city_id} onClick={handleInfoClick}>Plus d'infos</span>
                             </Popup>
                         </Marker>
                     )

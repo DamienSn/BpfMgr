@@ -1,18 +1,14 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 
 import { XIcon, BadgeCheckIcon, XCircleIcon, ArrowsExpandIcon } from '@heroicons/react/outline'
 import { useDispatch } from 'react-redux'
 
 // Lightbox
-import LightGallery from 'lightgallery/react';
-import lgZoom from 'lightgallery/plugins/zoom';
-import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
+import { SRLWrapper } from 'simple-react-lightbox';
 
 function MapPane(props) {
     const dispatch = useDispatch();
-    const gallery = useRef();
 
     const cities = useSelector(state => state.cities)
     const dpts = useSelector(state => state.dpts)
@@ -24,16 +20,18 @@ function MapPane(props) {
         dispatch({ type: 'SET_PANE_ACTIVE', payload: false })
     }
 
-    const onInitGallery = useCallback((detail) => {
-        if (detail) {
-            gallery.current = detail.instance;
+    const galleryOptions = {
+        buttons: {
+            showAutoplayButton: false,
+            showDownloadButton: false,
+            showNextButton: false,
+            showPrevButton: false,
+            showThumbnailsButton: false,
+        },
+        thumbnails: {
+            showThumbnails: false
         }
-    }, []);
-
-    // Refresh light gallery
-    useEffect(() => {
-        gallery.current.refresh();
-    }, [city])
+    }
 
     return (
         <section className={`map-pane ${props.active && 'active'} fixed right-0 py-5 px-8 bg-gray-200`}>
@@ -49,20 +47,14 @@ function MapPane(props) {
                     <h2>{city && city.city_name}</h2>
 
                     {/* City image */}
-                    <LightGallery plugins={[lgZoom]} onInit={onInitGallery} controls={false} download={false}>
-                        <a href={`/img/cities/${city ? city.city_id : "1"}.jpg")`}>
-                            {/* Mini */}
-                            <div className="map-pane-picture mb-8" style={{ backgroundImage: `url("/img/${city ? 'cities/' + city.city_id : 'bg-ventoux'}.jpg")` }}>
-                                {/* Fullscreen button */}
-                                <button className="map-pane-picture-fullscreen bg-gray-100 shadow-md rounded-md w-6 h-6">
-                                    <ArrowsExpandIcon className="icon-sm" />
-                                </button>
-                            </div>
+                    <SRLWrapper options={galleryOptions}>
+                        <a href={`/img/cities/${city ? city.city_id : "1"}.jpg`}>
+                            <img src={`/img/cities/${city ? city.city_id : "1"}.jpg`} alt={city ? city.city_name : 'Photo du BPF'} />
                         </a>
-                    </LightGallery>
+                    </SRLWrapper>
 
                     {/* Is validated ? */}
-                    <p className={props.validated ? 'text-green-500' : 'text-red-500'}>
+                    <p className={`mt-4 ${props.validated ? 'text-green-500' : 'text-red-500'}`}>
                         {props.validated ? <BadgeCheckIcon className="icon-sm" /> : <XCircleIcon className="icon-sm" />}
                         &nbsp;{props.validated ? "Validée" : "A valider"}
                     </p>
@@ -71,7 +63,7 @@ function MapPane(props) {
                     <p>{city && provinces.find(province => city.city_province_id == province.province_id).province_name}</p>
                     {/* Departement */}
                     <h5 className="font-bold mt-2">Département</h5>
-                    <p>{city && dpts.find(dpt => city.city_departement == dpt.code).nom} ({city && dpts.find(dpt => city.city_departement == dpt.code).code})</p>
+                    <p>{city && dpts.find(dpt => city.city_departement == dpt.code).nom} ({city && city.city_departement})</p>
                 </div>
                 {/* Description */}
                 <div className="text-justify mt-8 map-pane-description">{city && city.city_description}</div>

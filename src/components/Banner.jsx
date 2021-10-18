@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 export default function Banner() {
     const [display, setDisplay] = useState(true);
+    const searchPage = useSelector(state => state.search.page)
 
     const history = useHistory();
 
     useEffect(() => {
         return history.listen((location) => { 
-           console.log(`You changed the page to: ${location.pathname}`) 
            if(location.pathname.includes('/map') || location.pathname === '/search') {
                setDisplay(false)
            } else {
@@ -19,9 +20,9 @@ export default function Banner() {
 
      useEffect(() => {
          if (window.location.pathname.includes('/map') || location.pathname === '/search') {
-             setDisplay(false);
+             searchPage === "home" ? setDisplay(false) : setDisplay(true);
          }
-     }, [])
+     }, [searchPage])
 
     return (
         display &&

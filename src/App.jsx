@@ -1,5 +1,5 @@
 // Router
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 
 // Modules
 import axios from "axios";

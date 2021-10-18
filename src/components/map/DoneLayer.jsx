@@ -34,7 +34,7 @@ export default function DoneLayer(props) {
 
     function handleInfoClick (e) {
         dispatch(setPane({
-            id: JSON.parse(e.target.attributes["data-city"].value).bpf_city_id,
+            id: e.target.attributes["data-city"].value,
             validated: true,
             active: true
         }))
@@ -69,8 +69,8 @@ export default function DoneLayer(props) {
                         <Marker position={[bpf.city_lat, bpf.city_long]} icon={icon} key={bpf.bpf_id}>
                             <Popup>
                                 {`${bpf.city_name} (${bpf.city_departement})`}<br />
-                                Validé le : {new Date(bpf.bpf_date).toLocaleDateString()}<br />
-                                <a href="#" data-city={JSON.stringify(bpf)} onClick={handleInfoClick}>Plus d'infos</a>
+                                Validé le : {new Date(bpf.bpf_date).toLocaleDateString()}<br/>
+                                <span className="underline text-blue-600" data-city={bpf.bpf_city_id} onClick={handleInfoClick}>Plus d'infos</span>
                             </Popup>
                         </Marker>
                     )
