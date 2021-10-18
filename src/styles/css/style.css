@@ -390,17 +390,51 @@ header {
   overflow: hidden;
 }
 
-.map-pane-picture {
-  height: 20vh;
+.search-page .home {
   width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url("/img/bg-ventoux.jpg");
   background-size: cover;
-  position: relative;
+  background-position: center;
+  overflow: hidden;
 }
 
-.map-pane-picture-fullscreen {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
+.info-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  overflow: auto;
+}
+
+.info-modal .picture {
+  height: 25vh;
+  width: 55%;
+  float: right;
+  overflow: hidden;
+}
+
+.info-modal .description {
+  overflow: hidden;
+}
+
+.info-modal::-webkit-scrollbar {
+  width: 7px;
+  transform: translateX(-7px);
+}
+
+.info-modal::-webkit-scrollbar-track {
+  @apply bg-gray-300;
+}
+
+.info-modal::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  @apply bg-gray-500;
 }
 
 *,
@@ -509,12 +543,6 @@ main.menu-collapse {
 .alert-red {
   background: #b40818;
   color: #fff;
-}
-
-.alert-content {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 }
 
 .icon-sm {

@@ -26,16 +26,3 @@
     flex-grow: 1;
     overflow: hidden;
 }
-
-.map-pane-picture {
-    height: 20vh;
-    width: 100%;
-    background-size: cover;
-    position: relative;
-}
-
-.map-pane-picture-fullscreen {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-}
