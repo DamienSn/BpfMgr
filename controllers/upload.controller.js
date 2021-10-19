@@ -29,7 +29,7 @@ module.exports.uploadProfil = async (req, res) => {
     await pipeline(
         req.file.stream,
         fs.createWriteStream(
-            `${__dirname}/../../client/public/uploads/profils/${fileName}`
+            `${__dirname}/../../vite-client/dist/uploads/profils/${fileName}`
         )
     );
 

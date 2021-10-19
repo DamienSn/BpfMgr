@@ -9,7 +9,7 @@ exports.create = (req, res) => {
         });
     }
 
-    // Create a Customer
+    // Create an user
     const user = new User({
         email: req.body.email,
         name: req.body.name,
@@ -18,7 +18,7 @@ exports.create = (req, res) => {
         permissions: req.body.permissions,
     });
 
-    // Save Customer in the database
+    // Save user in the database
     User.create(user, (err, data) => {
         if (err)
             res.status(500).json({

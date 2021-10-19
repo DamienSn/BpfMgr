@@ -34,7 +34,7 @@ User.create = async (user, result) => {
             return;
         }
 
-        result(null, { message: `User ${user.email} created succesfully`, data: {verification_code: user.verification_code} });
+        result(null, { message: `User ${user.email} created succesfully`, data: {user_verification_code: data.user_verification_code} });
     });
 };
 
@@ -131,12 +131,12 @@ User.connect = async (email, password) => {
  */
 User.verifyEmail = async (code, userId, result) => {
     let dbCode = null;
-    sql.query('SELECT user_verification_code FROM users WHERE user_id=?', userId, async (err, res) => {
+    sql.query('SELECT user_verification_code FROM users WHERE user_id=?', [userId], async (err, res) => {
         if (err) {
             result(err, null);
             return;
         }
-        dbCode = res[0].verification_code;
+        dbCode = res[0].user_verification_code;
 
         const right = code == dbCode;
         if (right) {

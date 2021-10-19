@@ -95,14 +95,14 @@ exports.createByPhoto = (req, res) => {
         pipeline(
             req.file.stream,
             fs.createWriteStream(
-                `${__dirname}/../../client/public/uploads/bpfs/${fileName}`
+                `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`
             )
         ).then(() => {
             console.log('reading image exif')
             // Read exif of the image to know location
             new ExifImage(
                 {
-                    image: `${__dirname}/../../client/public/uploads/bpfs/${fileName}`,
+                    image: `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`,
                 },
                 function (error, exifData) {
                     if (error) console.log("Error: " + error.message);
