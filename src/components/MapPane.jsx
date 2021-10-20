@@ -33,6 +33,11 @@ function MapPane(props) {
         }
     }
 
+    const handleValidateClick = () => {
+        dispatch({type: 'SET_CITY_INPUT', payload: city.city_name});
+        window.location.hash = "#/add"
+    }
+
     return (
         <section className={`map-pane ${props.active && 'active'} fixed right-0 py-5 px-8 bg-gray-200`}>
             {/* Close button */}
@@ -54,10 +59,15 @@ function MapPane(props) {
                     </SRLWrapper>
 
                     {/* Is validated ? */}
-                    <p className={`mt-4 ${props.validated ? 'text-green-500' : 'text-red-500'}`}>
-                        {props.validated ? <BadgeCheckIcon className="icon-sm" /> : <XCircleIcon className="icon-sm" />}
-                        &nbsp;{props.validated ? "Validée" : "A valider"}
-                    </p>
+                    {props.validated &&
+                        <p className="mt-4 text-green-500">
+                        <BadgeCheckIcon className="icon-sm" />
+                        &nbsp;Validée
+                    </p>}
+                    {/* Case not validated */}
+                    {!props.validated &&
+                        <button className="btn btn-outline-green mt-4" onClick={handleValidateClick}>Valider</button>
+                    }
                     {/* Province */}
                     <h5 className="font-bold mt-2">Province</h5>
                     <p>{city && provinces.find(province => city.city_province_id == province.province_id).province_name}</p>

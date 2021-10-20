@@ -66,7 +66,7 @@ function MapContainerBpf() {
                     {/* CyclOSM */}
                     <LayersControl.BaseLayer checked name="CyclOSM">
                         <TileLayer
-                            attribution='Kartendaten: © <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: © <a href="http://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                            attribution='<a href="https:cyclosm.org" title="CyclOSM - Open Bicycle render">CyclOSM</a> v0.6 | Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
                             url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
                         />
                     </LayersControl.BaseLayer>

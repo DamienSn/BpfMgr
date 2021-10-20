@@ -1,7 +1,6 @@
 import React from 'react'
 import { useContext } from 'react'
 import { UidContext } from './AppContext'
-import { LinkIcon } from '@heroicons/react/outline'
 
 function Footer() {
     const uid = useContext(UidContext)
@@ -18,7 +17,8 @@ function Footer() {
                     <a href="/#/about" className="underline">À propos</a><br/>
                     <a href="https://github.com/DamienSn" className="underline">
                         Code source
-                    </a>
+                    </a><br/>
+                    <a href="/#/legal" className="underline">Mentions légales</a>
                 </div>
                 <div className="px-4 text-justify">
                     BpfMgr vous est proposé de manière <span className="font-bold">gratuite</span> et <span className="font-bold">open-source</span><br />

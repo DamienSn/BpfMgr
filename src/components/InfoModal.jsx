@@ -1,5 +1,5 @@
 import React from 'react'
-import { XIcon } from '@heroicons/react/outline'
+import { XIcon, BadgeCheckIcon } from '@heroicons/react/outline'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
@@ -12,8 +12,10 @@ function InfoModal(props) {
     const cities = useSelector(state => state.cities)
     const dpts = useSelector(state => state.dpts);
     const provinces = useSelector(state => state.provinces);
+    const bpfs = useSelector(state => state.bpfs);
 
     const city = cities.find(city => city.city_id == modal.id)
+    const done = bpfs.find(bpf => bpf.bpf_city_id == modal.id)
 
     const galleryOptions = {
         buttons: {
@@ -26,6 +28,11 @@ function InfoModal(props) {
         thumbnails: {
             showThumbnails: false
         }
+    }
+
+    const handleValidateClick = () => {
+        dispatch({type: 'SET_CITY_INPUT', payload: city.city_name});
+        window.location.hash = "#/add"
     }
 
     return (
@@ -45,6 +52,17 @@ function InfoModal(props) {
                         <p>{city && dpts.find(dpt => dpt.code == city.city_departement).nom} ({city && city.city_departement})</p>
                         <h5 className="font-bold">Province</h5>
                         <p>{city && provinces.find(pro => city.city_province_id == pro.province_id).province_name}</p>
+                        {/* Validating */}
+                        {/* Is validated ? */}
+                        {done &&
+                            <p className="mt-4 text-green-500">
+                                <BadgeCheckIcon className="icon-sm" />
+                                &nbsp;Validée
+                            </p>}
+                        {/* Case not validated */}
+                        {!done &&
+                            <button className="btn btn-outline-green mt-4" onClick={handleValidateClick}>Valider</button>
+                        }
                     </div>
                     {/* Picture */}
                     <div className="picture mt-4 ml-4">

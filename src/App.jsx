@@ -10,6 +10,8 @@ import { getUser } from "./redux/actions/user.actions";
 import { getDpts } from "./redux/actions/dpts.actions"
 import { getProvinces } from './redux/actions/provinces.actions'
 import { getCities } from './redux/actions/cities.actions'
+import { getBpfs } from './redux/actions/bpfs.actions'
+import { getBcns } from './redux/actions/bcns.actions'
 
 // Styles
 import "./styles/css/style.css";
@@ -30,7 +32,6 @@ import Add from "./pages/Add";
 import MapContainerBpf from "./pages/Map";
 import Search from './pages/Search';
 import Footer from "./components/Footer";
-import { useSelector } from "react-redux";
 
 function App() {
     const [uid, setUid] = useState(null);
@@ -56,6 +57,8 @@ function App() {
         // Init redux state
         if (uid) {
             dispatch(getUser(uid));
+            dispatch(getBpfs(uid));
+            dispatch(getBcns(uid));
         }
     }, [uid, dispatch]);
 

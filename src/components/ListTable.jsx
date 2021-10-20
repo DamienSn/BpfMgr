@@ -4,9 +4,14 @@ import { UidContext } from './AppContext';
 import { TrashIcon } from '@heroicons/react/outline';
 import axios from 'axios';
 import {SuccessToast, ErrorToast} from '../components/Toasts.jsx'
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getBpfs } from '../redux/actions/bpfs.actions';
+import { getBcns } from '../redux/actions/bcns.actions';
 
 export function ListTable(props) {
-    const [data, setData] = useState([]);
+    const dispatch = useDispatch();
+    const data = useSelector(state => state.bpfs)
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [reRender, setReRender] = useState(false);
@@ -14,8 +19,8 @@ export function ListTable(props) {
     const uid = useContext(UidContext);
 
     useEffect(() => {
-        getAllBpfs(uid, setData);
-    }, [setData, uid, reRender])
+        dispatch(getBpfs(uid))
+    }, [uid, reRender])
 
     // Handle BPF deleting from table
     const handleDelete = (e) => {
@@ -42,7 +47,7 @@ export function ListTable(props) {
                     setSuccessMessage(`BPF ${city} supprimé`)
 
                     // ReRender component to don't show deleted element
-                    setReRender(true);
+                    setReRender(!reRender);
                 } else if (res.data.message === 'error') {
                     document.querySelector('#error-toast').classList.add('active');
                     document.querySelector('#success-toast').classList.remove('active');
@@ -96,7 +101,8 @@ export function ListTable(props) {
 }
 
 export function ListTableBcn(props) {
-    const [data, setData] = useState([]);
+    const dispatch = useDispatch();
+    const data = useSelector(state => state.bcns)
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [reRender, setReRender] = useState(false);
@@ -104,8 +110,8 @@ export function ListTableBcn(props) {
     const uid = useContext(UidContext);
 
     useEffect(() => {
-        getAllBcns(uid, setData);
-    }, [setData, uid, reRender])
+        dispatch(getBcns(uid))
+    }, [uid, reRender])
 
     // Handle BPF deleting on table
     const handleDelete = (e) => {
@@ -132,7 +138,7 @@ export function ListTableBcn(props) {
                     setSuccessMessage(`BPF ${city} supprimé`)
 
                     // ReRender component to don't show deleted element
-                    setReRender(true);
+                    setReRender(!reRender);
                 } else if (res.data.message === 'error') {
                     document.querySelector('#error-toast').classList.add('active');
                     document.querySelector('#success-toast').classList.remove('active');

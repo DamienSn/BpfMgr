@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { UidContext } from './AppContext';
-import { getBpfNumber, getLatestsBpfs } from "../utilities/bpfRequests";
-import BpfStats from "./BpfStats";
+import {BpfStats, BcnStats} from "./BpfStats";
 import { useSelector } from 'react-redux';
 import { userSelector } from '../redux/selectors/user.selectors';
 
@@ -13,8 +12,8 @@ function Dashboard() {
 
     // State
     const [message, setMessage] = useState('Bienvenue');
-    const [bpfNumber, setBpfNumber] = useState();
-    const [latestsBpfs, setLatestsBpfs] = useState([]);
+    const bpfNumber = useSelector(state => state.bpfs).length
+    const latestsBpfs = useSelector(state => state.bpfs).sort((a, b) => new Date(b.bpf_date) - new Date(a.bpf_date)).slice(0, 3);
 
     useEffect(() => {
         const hours = new Date().getHours();
@@ -32,35 +31,32 @@ function Dashboard() {
             setMessage(messages[4])
         }
     }, [message]);
-    
-    useEffect(() => {
-        getBpfNumber(uid, setBpfNumber)
-        getLatestsBpfs(uid, setLatestsBpfs)
-    }, [uid])
 
     const userData = useSelector(userSelector);
-
 
     return (
         <section id="dashboard">
             <h2>{message}, {userData.user_name} !</h2>
             <section id="stats">
-                <h3>
-                    <ChartBarIcon className="icon-md" />&nbsp; Vos statistiques
-                </h3>
-                <div id="bpf-stat" class="stat-bar">
-                    <BpfStats />
-                </div>
-                <h3 className="pt-3">
-                    <ClockIcon class="icon-md" />&nbsp;Vos derniers BPF
-                </h3>
-                <div>
-                    {
-                        latestsBpfs.map((bpf, index) =>
-                            <li key={index}>{bpf.city_name} ({bpf.city_departement}) - Le {new Date(bpf.bpf_date).toLocaleDateString()}</li>   
-                        )
-                    }
-                </div>
+                    <h3>
+                        <ChartBarIcon className="icon-md" />&nbsp; Vos statistiques
+                    </h3>
+                    {/* BPF BCN stats */}
+                    <div id="bpf-stat" class="stat-bar">
+                        <BpfStats />
+                        <BcnStats />
+                    </div>
+
+                    <h3 className="pt-3">
+                        <ClockIcon class="icon-md" />&nbsp;Vos derniers BPF
+                    </h3>
+                    <div>
+                        {
+                            latestsBpfs.map((bpf, index) =>
+                                <li key={index}>{bpf.city_name} ({bpf.city_departement}) - Le {new Date(bpf.bpf_date).toLocaleDateString()}</li>
+                            )
+                        }
+                    </div>
             </section>
         </section>
     )

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UidContext } from '../components/AppContext'
 import { SupportIcon, PlusIcon, PhotographIcon, HandIcon, ExclamationIcon } from '@heroicons/react/outline'
 import { SuccessToast, ErrorToast } from '../components/Toasts';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Add() {
     const uid = useContext(UidContext);
@@ -13,7 +13,7 @@ function Add() {
 
     // State
     const [cities, setCities] = useState([]);
-    const [cityInput, setCityInput] = useState('');
+    const [cityInput, setCityInput] = useState(useSelector(state => state.addCity));
     const [dateInput, setDateInput] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -34,6 +34,9 @@ function Add() {
     // Send request to create bpf made by hand
     const handleByHandSubmit = (e) => {
         e.preventDefault();
+
+        // Reset default value
+        dispatch({type: 'SET_CITY_INPUT', payload: ""})
 
         axios({
             url: `${import.meta.env.VITE_API_URL}bpf/create`,
@@ -120,7 +123,7 @@ return (
                 <form action="" className="mt-4" onSubmit={handleByHandSubmit}>
                     <div>
                         <label htmlFor="city-input" className="label">Lieu</label>
-                        <input type="text" id="city-input" className="input" list="cities-input-list" placeholder="Taper pour rechercher..." required onInput={e => setCityInput(e.target.value)} />
+                        <input type="text" id="city-input" className="input" list="cities-input-list" placeholder="Taper pour rechercher..." required onInput={e => setCityInput(e.target.value)} value={cityInput}/>
                         <p><SupportIcon className="icon-sm" /> Pensez aux tirets !</p>
                         <datalist id="cities-input-list">
                             {cities.map((city, index) =>

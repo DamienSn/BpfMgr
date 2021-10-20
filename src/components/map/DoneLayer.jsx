@@ -70,7 +70,7 @@ export default function DoneLayer(props) {
                             <Popup>
                                 {`${bpf.city_name} (${bpf.city_departement})`}<br />
                                 Validé le : {new Date(bpf.bpf_date).toLocaleDateString()}<br/>
-                                <span className="underline text-blue-600" data-city={bpf.bpf_city_id} onClick={handleInfoClick}>Plus d'infos</span>
+                                <span className="underline text-blue-600 cursor-pointer" data-city={bpf.bpf_city_id} onClick={handleInfoClick}>Plus d'infos</span>
                             </Popup>
                         </Marker>
                     )
