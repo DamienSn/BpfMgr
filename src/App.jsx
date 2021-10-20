@@ -29,18 +29,15 @@ import List from "./pages/List";
 import Add from "./pages/Add";
 import MapContainerBpf from "./pages/Map";
 import Search from './pages/Search';
+import Footer from "./components/Footer";
+import { useSelector } from "react-redux";
 
 function App() {
     const [uid, setUid] = useState(null);
-    // const [loader, setLoader] = useState(true);
     const dispatch = useDispatch();
 
     // Verify JSON Web Token in cookies by fetching the API endpoint
     useEffect(() => {
-        // setTimeout(() => {
-        //     setLoader(false);
-        // }, 3000);
-
         const fetchToken = async () => {
             await axios({
                 method: "get",
@@ -61,7 +58,7 @@ function App() {
             dispatch(getUser(uid));
         }
     }, [uid, dispatch]);
-    
+
     useEffect(() => {
         dispatch(getDpts());
         dispatch(getProvinces());
@@ -70,28 +67,31 @@ function App() {
 
     // TODO: Loader ?
     return (
-        <div className="App">
+        <div className="App h-screen">
             <UidContext.Provider value={uid}>
                 <Router>
                     <Header />
                     <Banner />
                     <Log />
                     {uid && <Menu />}
-                    <Route path="/" exact component={Home} />
-                    <Route path="/profile" exact component={Profile} />
-                    <Route path="/settings" exact component={Settings} />
-                    <Route
-                        path="/verify_account"
-                        exact
-                        component={VerifyAccount}
-                    />
-                    <Route path="/list" exact component={List} />
-                    <Route path="/add" exact component={Add} />
-                    <Route path="/map" component={MapContainerBpf}/>
-                    <Route path="/search" component={Search}/>
+                    <div className="flex flex-col h-full justify-between" style={{height: "calc(100% - 330px)"}}>
+                        <Route path="/" exact component={Home} />
+                        <Route path="/profile" exact component={Profile} />
+                        <Route path="/settings" exact component={Settings} />
+                        <Route
+                            path="/verify_account"
+                            exact
+                            component={VerifyAccount}
+                        />
+                        <Route path="/list" exact component={List} />
+                        <Route path="/add" exact component={Add} />
+                        <Route path="/map" component={MapContainerBpf} />
+                        <Route path="/search" component={Search} />
+                        <Footer />
+                    </div>F
                 </Router>
             </UidContext.Provider>
-        </div>
+        </div >
     );
 }
 

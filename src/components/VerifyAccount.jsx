@@ -4,12 +4,16 @@ import { useSelector } from 'react-redux';
 import { userSelector } from '../redux/selectors/user.selectors';
 import { UidContext } from './AppContext'
 import sendEmail from '../utilities/email';
+import { useDispatch } from 'react-redux';
 
 function VerifyAccount() {
     const uid = useContext(UidContext);
     const [code, setCode] = useState();
     const [error, setError] = useState();
     const userData = useSelector(userSelector);
+    const dispatch = useDispatch();
+    // display banner
+    dispatch({ type: 'SET_BANNER', payload: true })
 
     const handleSubmit = (e) => {
         e.preventDefault();

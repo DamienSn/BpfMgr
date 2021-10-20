@@ -22,10 +22,9 @@ header {
   background: #2699d1;
   position: relative;
   overflow: hidden;
-  height: 250px;
+  height: 330px;
   background-size: cover;
   background-position: center;
-  margin-top: 80px;
 }
 
 .menu-toggle {
@@ -150,7 +149,7 @@ header {
 }
 @media screen and (max-width: 1600px) {
   #banner {
-    height: 200px !important;
+    height: 330px !important;
   }
 }
 #log-popup {
@@ -527,6 +526,14 @@ main.menu-toggled {
 
 main.menu-collapse {
   margin-left: 90px;
+}
+
+footer.menu-toggled {
+  margin-left: 249px;
+}
+
+footer.menu-collapse {
+  margin-left: 74px;
 }
 
 .drop-files {

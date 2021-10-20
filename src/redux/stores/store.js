@@ -8,6 +8,7 @@ import citiesReducer from "../reducers/cities.reducer";
 import paneReducer from "../reducers/pane.reducer";
 import logReducer from "../reducers/log.reducer";
 import searchReducer from "../reducers/search.reducer";
+import bannerReducer from "../reducers/banner.reducer";
 
 const store = createStore(
     combineReducers({
@@ -17,7 +18,8 @@ const store = createStore(
         cities: citiesReducer,
         mapPane: paneReducer,
         logModal: logReducer,
-        search: searchReducer
+        search: searchReducer,
+        banner: bannerReducer
     }),
     composeWithDevTools(applyMiddleware(thunk))
 )

@@ -147,7 +147,7 @@ function SignUp() {
                                     password
                                 }
                             })
-                                .then(res => window.location = '/#/verify_account')
+                                .then(res => window.location = '/')
                         })
                         .catch(err => console.log(err))
                 }

@@ -1,14 +1,19 @@
 import { useContext, useState } from "react"
 import { UidContext } from "../components/AppContext"
-import {BookmarkIcon, CloudUploadIcon} from '@heroicons/react/outline'
+import { BookmarkIcon, CloudUploadIcon } from '@heroicons/react/outline'
 import { useSelector } from "react-redux";
 import { userSelector } from "../redux/selectors/user.selectors";
 import { ImageUploadProfile } from "../components/ImageUpload";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { getUser } from '../redux/actions/user.actions'
 
 export default function Settings() {
     const uid = useContext(UidContext);
     const userData = useSelector(userSelector);
+    const dispatch = useDispatch();
+    // display banner
+    dispatch({ type: 'SET_BANNER', payload: true })
 
     const [bio, setBio] = useState(userData.user_bio);
     const [password, setPassword] = useState();
@@ -29,6 +34,7 @@ export default function Settings() {
                 'content-type': 'multipart/form-data'
             }
         })
+            .then(res => dispatch(getUser(userData.user_id)))
     }
 
     return (

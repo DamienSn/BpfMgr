@@ -9,6 +9,9 @@ import { ListTable, ListTableBcn } from '../components/ListTable'
 
 function List() {
     const uid = useContext(UidContext);
+    const dispatch = useDispatch();
+    // display banner
+    dispatch({ type: 'SET_BANNER', payload: true })
 
     // State
     const [dpts, setDpts] = useState([]);
@@ -95,7 +98,7 @@ function List() {
 
                 <NavPills handler={handlePills} />
 
-                <SearchBar action={setSearchFilter} label={true}/>
+                <SearchBar action={setSearchFilter} label={true} />
 
                 {/* Departement */}
                 <div>

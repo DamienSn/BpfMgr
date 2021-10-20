@@ -106,6 +106,15 @@ main.menu-collapse {
     margin-left: 75px + 15px;
 }
 
+// Footer
+footer.menu-toggled {
+    margin-left: 249px;
+}
+
+footer.menu-collapse {
+    margin-left: 74px;
+}
+
 // Drop files
 .drop-files {
     border: 2px dashed $blueSky !important;

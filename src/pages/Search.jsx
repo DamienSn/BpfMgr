@@ -13,7 +13,9 @@ function Search() {
 
     useEffect(() => {
         page === "results" ? setMarginTop("0") : setMarginTop("80px");
+        page === "results" ? dispatch({ type: 'SET_BANNER', payload: true }) : dispatch({ type: 'SET_BANNER', payload: false })
     }, [page])
+
 
     // Results
     const cities = useSelector(state => state.cities)

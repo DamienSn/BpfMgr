@@ -31,12 +31,17 @@ import ProvinceCtl from '../components/map/ProvinceCtl'
 // Layers
 import DoneLayer from '../components/map/DoneLayer'
 import CitiesLayer from '../components/map/CitiesLayer'
+import { useDispatch } from 'react-redux'
 
 /**
  * Container of the map
  */
 function MapContainerBpf() {
     const uid = useContext(UidContext);
+    const dispatch = useDispatch();
+
+    // Don't display banner
+    dispatch({type: 'SET_BANNER', payload: false})
 
     // Pane
     const pane = useSelector(state => state.mapPane)
@@ -87,7 +92,7 @@ function MapContainerBpf() {
                     </LayersControl.Overlay>
 
                     {/* Others BPF layer */}
-                    <LayersControl.Overlay name="BPF non faits">
+                    <LayersControl.Overlay checked name="BPF non faits">
                         <CitiesLayer filter={{ dpt: dptFilter }} />
                     </LayersControl.Overlay>
 

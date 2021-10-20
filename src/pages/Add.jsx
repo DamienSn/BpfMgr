@@ -3,9 +3,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UidContext } from '../components/AppContext'
 import { SupportIcon, PlusIcon, PhotographIcon, HandIcon, ExclamationIcon } from '@heroicons/react/outline'
 import { SuccessToast, ErrorToast } from '../components/Toasts';
+import { useDispatch } from 'react-redux';
 
 function Add() {
     const uid = useContext(UidContext);
+    const dispatch = useDispatch();
+    // display banner
+    dispatch({ type: 'SET_BANNER', payload: true })
 
     // State
     const [cities, setCities] = useState([]);
@@ -50,7 +54,13 @@ function Add() {
                     document.querySelector('#error-toast').classList.add('active');
                     document.querySelector('#success-toast').classList.remove('active');
 
-                    setErrorMessage('Il y a eu une erreur')
+                    if (res.data.error === "existing yet") {
+                        setErrorMessage('Le BPF est déjà pointé')
+                    } else if (res.data.error === "no city found") {
+                        setErrorMessage('Pas de ville trouvée avec ces coordonnées')
+                    } else {
+                        setErrorMessage('Il y a eu une erreur')
+                    }
                 }
             })
             .catch(err => console.log(err))
@@ -85,71 +95,77 @@ function Add() {
                     document.querySelector('#error-toast').classList.add('active');
                     document.querySelector('#success-toast').classList.remove('active');
 
-                    setErrorMessage('Il y a eu une erreur')
+                    if (res.data.error === "existing yet") {
+                        setErrorMessage('Le BPF est déjà pointé')
+                    } else if (res.data.error === "no city found") {
+                        setErrorMessage('Pas de ville trouvée avec ces coordonnées')
+                    } else {
+                        setErrorMessage('Il y a eu une erreur')
+                    }
                 }
             })
-            .catch(err => console.log(err))
-    }
+            .catch (err => console.log(err))
+}
 
-    return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
-            <h2>Ajouter un BPF</h2>
+return (
+    <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <h2>Ajouter un BPF</h2>
 
-            <div className="md:flex mt-6">
+        <div className="md:flex mt-6">
 
-                {/* Add bpf by hand */}
-                <div className="lg:border-r-2 border-blue-300 pr-20">
-                    <h4><HandIcon className="icon-sm" />&nbsp;Manuellement</h4>
-                    <p>Ajoutez votre BPF tout seul, comme un grand !</p>
-                    <form action="" className="mt-4" onSubmit={handleByHandSubmit}>
-                        <div>
-                            <label htmlFor="city-input" className="label">Lieu</label>
-                            <input type="text" id="city-input" className="input" list="cities-input-list" placeholder="Taper pour rechercher..." required onInput={e => setCityInput(e.target.value)} />
-                            <p><SupportIcon className="icon-sm" /> Pensez aux tirets !</p>
-                            <datalist id="cities-input-list">
-                                {cities.map((city, index) =>
-                                    <option data-value={city} key={index}>{city}</option>
-                                )
-                                }
-                            </datalist>
-                        </div>
+            {/* Add bpf by hand */}
+            <div className="lg:border-r-2 border-blue-300 pr-20">
+                <h4><HandIcon className="icon-sm" />&nbsp;Manuellement</h4>
+                <p>Ajoutez votre BPF tout seul, comme un grand !</p>
+                <form action="" className="mt-4" onSubmit={handleByHandSubmit}>
+                    <div>
+                        <label htmlFor="city-input" className="label">Lieu</label>
+                        <input type="text" id="city-input" className="input" list="cities-input-list" placeholder="Taper pour rechercher..." required onInput={e => setCityInput(e.target.value)} />
+                        <p><SupportIcon className="icon-sm" /> Pensez aux tirets !</p>
+                        <datalist id="cities-input-list">
+                            {cities.map((city, index) =>
+                                <option data-value={city} key={index}>{city}</option>
+                            )
+                            }
+                        </datalist>
+                    </div>
 
-                        <div className="mt-4">
-                            <label htmlFor="date-input" className="label">Date</label>
-                            <input type="date" className="input" id="date-input" onInput={e => setDateInput(e.target.value)} />
-                        </div>
+                    <div className="mt-4">
+                        <label htmlFor="date-input" className="label">Date</label>
+                        <input type="date" className="input" id="date-input" onInput={e => setDateInput(e.target.value)} />
+                    </div>
 
-                        <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
-                    </form>
-                </div>
-
-                {/* Add bpf with photo */}
-                <div className="sm:mt-12 md:mt-0 lg:pl-20">
-                    <h4><PhotographIcon className="icon-sm" />&nbsp;Avec une photo</h4>
-                    <p>Importez une photo géolocalisée et laissez nous faire le reste !</p>
-                    <form className="mt-4" onSubmit={handleByPhotoSubmit}>
-                        <input
-                            type="file"
-                            name="file"
-                            label="Glissez un fichier ou cliquez pour ouvrir l'explorateur"
-                            help="Choisir une photo pour ajouter un BPF"
-                            is="drop-files"
-                            accept="image/jpeg, image/png"
-                        />
-
-                        <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
-
-                        {/* <p><ExclamationIcon className="icon-sm" />&nbsp;La photo doit être géolocalisée</p> */}
-                    </form>
-                </div>
+                    <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
+                </form>
             </div>
 
-            <p className="mt-4"><SupportIcon className="icon-sm" />&nbsp;Si, lors de l'ajout d'un BPF, aucun BPF du département n'est validé, <span className="font-bold">le BCN sera validé automatiquement</span> avec ce BPF</p>
+            {/* Add bpf with photo */}
+            <div className="sm:mt-12 md:mt-0 lg:pl-20">
+                <h4><PhotographIcon className="icon-sm" />&nbsp;Avec une photo</h4>
+                <p>Importez une photo <span className="font-bold underline">géolocalisée</span> et laissez nous faire le reste !</p>
+                <form className="mt-4" onSubmit={handleByPhotoSubmit}>
+                    <input
+                        type="file"
+                        name="file"
+                        label="Glissez un fichier ou cliquez pour ouvrir l'explorateur"
+                        help="Choisir une photo pour ajouter un BPF"
+                        is="drop-files"
+                        accept="image/jpeg, image/png"
+                    />
 
-            <SuccessToast id="success-toast" message={successMessage} />
-            <ErrorToast id="error-toast" message={errorMessage} />
-        </main>
-    )
+                    <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
+
+                    {/* <p><ExclamationIcon className="icon-sm" />&nbsp;La photo doit être géolocalisée</p> */}
+                </form>
+            </div>
+        </div>
+
+        <p className="mt-4"><SupportIcon className="icon-sm" />&nbsp;Si, lors de l'ajout d'un BPF, aucun BPF du département n'est validé, <span className="font-bold">le BCN sera validé automatiquement</span> avec ce BPF</p>
+
+        <SuccessToast id="success-toast" message={successMessage} />
+        <ErrorToast id="error-toast" message={errorMessage} />
+    </main>
+)
 }
 
 export default Add

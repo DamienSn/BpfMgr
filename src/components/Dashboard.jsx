@@ -57,7 +57,7 @@ function Dashboard() {
                 <div>
                     {
                         latestsBpfs.map((bpf, index) =>
-                            <li key={index}>{bpf.city_name} ({bpf.city_departement})</li>   
+                            <li key={index}>{bpf.city_name} ({bpf.city_departement}) - Le {new Date(bpf.bpf_date).toLocaleDateString()}</li>   
                         )
                     }
                 </div>

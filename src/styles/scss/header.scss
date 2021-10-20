@@ -21,11 +21,10 @@ header {
     background: $blueSky;
     position: relative;
     overflow: hidden;
-    height: 250px;
+    height: 330px;
     // Background
     background-size: cover;
     background-position: center;
-    margin-top: 80px;
 }
 
 // Menu toggler
@@ -159,6 +158,6 @@ header {
 
 @media screen and (max-width: 1600px) {
     #banner {
-        height: 200px!important;
+        height: 330px!important;
     }
 }

@@ -11,7 +11,7 @@ export default function BpfStats() {
 
     return (
         <>
-            <StatNumber number={bpfNumber} description="BPF Pointés" />
+            <StatNumber number={bpfNumber} description="BPF Faits" />
             <StatNumber number={541 - bpfNumber} description="BPF Restants" />
             <StatNumber number={`${Math.floor((bpfNumber / 541 * 100) * 100) / 100}%`} description="BPF Faits" />
         </>

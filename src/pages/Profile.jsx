@@ -8,11 +8,15 @@ import BpfStats from "../components/BpfStats";
 import { Link } from "react-router-dom";
 
 // Icons
-import {PencilAltIcon} from '@heroicons/react/outline'
+import { PencilAltIcon } from '@heroicons/react/outline'
+import { useDispatch } from "react-redux";
 
 export default function Profile() {
     const uid = useContext(UidContext);
     const userData = useSelector(userSelector);
+    const dispatch = useDispatch();
+    // display banner
+    dispatch({ type: 'SET_BANNER', payload: true })
 
     const [bpfNumber, setBpfNumber] = useState();
 
@@ -23,7 +27,7 @@ export default function Profile() {
             <div className="profile-page-title">
                 <h2>Profil</h2>
                 <Link to="/settings" className="btn btn-outline-blue mr-4">
-                    <PencilAltIcon className="icon-sm"/>
+                    <PencilAltIcon className="icon-sm" />
                     &nbsp;Editer
                 </Link>
             </div>

@@ -1,18 +1,8 @@
 import { HomeIcon, PlusCircleIcon, CollectionIcon, MapIcon, SearchIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react';
-import { useHistory } from 'react-router';
 
 export default function Menu() {
-    const history = useHistory();
-
-    useEffect(() => {
-        return history.listen((location) => { 
-           document.querySelector('.menu').classList.add('reduced');
-           document.querySelector('main').classList.add('menu-collapse')
-        }) 
-     },[history])
-
     const removeActiveLinks = () => {
         const icons = document.querySelectorAll('.nav-link span.svg-container');
         icons.forEach((icon) => {
@@ -57,7 +47,7 @@ export default function Menu() {
         <aside className="menu reduced">
             <nav>
                 <ul>
-                    <li onClick={activateLinks}>
+                    <li onClick={activateLinks} title="Accueil">
                         <Link to="/" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
                             {/* <ion-icon src="/icons/home-outline.svg"></ion-icon> */}
                             <span className="svg-container">
@@ -66,7 +56,7 @@ export default function Menu() {
                             <span>&nbsp;Accueil</span>
                         </Link>
                     </li>
-                    <li onClick={activateLinks}>
+                    <li onClick={activateLinks} title="Ajouter un BPF/BCN">
                         <Link to="/add" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
                             {/* <ion-icon src="/icons/add-outline.svg"></ion-icon> */}
                             <span className="svg-container">
@@ -75,7 +65,7 @@ export default function Menu() {
                             <span>&nbsp;Ajouter</span>
                         </Link>
                     </li>
-                    <li onClick={activateLinks}>
+                    <li onClick={activateLinks} title="Mes BPF/BCN">
                         <Link to="/list" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
                             {/* <ion-icon src="/icons/list-outline.svg"></ion-icon> */}
                             <span className="svg-container">
@@ -84,7 +74,7 @@ export default function Menu() {
                             <span>&nbsp;Mes BPF/BCN</span>
                         </Link>
                     </li>
-                    <li onClick={activateLinks}>
+                    <li onClick={activateLinks} title="Carte">
                         <Link to="/map" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
                             {/* <ion-icon src="/icons/map-outline.svg"></ion-icon> */}
                             <span className="svg-container">
@@ -93,7 +83,7 @@ export default function Menu() {
                             <span>&nbsp;Carte</span>
                         </Link>
                     </li>
-                    <li onClick={activateLinks}>
+                    <li onClick={activateLinks} title="Recherche">
                         <Link to="/search" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
                             {/* <ion-icon src="/icons/search-outline.svg"></ion-icon> */}
                             <span className="svg-container">

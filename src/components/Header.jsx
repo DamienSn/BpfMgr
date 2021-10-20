@@ -8,6 +8,7 @@ function Header() {
     const handleMenuClick = (e) => {
         document.querySelector('.menu').classList.toggle('reduced');
         document.querySelector('main').classList.toggle('menu-collapse');
+        document.querySelector('footer').classList.toggle('menu-collapse');
     }
 
     return (

@@ -5,10 +5,14 @@ import { useSelector } from "react-redux";
 import { userSelector } from "../redux/selectors/user.selectors";
 import VerifyAccount from "../components/VerifyAccount";
 import Alert from "../components/Alert";
+import { useDispatch } from "react-redux";
 
 function Home() {
     const uid = useContext(UidContext);
     const userData = useSelector(userSelector);
+    const dispatch = useDispatch();
+    // display banner
+    dispatch({ type: 'SET_BANNER', payload: true })
 
     return (
         <main className={`${uid && 'menu-toggled menu-collapse'}`}>

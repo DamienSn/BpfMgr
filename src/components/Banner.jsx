@@ -1,31 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {useHistory} from 'react-router-dom';
 
 export default function Banner() {
     const [display, setDisplay] = useState(true);
     const searchPage = useSelector(state => state.search.page)
-
-    const history = useHistory();
-
-    useEffect(() => {
-        return history.listen((location) => { 
-           if(location.pathname.includes('/map') || location.pathname === '/search') {
-               setDisplay(false)
-           } else {
-               setDisplay(true);
-           }
-        }) 
-     },[history])
-
-     useEffect(() => {
-         if (window.location.pathname.includes('/map') || location.pathname === '/search') {
-             searchPage === "home" ? setDisplay(false) : setDisplay(true);
-         }
-     }, [searchPage])
+    const banner = useSelector(state => state.banner)
 
     return (
-        display &&
+        banner &&
             <section id="banner">
                 <style>
                     {`#banner {
