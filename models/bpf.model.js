@@ -2,7 +2,7 @@ const sql = require("./db.js");
 const { promisify } = require("util");
 const { query } = require("./db.js");
 const sqlString = require("sqlstring");
-const bcnModel = require('./bcn.model')
+const bcnModel = require("./bcn.model");
 
 sql.query = promisify(sql.query);
 
@@ -19,7 +19,7 @@ module.exports.create = (params, result) => {
 
     const queryVerify = `SELECT * FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?`;
 
-    const queryBcn = `SELECT * FROM bcns WHERE bcn_user_id=? AND bcn_dpt=?`
+    const queryBcn = `SELECT * FROM bcns WHERE bcn_user_id=? AND bcn_dpt=?`;
 
     const querySelectCity = `SELECT city_id, city_departement FROM cities
     WHERE city_name LIKE ${sqlString.escape(name)}`;
@@ -38,27 +38,46 @@ module.exports.create = (params, result) => {
                             .then((res) => {
                                 // Verify if BCN is validated
                                 sql.query(queryBcn, [userId, dpt])
-                                .then(res => {
-                                    if (res.length == 0) {
-                                        sql.query('SELECT bpf_id FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?', [userId, cityId])
-                                        .then(res => {
-                                            bcnModel.create({userId, bpfId: res[0].bpf_id, dpt, cityId}, (err, data) => {
-                                                err
-                                                    ? result(err, null)
-                                                    : result(null, err)
-                                            })
-                                        })
-                                        .catch(err => result(err, null))
-                                    } else {
-                                        result(null, res);
-                                    }
-                                })
-                                .catch(err => result(err, null));
+                                    .then((res) => {
+                                        if (res.length == 0) {
+                                            sql.query(
+                                                "SELECT bpf_id FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?",
+                                                [userId, cityId]
+                                            )
+                                                .then((res) => {
+                                                    bcnModel.create(
+                                                        {
+                                                            userId,
+                                                            bpfId: res[0]
+                                                                .bpf_id,
+                                                            dpt,
+                                                            cityId,
+                                                        },
+                                                        (err, data) => {
+                                                            err
+                                                                ? result(
+                                                                      err,
+                                                                      null
+                                                                  )
+                                                                : result(
+                                                                      null,
+                                                                      err
+                                                                  );
+                                                        }
+                                                    );
+                                                })
+                                                .catch((err) =>
+                                                    result(err, null)
+                                                );
+                                        } else {
+                                            result(null, res);
+                                        }
+                                    })
+                                    .catch((err) => result(err, null));
                             })
                             .catch((err) => {
                                 result(err, null);
                             });
-
                     } else {
                         result("existing yet", null);
                     }
@@ -125,11 +144,15 @@ module.exports.deleteOne = (params, result) => {
     const queryCity = "SELECT city_id FROM cities WHERE city_name LIKE ?";
     const queryDeleteOne = `DELETE FROM bpfs
     WHERE bpf_user_id=? AND bpf_city_id=?`;
+    const queryDeleteBcn = `DELETE FROM bcns
+    WHERE bcn_user_id=? AND bcn_city_id=?`;
 
     sql.query(queryCity, [city])
         .then((res) => {
             const cityId = res[0].city_id;
-            sql.query(queryDeleteOne, [userId, cityId])
+            const promise1 = sql.query(queryDeleteOne, [userId, cityId]);
+            const promise2 = sql.query(queryDeleteBcn, [userId, cityId]);
+            Promise.all([promise1, promise2])
                 .then((res) => result(null, res))
                 .catch((err) => result(err, null));
         })

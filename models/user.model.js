@@ -86,9 +86,10 @@ User.getOne = async (id) => {
 
 // Update an user by ID
 User.update = async (id, user, result) => {
+    console.log(user)
     sql.query(
         'UPDATE users SET user_email=?, user_password=?, user_name=?, user_bio=?, user_permissions=?, user_avatar=? WHERE user_id=?',
-        [user.email, user.password, user.name, user.bio, user.permissions, user.avatar, id],
+        [user.user_email, user.user_password, user.user_name, user.user_bio, user.user_permissions, user.user_avatar, id],
         (err, res) => {
             if (err) {
                 result(null, 'There were an error during updating user (id=' + id + ') : ' + err);
