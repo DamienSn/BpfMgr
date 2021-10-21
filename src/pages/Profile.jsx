@@ -3,7 +3,7 @@ import { UidContext } from "../components/AppContext";
 import { useSelector } from "react-redux";
 import { userSelector } from "../redux/selectors/user.selectors";
 import { getBpfNumber } from "../utilities/bpfRequests";
-import BpfStats from "../components/BpfStats";
+import {BpfStats, BcnStats} from "../components/BpfStats";
 
 import { Link } from "react-router-dom";
 
@@ -45,6 +45,7 @@ export default function Profile() {
             </div>
             <div className="stat-bar">
                 <BpfStats />
+                <BcnStats />
             </div>
         </main>
     );

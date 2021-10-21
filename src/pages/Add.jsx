@@ -34,39 +34,42 @@ function Add() {
     // Send request to create bpf made by hand
     const handleByHandSubmit = (e) => {
         e.preventDefault();
+        if (dateInput !== "") {
+            // Reset default value
+            dispatch({ type: 'SET_CITY_INPUT', payload: "" })
 
-        // Reset default value
-        dispatch({type: 'SET_CITY_INPUT', payload: ""})
-
-        axios({
-            url: `${import.meta.env.VITE_API_URL}bpf/create`,
-            method: 'post',
-            data: {
-                name: cityInput,
-                userId: uid,
-                date: dateInput
-            }
-        })
-            .then(res => {
-                if (res.data.message === 'ok') {
-                    document.querySelector('#success-toast').classList.add('active');
-                    document.querySelector('#error-toast').classList.remove('active');
-
-                    setSuccessMessage(`BPF ${cityInput} créé !`)
-                } else if (res.data.message === 'error') {
-                    document.querySelector('#error-toast').classList.add('active');
-                    document.querySelector('#success-toast').classList.remove('active');
-
-                    if (res.data.error === "existing yet") {
-                        setErrorMessage('Le BPF est déjà pointé')
-                    } else if (res.data.error === "no city found") {
-                        setErrorMessage('Pas de ville trouvée avec ces coordonnées')
-                    } else {
-                        setErrorMessage('Il y a eu une erreur')
-                    }
+            axios({
+                url: `${import.meta.env.VITE_API_URL}bpf/create`,
+                method: 'post',
+                data: {
+                    name: cityInput,
+                    userId: uid,
+                    date: dateInput
                 }
             })
-            .catch(err => console.log(err))
+                .then(res => {
+                    if (res.data.message === 'ok') {
+                        document.querySelector('#success-toast').classList.add('active');
+                        document.querySelector('#error-toast').classList.remove('active');
+
+                        setSuccessMessage(`BPF ${cityInput} créé !`)
+                    } else if (res.data.message === 'error') {
+                        document.querySelector('#error-toast').classList.add('active');
+                        document.querySelector('#success-toast').classList.remove('active');
+
+                        if (res.data.error === "existing yet") {
+                            setErrorMessage('Le BPF est déjà pointé')
+                        } else if (res.data.error === "no city found") {
+                            setErrorMessage('Pas de ville trouvée avec ces coordonnées')
+                        } else {
+                            setErrorMessage('Il y a eu une erreur')
+                        }
+                    }
+                })
+                .catch(err => console.log(err))
+        } else {
+            alert('Veuillez insérer une date valide !')
+        }
     }
 
     // Make api call to create bpf by photo
@@ -107,68 +110,68 @@ function Add() {
                     }
                 }
             })
-            .catch (err => console.log(err))
-}
+            .catch(err => console.log(err))
+    }
 
-return (
-    <main className={`${uid && 'menu-toggled menu-collapse'}`}>
-        <h2>Ajouter un BPF</h2>
+    return (
+        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+            <h2>Ajouter un BPF</h2>
 
-        <div className="md:flex mt-6">
+            <div className="md:flex mt-6">
 
-            {/* Add bpf by hand */}
-            <div className="lg:border-r-2 border-blue-300 pr-20">
-                <h4><HandIcon className="icon-sm" />&nbsp;Manuellement</h4>
-                <p>Ajoutez votre BPF tout seul, comme un grand !</p>
-                <form action="" className="mt-4" onSubmit={handleByHandSubmit}>
-                    <div>
-                        <label htmlFor="city-input" className="label">Lieu</label>
-                        <input type="text" id="city-input" className="input" list="cities-input-list" placeholder="Taper pour rechercher..." required onInput={e => setCityInput(e.target.value)} value={cityInput}/>
-                        <p><SupportIcon className="icon-sm" /> Pensez aux tirets !</p>
-                        <datalist id="cities-input-list">
-                            {cities.map((city, index) =>
-                                <option data-value={city} key={index}>{city}</option>
-                            )
-                            }
-                        </datalist>
-                    </div>
+                {/* Add bpf by hand */}
+                <div className="lg:border-r-2 border-blue-300 pr-20">
+                    <h4><HandIcon className="icon-sm" />&nbsp;Manuellement</h4>
+                    <p>Ajoutez votre BPF tout seul, comme un grand !</p>
+                    <form action="" className="mt-4" onSubmit={handleByHandSubmit}>
+                        <div>
+                            <label htmlFor="city-input" className="label">Lieu</label>
+                            <input type="text" id="city-input" className="input" list="cities-input-list" placeholder="Taper pour rechercher..." required onInput={e => setCityInput(e.target.value)} value={cityInput} />
+                            <p><SupportIcon className="icon-sm" /> Pensez aux tirets !</p>
+                            <datalist id="cities-input-list">
+                                {cities.map((city, index) =>
+                                    <option data-value={city} key={index}>{city}</option>
+                                )
+                                }
+                            </datalist>
+                        </div>
 
-                    <div className="mt-4">
-                        <label htmlFor="date-input" className="label">Date</label>
-                        <input type="date" className="input" id="date-input" onInput={e => setDateInput(e.target.value)} />
-                    </div>
+                        <div className="mt-4">
+                            <label htmlFor="date-input" className="label">Date</label>
+                            <input type="date" className="input" id="date-input" onInput={e => setDateInput(e.target.value)} />
+                        </div>
 
-                    <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
-                </form>
+                        <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
+                    </form>
+                </div>
+
+                {/* Add bpf with photo */}
+                <div className="sm:mt-12 md:mt-0 lg:pl-20">
+                    <h4><PhotographIcon className="icon-sm" />&nbsp;Avec une photo</h4>
+                    <p>Importez une photo <span className="font-bold underline">géolocalisée</span> et laissez nous faire le reste !</p>
+                    <form className="mt-4" onSubmit={handleByPhotoSubmit}>
+                        <input
+                            type="file"
+                            name="file"
+                            label="Glissez un fichier ou cliquez pour ouvrir l'explorateur"
+                            help="Choisir une photo pour ajouter un BPF"
+                            is="drop-files"
+                            accept="image/jpeg, image/png"
+                        />
+
+                        <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
+
+                        {/* <p><ExclamationIcon className="icon-sm" />&nbsp;La photo doit être géolocalisée</p> */}
+                    </form>
+                </div>
             </div>
 
-            {/* Add bpf with photo */}
-            <div className="sm:mt-12 md:mt-0 lg:pl-20">
-                <h4><PhotographIcon className="icon-sm" />&nbsp;Avec une photo</h4>
-                <p>Importez une photo <span className="font-bold underline">géolocalisée</span> et laissez nous faire le reste !</p>
-                <form className="mt-4" onSubmit={handleByPhotoSubmit}>
-                    <input
-                        type="file"
-                        name="file"
-                        label="Glissez un fichier ou cliquez pour ouvrir l'explorateur"
-                        help="Choisir une photo pour ajouter un BPF"
-                        is="drop-files"
-                        accept="image/jpeg, image/png"
-                    />
+            <p className="mt-4"><SupportIcon className="icon-sm" />&nbsp;Si, lors de l'ajout d'un BPF, aucun BPF du département n'est validé, <span className="font-bold">le BCN sera validé automatiquement</span> avec ce BPF</p>
 
-                    <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
-
-                    {/* <p><ExclamationIcon className="icon-sm" />&nbsp;La photo doit être géolocalisée</p> */}
-                </form>
-            </div>
-        </div>
-
-        <p className="mt-4"><SupportIcon className="icon-sm" />&nbsp;Si, lors de l'ajout d'un BPF, aucun BPF du département n'est validé, <span className="font-bold">le BCN sera validé automatiquement</span> avec ce BPF</p>
-
-        <SuccessToast id="success-toast" message={successMessage} />
-        <ErrorToast id="error-toast" message={errorMessage} />
-    </main>
-)
+            <SuccessToast id="success-toast" message={successMessage} />
+            <ErrorToast id="error-toast" message={errorMessage} />
+        </main>
+    )
 }
 
 export default Add

@@ -42,13 +42,13 @@ function Dashboard() {
                         <ChartBarIcon className="icon-md" />&nbsp; Vos statistiques
                     </h3>
                     {/* BPF BCN stats */}
-                    <div id="bpf-stat" class="stat-bar">
+                    <div id="bpf-stat" className="stat-bar">
                         <BpfStats />
                         <BcnStats />
                     </div>
 
                     <h3 className="pt-3">
-                        <ClockIcon class="icon-md" />&nbsp;Vos derniers BPF
+                        <ClockIcon className="icon-md" />&nbsp;Vos derniers BPF
                     </h3>
                     <div>
                         {

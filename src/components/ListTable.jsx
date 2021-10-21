@@ -3,11 +3,12 @@ import { getAllBpfs, getAllBcns } from '../utilities/bpfRequests'
 import { UidContext } from './AppContext';
 import { TrashIcon } from '@heroicons/react/outline';
 import axios from 'axios';
-import {SuccessToast, ErrorToast} from '../components/Toasts.jsx'
+import { SuccessToast, ErrorToast } from '../components/Toasts.jsx'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getBpfs } from '../redux/actions/bpfs.actions';
 import { getBcns } from '../redux/actions/bcns.actions';
+import DeleteModal from './DeleteModal';
 
 export function ListTable(props) {
     const dispatch = useDispatch();
@@ -21,6 +22,17 @@ export function ListTable(props) {
     useEffect(() => {
         dispatch(getBpfs(uid))
     }, [uid, reRender])
+
+    // Delete confirm
+    const [deleteModal, setDeleteModal] = useState({ active: false });
+
+    const handleButtonDelete = (e) => {
+        const key = e.target.attributes[1].value;
+        const row = document.querySelector(`[data-key="${key}"]`)
+        const el = row.childNodes[0];
+        const city = el.innerText;
+        setDeleteModal({ active: true, city });
+    }
 
     // Handle BPF deleting from table
     const handleDelete = (e) => {
@@ -60,6 +72,9 @@ export function ListTable(props) {
 
     return (
         <>
+            {deleteModal.active &&
+                <DeleteModal content={`Voulez-vous supprimer le BPF ${deleteModal.city} ?\nCette action supprimera aussi le BCN, si celui-ci correspond à ce BPF`} city={deleteModal.city} ok={() => handleDelete(deleteModal.city)} cancel={() => setDeleteModal({ active: false })} />
+            }
             <table className="w-full mt-6">
 
                 <thead className="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
@@ -84,7 +99,7 @@ export function ListTable(props) {
                                     <td className="px-4 py-4 border border-blue-300">{`${bpf.dpt_name} (${bpf.city_departement})`}</td>
                                     <td className="px-4 py-4 border border-blue-300">{bpf.province_name}</td>
                                     <td className="px-4 py-4 border border-blue-300">
-                                        <button type="button" onClick={handleDelete} data-btn-key={index} className="btn btn-outline-red">Supprimer&nbsp;<TrashIcon className="icon-sm text-red-500" /></button>
+                                        <button type="button" onClick={handleButtonDelete} data-btn-key={index} className="btn btn-outline-red">Supprimer&nbsp;<TrashIcon className="icon-sm text-red-500" /></button>
                                     </td>
                                 </tr>
                             )
@@ -113,16 +128,15 @@ export function ListTableBcn(props) {
         dispatch(getBcns(uid))
     }, [uid, reRender])
 
-    // Handle BPF deleting on table
-    const handleDelete = (e) => {
-        const key = e.target.attributes[1].value;
-        const row = document.querySelector(`[data-key="${key}"]`)
-        const el = row.childNodes[0];
-        const city = el.innerText;
+    // Delete confirm
+    const [deleteModal, setDeleteModal] = useState({ active: false });
 
+    // Handle BPF deleting on table
+    const handleDelete = (city) => {
+        setDeleteModal({ active: false })
         // Fetch API to delete it
         axios({
-            url: `${import.meta.env.VITE_API_URL}bpf/delete`,
+            url: `${import.meta.env.VITE_API_URL}bcn/delete`,
             method: 'delete',
             data: {
                 userId: uid,
@@ -149,8 +163,19 @@ export function ListTableBcn(props) {
             .catch(err => console.log(err))
     }
 
+    const handleButtonDelete = (e) => {
+        const key = e.target.attributes[1].value;
+        const row = document.querySelector(`[data-key="${key}"]`)
+        const el = row.childNodes[0];
+        const city = el.innerText;
+        setDeleteModal({ active: true, city });
+    }
+
     return (
         <>
+            {deleteModal.active &&
+                <DeleteModal content={`Voulez-vous supprimer le BCN ${deleteModal.city} ? Cette action supprimera aussi le BPF correspondant`} city={deleteModal.city} ok={() => handleDelete(deleteModal.city)} cancel={() => setDeleteModal({ active: false })} />
+            }
             <table className="w-full mt-6">
 
                 <thead className="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
@@ -175,7 +200,7 @@ export function ListTableBcn(props) {
                                     <td className="px-4 py-4 border border-blue-300">{`${bcn.dpt_name} (${bcn.city_departement})`}</td>
                                     <td className="px-4 py-4 border border-blue-300">{bcn.province_name}</td>
                                     <td className="px-4 py-4 border border-blue-300">
-                                        <button type="button" onClick={handleDelete} data-btn-key={index} className="btn btn-outline-red">Supprimer&nbsp;<TrashIcon className="icon-sm text-red-500" /></button>
+                                        <button type="button" onClick={handleButtonDelete} data-btn-key={index} className="btn btn-outline-red">Supprimer&nbsp;<TrashIcon className="icon-sm text-red-500" /></button>
                                     </td>
                                 </tr>
                             )
