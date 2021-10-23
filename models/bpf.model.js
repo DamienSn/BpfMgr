@@ -11,7 +11,7 @@ sql.query = promisify(sql.query);
  * @param {object} params Query parameters
  * @param {*} result err; data;
  */
-module.exports.create = (params, result) => {
+module.exports.create = async (params, result) => {
     let { name, date, userId } = params;
 
     const queryInsert = `INSERT INTO bpfs(bpf_city_id, bpf_user_id, bpf_date)
@@ -22,71 +22,33 @@ module.exports.create = (params, result) => {
     const queryBcn = `SELECT * FROM bcns WHERE bcn_user_id=? AND bcn_dpt=?`;
 
     const querySelectCity = `SELECT city_id, city_departement FROM cities
-    WHERE city_name LIKE ${sqlString.escape(name)}`;
+    WHERE city_name LIKE "%${sqlString.escape(name)}%"`.replace("'", "").replace("'", "");
 
-    sql.query(querySelectCity)
-        .then((res) => {
-            const cityId = res[0].city_id;
-            const dpt = res[0].city_departement;
+    const selectedCity = await sql.query(querySelectCity).catch(err => result(err, null));
+    if (selectedCity.length == 0) {
+        result("no city found", null);
+        return;
+    }
+    const cityId = selectedCity[0].city_id
+    const dpt = selectedCity[0].city_departement;
 
-            // Verify is the city isn't yet validated
-            sql.query(queryVerify, [userId, cityId])
-                .then((res) => {
-                    if (res.length == 0) {
-                        // Create BPF
-                        sql.query(queryInsert, [cityId, userId, date])
-                            .then((res) => {
-                                // Verify if BCN is validated
-                                sql.query(queryBcn, [userId, dpt])
-                                    .then((res) => {
-                                        if (res.length == 0) {
-                                            sql.query(
-                                                "SELECT bpf_id FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?",
-                                                [userId, cityId]
-                                            )
-                                                .then((res) => {
-                                                    bcnModel.create(
-                                                        {
-                                                            userId,
-                                                            bpfId: res[0]
-                                                                .bpf_id,
-                                                            dpt,
-                                                            cityId,
-                                                        },
-                                                        (err, data) => {
-                                                            err
-                                                                ? result(
-                                                                      err,
-                                                                      null
-                                                                  )
-                                                                : result(
-                                                                      null,
-                                                                      err
-                                                                  );
-                                                        }
-                                                    );
-                                                })
-                                                .catch((err) =>
-                                                    result(err, null)
-                                                );
-                                        } else {
-                                            result(null, res);
-                                        }
-                                    })
-                                    .catch((err) => result(err, null));
-                            })
-                            .catch((err) => {
-                                result(err, null);
-                            });
-                    } else {
-                        result("existing yet", null);
-                    }
-                })
-                .catch((err) => result(err, null));
+    // Verify is the city isn't yet validated
+    const verifyBpf = await sql.query(queryVerify, [userId, cityId]).catch(err => result(err, null));
+    if (verifyBpf.length !== 0) {
+        result("existing yet", null);
+        return;
+    }
+
+    // Create BPF
+    const bpf = await sql.query(queryInsert, [cityId, userId, date]).catch(err => result(err, null))
+    // Verify if BCN is validated
+    const bcnValidated = await sql.query(queryBcn, [userId, dpt]).catch(err => result(err, null));
+    if (bcnValidated.length == 0) {
+        const bpfId = await sql.query("SELECT bpf_id FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?", [userId, cityId]);
+        const bcn = await bcnModel.create({userId, bpfId: bpfId[0].bpf_id, dpt, cityId}, (err, data) => {
+            err ? result(err, null) : result(null, data);
         })
-        .catch((err) => {
-            result(err, null);
-        });
+    }
 };
 
 /**

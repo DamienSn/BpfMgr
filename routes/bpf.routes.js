@@ -19,4 +19,7 @@ router.get("/get/all_by_user", bpfController.getAllByUser);
 router.delete("/delete/all", bpfController.deleteAllByUser);
 router.delete("/delete", bpfController.deleteOne);
 
+//csv
+router.post('/csv', upload.single("file"), bpfController.createByCsv)
+
 module.exports = router;
