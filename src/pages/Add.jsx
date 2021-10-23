@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { UidContext } from '../components/AppContext'
-import { SupportIcon, PlusIcon, PhotographIcon, HandIcon, ExclamationIcon } from '@heroicons/react/outline'
+import { SupportIcon, PlusIcon, PhotographIcon, HandIcon, DatabaseIcon, ExclamationIcon } from '@heroicons/react/outline'
 import { SuccessToast, ErrorToast } from '../components/Toasts';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,6 +17,7 @@ function Add() {
     const [dateInput, setDateInput] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [results, setResults] = useState([]);
 
     // Fetch API to get all cities for select
     useEffect(() => {
@@ -77,7 +78,7 @@ function Add() {
         e.preventDefault();
 
         // Get selected file
-        const input = document.querySelector('input[is="drop-files"]');
+        const input = document.querySelector('#photo input[is="drop-files"]');
 
         const formData = new FormData();
         formData.append("file", input.files[0]);
@@ -91,7 +92,6 @@ function Add() {
             }
         })
             .then(res => {
-                console.log(res)
                 if (res.data.message === 'ok') {
                     document.querySelector('#success-toast').classList.add('active');
                     document.querySelector('#error-toast').classList.remove('active');
@@ -110,6 +110,25 @@ function Add() {
                     }
                 }
             })
+            .catch(err => console.log(err))
+    }
+
+    const handleCsvSubmit = (e) => {
+        e.preventDefault();
+
+        // Get selected file
+        const input = document.querySelector('#csv input[is="drop-files"]');
+
+        const formData = new FormData();
+        formData.append("file", input.files[0]);
+        formData.append("userId", uid);
+
+        // Make request
+        axios.post(`${import.meta.env.VITE_API_URL}bpf/csv`, formData, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }).then(res => setResults(res.data.output))
             .catch(err => console.log(err))
     }
 
@@ -149,7 +168,7 @@ function Add() {
                 <div className="sm:mt-12 md:mt-0 lg:pl-20">
                     <h4><PhotographIcon className="icon-sm" />&nbsp;Avec une photo</h4>
                     <p>Importez une photo <span className="font-bold underline">géolocalisée</span> et laissez nous faire le reste !</p>
-                    <form className="mt-4" onSubmit={handleByPhotoSubmit}>
+                    <form className="mt-4" onSubmit={handleByPhotoSubmit} id="photo">
                         <input
                             type="file"
                             name="file"
@@ -167,6 +186,40 @@ function Add() {
             </div>
 
             <p className="mt-4"><SupportIcon className="icon-sm" />&nbsp;Si, lors de l'ajout d'un BPF, aucun BPF du département n'est validé, <span className="font-bold">le BCN sera validé automatiquement</span> avec ce BPF</p>
+
+            <details>
+                <summary className="btn btn-outline-green mt-8 cursor-pointer"><DatabaseIcon className="icon-sm" />&nbsp;Avec un CSV</summary>
+                <div>
+                    <div>
+                        Merci de vous référer à l'aide :&nbsp;
+                        <a href="https://github.com/DamienSn/BpfMgr-Client/wiki/Importer-un-fichier-CSV"
+                            className="text-blue-500 underline cursor-pointer hover:text-blue-700"
+                        target="_blank">
+                            <SupportIcon className="icon-sm" />
+                            &nbsp;Aide
+                        </a>
+                    </div>
+                    <form className="mt-4" id="csv" onSubmit={handleCsvSubmit}>
+                        <input
+                            type="file"
+                            name="file"
+                            label="Glissez un fichier ou cliquez pour ouvrir l'explorateur"
+                            help="Choisir un fichier"
+                            is="drop-files"
+                            accept="text/csv"
+                        />
+
+                        <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
+
+                        {/* <p><ExclamationIcon className="icon-sm" />&nbsp;La photo doit être géolocalisée</p> */}
+                    </form>
+                    {results.length > 0 &&
+                        <div className="results bg-gray-400 text-white rounded font-mono p-4 mt-8 h-[300px] w-[500px] overflow-scroll text-xs">
+                            {results.map((result, index) => <p key={index}>{result}</p>)}
+                        </div>
+                    }
+                </div>
+            </details>
 
             <SuccessToast id="success-toast" message={successMessage} />
             <ErrorToast id="error-toast" message={errorMessage} />

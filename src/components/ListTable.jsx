@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UidContext } from './AppContext';
-import { TrashIcon } from '@heroicons/react/outline';
-import axios from 'axios';
 import { SuccessToast, ErrorToast } from '../components/Toasts.jsx'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -30,7 +28,6 @@ export function ListTable(props) {
                     <th>Date</th>
                     <th>Département</th>
                     <th>Province</th>
-                    <th>Supprimer</th>
                 </thead>
 
                 <tbody>
@@ -82,7 +79,6 @@ export function ListTableBcn(props) {
                     <th>Date</th>
                     <th>Département</th>
                     <th>Province</th>
-                    <th>Supprimer</th>
                 </thead>
 
                 <tbody>
