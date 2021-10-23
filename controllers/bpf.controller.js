@@ -4,7 +4,8 @@ const { promisify } = require("util");
 const pipeline = promisify(require("stream").pipeline);
 const ExifImage = require("exif").ExifImage;
 const { processExif } = require("../utils/exif.utils");
-const {logger} = require("../logs/logger");
+const { logger } = require("../logs/logger");
+const csv = require("csv-parser");
 
 /**
  * Call model to create bpf into DB
@@ -76,29 +77,29 @@ exports.deleteAllByUser = (req, res) => {
 /* ======== UPLOAD ======== */
 
 exports.createByPhoto = (req, res) => {
+    // Format de l'image
+    if (
+        req.file.detectedMimeType != "image/jpg" &&
+        req.file.detectedMimeType != "image/png" &&
+        req.file.detectedMimeType != "image/jpeg"
+    ) {
+        throw Error("invalid file");
+    }
 
-        // Format de l'image
-        if (
-            req.file.detectedMimeType != "image/jpg" &&
-            req.file.detectedMimeType != "image/png" &&
-            req.file.detectedMimeType != "image/jpeg"
-        ) {
-            throw Error("invalid file");
-        }
+    // Taille de l'image
+    if (req.file.size > 7000000000) throw Error("max size");
 
-        // Taille de l'image
-        if (req.file.size > 7000000000) throw Error("max size");
+    // Store image
+    const fileName = req.body.userId + ".jpg";
 
-        // Store image
-        const fileName = req.body.userId + ".jpg";
-
-        pipeline(
-            req.file.stream,
-            fs.createWriteStream(
-                `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`
-            )
-        ).then(() => {
-            console.log('reading image exif')
+    pipeline(
+        req.file.stream,
+        fs.createWriteStream(
+            `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`
+        )
+    )
+        .then(() => {
+            console.log("reading image exif");
             // Read exif of the image to know location
             new ExifImage(
                 {
@@ -109,41 +110,57 @@ exports.createByPhoto = (req, res) => {
                     else {
                         processExif(exifData)
                             .then((response) => {
-                                console.log('processed exif')
+                                console.log("processed exif");
 
                                 // Get the date of the BPF
                                 let date;
 
-                                req.body.date === 'photo' ?
-                                date = exifData.exif.DateTimeOriginal :
-                                date = req.body.date
+                                req.body.date === "photo"
+                                    ? (date = exifData.exif.DateTimeOriginal)
+                                    : (date = req.body.date);
 
-                                createBpfWherePhotoIsGood(response, req.body.userId, date)
-                                .then(r => res.status(200).json({message: 'ok', data: r}))
-                                .catch(e => res.status(200).json({message: 'error', error: e}))
+                                createBpfWherePhotoIsGood(
+                                    response,
+                                    req.body.userId,
+                                    date
+                                )
+                                    .then((r) =>
+                                        res
+                                            .status(200)
+                                            .json({ message: "ok", data: r })
+                                    )
+                                    .catch((e) =>
+                                        res.status(200).json({
+                                            message: "error",
+                                            error: e,
+                                        })
+                                    );
                             })
                             .catch((err) => {
                                 logger.error(err);
-                                res.status(200).json({message: 'error', error: err});
+                                res.status(200).json({
+                                    message: "error",
+                                    error: err,
+                                });
                             });
                     }
                 }
             );
         })
-        .catch(err => {
+        .catch((err) => {
             logger.error(err);
-            res.status(200).json({message: 'error', error: e});
-        })
+            res.status(200).json({ message: "error", error: e });
+        });
 };
 
-function createBpfWherePhotoIsGood (city, userId, date) {    
+function createBpfWherePhotoIsGood(city, userId, date) {
     return new Promise((resolve, reject) => {
         const data = {
             name: city.city_name,
             userId,
-            date
-        }
-        console.log(data)
+            date,
+        };
+        console.log(data);
 
         bpfModel.create(data, (err, data) => {
             if (err) {
@@ -152,5 +169,80 @@ function createBpfWherePhotoIsGood (city, userId, date) {
                 resolve(data);
             }
         });
-    })
+    });
 }
+
+/**
+ * Takes a CSV and register corresponding bpfs and bcns
+ * @param {*} req
+ * @param {*} res
+ */
+exports.createByCsv = (req, res) => {
+    // if (req.file.clientReportedMimeType != "text/csv") {
+    //     throw new Error("invalid file");
+    // }
+
+    const fileName = `csv${req.body.userId}.csv`;
+    const json = [];
+    let output = []
+
+    pipeline(
+        req.file.stream,
+        fs.createWriteStream(
+            `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`
+        )
+    ).then(() => {
+        // Parse CSV
+        fs.createReadStream(
+            `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`
+        )
+            .pipe(csv({ separator: ";" }))
+            .on("data", (data) => json.push(data))
+            .on("end", () => {
+                const state = new Promise((resolve, reject) => {
+                    json.forEach((item, index, array) => {
+                        // Verify date format
+                        if (!item.date.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)) {
+                            out.output.push(
+                                `Non ajouté : ${item.ville} : date incorrecte`
+                            );
+                            if (array.length - 1 === index) resolve(array);
+                        } else {
+                            // Create bpf
+                            bpfModel.create(
+                                {
+                                    name: item.ville,
+                                    userId: req.body.userId,
+                                    date: item.date,
+                                },
+                                (err, data) => {
+                                    if (err) {
+                                        switch (err) {
+                                            case "existing yet":
+                                                output.push(`Non ajouté : ${item.ville} : bpf déjà existant`);
+                                                break;
+                                            case "no city found":
+                                                output.push(`Non ajouté : ${item.ville} : ville non trouvée (erreur de syntaxe)`);
+                                                break;
+                                            default:
+                                                output.push(`Non ajouté : ${item.ville} : erreur`);
+                                        }
+                                    }
+                                    if (array.length - 1 === index) resolve(array);
+                                }
+                            );
+                        }
+                    });
+                });
+
+                state.then((array) => {
+                    output.push(
+                        `${array.length - output.length}/${
+                            array.length
+                        } villes ajoutées`
+                    );
+                    res.status(200).json({message: 'ok', output});
+                });
+            });
+    });
+};
