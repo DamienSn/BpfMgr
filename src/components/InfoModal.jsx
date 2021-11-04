@@ -31,12 +31,12 @@ function InfoModal(props) {
     }
 
     const handleValidateClick = () => {
-        dispatch({type: 'SET_CITY_INPUT', payload: city.city_name});
+        dispatch({ type: 'SET_CITY_INPUT', payload: city.city_name });
         window.location.hash = "#/add"
     }
 
     const viewOnMap = () => {
-        dispatch({type: 'SET_MAP_COORDS', payload: [city.city_lat, city.city_long]})
+        dispatch({ type: 'SET_MAP_COORDS', payload: [city.city_lat, city.city_long] })
         window.location.hash = "#/map"
     }
 
@@ -50,35 +50,40 @@ function InfoModal(props) {
                     </button>
                 </div>
 
-                <div className="w-full flex justify-between">
-                    <div className="body">
-                        <h3>{city && city.city_name}</h3>
-                        <h5 className="font-bold">Département</h5>
-                        <p>{city && dpts.find(dpt => dpt.code == city.city_departement).nom} ({city && city.city_departement})</p>
-                        <h5 className="font-bold">Province</h5>
-                        <p>{city && provinces.find(pro => city.city_province_id == pro.province_id).province_name}</p>
-                        {/* Validating */}
-                        {/* Is validated ? */}
-                        {done &&
-                            <p className="mt-4 text-green-500">
-                                <BadgeCheckIcon className="icon-sm" />
-                                &nbsp;Validée
-                            </p>}
-                        {/* Case not validated */}
-                        {!done &&
-                            <button className="btn btn-outline-green mt-4" onClick={handleValidateClick}>Valider</button>
-                        }
-                        {/* View on map */}
-                        <button className="btn btn-outline-blue mt-4 ml-2" onClick={viewOnMap}><MapIcon className="icon-sm" />&nbsp;Carte</button>
-                    </div>
-                    {/* Picture */}
-                    <div className="picture mt-4 ml-4">
-                        {/* City image */}
-                        <SRLWrapper options={galleryOptions}>
-                            <a href={`/img/cities/${city ? city.city_id : "1"}.jpg`}>
-                                <img src={`/img/cities/${city ? city.city_id : "1"}.jpg`} alt={city ? city.city_name : 'Photo du BPF'} />
-                            </a>
-                        </SRLWrapper>
+                {/* Modal body */}
+                <div className="body">
+                    <h3>{city && city.city_name}</h3>
+                    {/* Wrapper */}
+                    <div className="w-full flex justify-between items-center flex-wrap">
+                        {/* City infos */}
+                        <div>
+                            <h5 className="font-bold">Département</h5>
+                            <p>{city && dpts.find(dpt => dpt.code == city.city_departement).nom} ({city && city.city_departement})</p>
+                            <h5 className="font-bold">Province</h5>
+                            <p>{city && provinces.find(pro => city.city_province_id == pro.province_id).province_name}</p>
+                            {/* Validating */}
+                            {/* Is validated ? */}
+                            {done &&
+                                <p className="mt-4 text-green-500">
+                                    <BadgeCheckIcon className="icon-sm" />
+                                    &nbsp;Validée
+                                </p>}
+                            {/* Case not validated */}
+                            {!done &&
+                                <button className="btn btn-outline-green mt-4" onClick={handleValidateClick}>Valider</button>
+                            }
+                            {/* View on map */}
+                            <button className="btn btn-outline-blue mt-4 ml-2" onClick={viewOnMap}><MapIcon className="icon-sm" />&nbsp;Carte</button>
+                        </div>
+                        {/* Picture */}
+                        <div className="picture mt-4 ml-4">
+                            {/* City image */}
+                            <SRLWrapper options={galleryOptions}>
+                                <a href={`/img/cities/${city ? city.city_id : "1"}.jpg`}>
+                                    <img src={`/img/cities/${city ? city.city_id : "1"}.jpg`} alt={city ? city.city_name : 'Photo du BPF'} />
+                                </a>
+                            </SRLWrapper>
+                        </div>
                     </div>
                 </div>
 

@@ -95,7 +95,7 @@ function Search() {
 
                     <div className="search-results mb-10">
                         {/* Form */}
-                        <form className="w-full flex justify-between">
+                        <form className="w-full flex flex-wrap justify-between">
                             {/* Search bar */}
                             <div>
                                 <label htmlFor="search-bar">Recherche</label>

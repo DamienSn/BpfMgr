@@ -420,10 +420,14 @@ header {
 }
 
 .info-modal .picture {
-  height: 25vh;
-  width: 55%;
-  float: right;
+  width: 40%;
+  max-height: 20vh;
   overflow: hidden;
+  transition: filter 0.3s linear;
+}
+
+.info-modal .picture:hover {
+  filter: sepia();
 }
 
 .info-modal .description {

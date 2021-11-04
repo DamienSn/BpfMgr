@@ -95,7 +95,7 @@ function List() {
                 &nbsp;Vos BPF
             </h2>
 
-            <div className="settings flex justify-around">
+            <div className="settings flex flex-wrap justify-around">
 
                 <NavPills handler={handlePills} />
 
