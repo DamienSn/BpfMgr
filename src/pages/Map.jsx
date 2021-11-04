@@ -4,7 +4,7 @@ import { UidContext } from '../components/AppContext'
 import { MapIcon } from '@heroicons/react/outline'
 
 // Map components
-import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, GeoJSON, ZoomControl } from '@monsonjeremy/react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, GeoJSON, ZoomControl, useMapEvents } from '@monsonjeremy/react-leaflet'
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
@@ -107,7 +107,6 @@ function MapContainerBpf() {
 
                 {/* Search */}
                 <SearchControl position="bottomleft" />
-
             </MapContainer>
         </main >
     )
