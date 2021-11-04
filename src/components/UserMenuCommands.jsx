@@ -1,7 +1,7 @@
 import { UidContext } from './AppContext';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { LoginIcon } from '@heroicons/react/outline'
+import { CogIcon, LogoutIcon, UserCircleIcon } from '@heroicons/react/outline'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../redux/selectors/user.selectors';
@@ -21,25 +21,27 @@ export default function UserMenuCommands() {
         <div className="user-menu-commands">
             {uid ? (
                 <>
-                    <div className="profile-btn" onClick={handleProfileBtnClick}>
+                    <div className="flex items-center" onClick={handleProfileBtnClick}>
+                        <CogIcon className="icon-sm cursor-pointer"/>&nbsp;
+                        <div className="profile-btn"></div>
                     </div>
                     <div className="tooltip-profile">
                         <Link to="/profile" style={{ textDecoration: 'none' }} onClick={handleProfileBtnClick}>
                             <div className="tooltip-item">
                                 <span>Profil</span>
-                                <ion-icon src="/icons/person-outline.svg"></ion-icon>
+                                <UserCircleIcon className="icon-sm" />
                             </div>
                         </Link>
                         <Link to="/settings" style={{ textDecoration: 'none' }} onClick={handleProfileBtnClick}>
                             <div className="tooltip-item">
                                 <span>Paramètres</span>
-                                <ion-icon src="/icons/settings-outline.svg"></ion-icon>
+                                <CogIcon className="icon-sm" />
                             </div>
                         </Link>
                         <div onClick={handleProfileBtnClick}>
                             <div className="tooltip-item" onClick={signOut}>
                                 <span>Se déconnecter</span>
-                                <ion-icon src="/icons/log-out-outline.svg"></ion-icon>
+                                <LogoutIcon className="icon-sm"/>
                             </div>
                         </div>
                     </div>
