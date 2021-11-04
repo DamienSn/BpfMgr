@@ -47,7 +47,6 @@ export default function CitiesLayer(props) {
     return (
         <LayerGroup>
             {displayedCities.map((city, i) => {
-                if (props.filter.dpt.includes(city.city_departement) || props.filter.dpt === "") {
                     return (
                         <Marker position={[city.city_lat, city.city_long]} key={i} icon={city.icon}>
                             <Popup>
@@ -57,7 +56,6 @@ export default function CitiesLayer(props) {
                             </Popup>
                         </Marker>
                     )
-                }
             })}
         </LayerGroup>
     )

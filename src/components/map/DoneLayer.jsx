@@ -43,7 +43,6 @@ export default function DoneLayer(props) {
     return (
         <LayerGroup>
             {userBpfs.map(bpf => {
-                if (props.filter.dpt.includes(bpf.city_departement) || props.filter.dpt === "") {
                     let iconUrl = iconMarkerCheckBlue
 
                     if (colors[bpf.city_departement] === "blue") {
@@ -74,7 +73,6 @@ export default function DoneLayer(props) {
                             </Popup>
                         </Marker>
                     )
-                }
             })}
         </LayerGroup>
     )

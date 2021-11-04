@@ -24,10 +24,6 @@ import { useSelector } from 'react-redux'
 // Map Pane
 import MapPane from '../components/MapPane'
 
-// Controls
-import DptCtl from '../components/map/DptCtl'
-import ProvinceCtl from '../components/map/ProvinceCtl'
-
 // Layers
 import DoneLayer from '../components/map/DoneLayer'
 import CitiesLayer from '../components/map/CitiesLayer'
@@ -41,20 +37,17 @@ function MapContainerBpf() {
     const dispatch = useDispatch();
 
     // Don't display banner
-    dispatch({type: 'SET_BANNER', payload: false})
+    dispatch({ type: 'SET_BANNER', payload: false })
 
     // Pane
     const pane = useSelector(state => state.mapPane)
-
-    // Filters
-    const [dptFilter, setDptFilter] = useState("");
 
     return (
         <main className={`${uid && 'menu-toggled menu-collapse'}`}>
             <h2><MapIcon className="icon-md" />&nbsp;Carte</h2>
 
-            <MapPane id={pane.id} validated={pane.validated} active={pane.active}/>
-        
+            <MapPane id={pane.id} validated={pane.validated} active={pane.active} />
+
             <MapContainer fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false}>
 
                 <ZoomControl position="bottomleft" />
@@ -88,12 +81,12 @@ function MapContainerBpf() {
                     {/* Marker Layers */}
                     {/* Done BPF layer */}
                     <LayersControl.Overlay checked name="Mes BPF">
-                        <DoneLayer filter={{ dpt: dptFilter }} />
+                        <DoneLayer />
                     </LayersControl.Overlay>
 
                     {/* Others BPF layer */}
                     <LayersControl.Overlay checked name="BPF non faits">
-                        <CitiesLayer filter={{ dpt: dptFilter }} />
+                        <CitiesLayer />
                     </LayersControl.Overlay>
 
                     {/* Provinces */}
@@ -111,10 +104,6 @@ function MapContainerBpf() {
                 {/* Others */}
                 <BpfMap />
 
-                <DptCtl handler={setDptFilter} position="topright"/>
-                {/* <ProvinceCtl handler={setDptFilter} /> */}
-                <GoToCtl />
-
                 {/* Search */}
                 <SearchControl position="bottomleft" />
 
@@ -127,16 +116,22 @@ function BpfMap() {
     const map = useMap();
 
     const [position, setPosition] = useState([46.632, 1.852]);
+    const mapCoords = useSelector(state => state.mapCoords);
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(pos => {
-            const { latitude, longitude } = pos.coords;
-            setPosition([latitude, longitude])
-            map.flyTo(position, 7)
-        })
+        if (mapCoords.length == 0) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                const { latitude, longitude } = pos.coords;
+                setPosition([latitude, longitude])
+                if (mapCoords.length == 0) map.flyTo(position, 7);
+            })
+        } else {
+            map.flyTo(mapCoords, 10)
+        }
     }, [])
 
     return (
+        <>
         <Marker position={position} icon={L.icon({
             iconUrl: homeMarker,
             iconSize: [40, 60]
@@ -145,6 +140,10 @@ function BpfMap() {
                 Votre position
             </Popup>
         </Marker>
+        {mapCoords.length > 0 &&
+            <Marker position={mapCoords}></Marker>
+        }
+        </>
     )
 }
 
@@ -162,7 +161,7 @@ function SearchControl() {
 
 function ProvincesLayer() {
     return (
-        <GeoJSON data={provincesShapes} style={{color: 'orangered'}}/>
+        <GeoJSON data={provincesShapes} style={{ color: 'orangered' }} />
     )
 }
 

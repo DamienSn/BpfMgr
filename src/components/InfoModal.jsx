@@ -1,5 +1,5 @@
 import React from 'react'
-import { XIcon, BadgeCheckIcon } from '@heroicons/react/outline'
+import { XIcon, BadgeCheckIcon, MapIcon } from '@heroicons/react/outline'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
@@ -35,6 +35,11 @@ function InfoModal(props) {
         window.location.hash = "#/add"
     }
 
+    const viewOnMap = () => {
+        dispatch({type: 'SET_MAP_COORDS', payload: [city.city_lat, city.city_long]})
+        window.location.hash = "#/map"
+    }
+
     return (
         <>
             {modal.active && <div className="info-modal w-1/3 h-2/3 bg-gray-200 px-8 py-6 rounded-l-xl">
@@ -63,6 +68,8 @@ function InfoModal(props) {
                         {!done &&
                             <button className="btn btn-outline-green mt-4" onClick={handleValidateClick}>Valider</button>
                         }
+                        {/* View on map */}
+                        <button className="btn btn-outline-blue mt-4 ml-2" onClick={viewOnMap}><MapIcon className="icon-sm" />&nbsp;Carte</button>
                     </div>
                     {/* Picture */}
                     <div className="picture mt-4 ml-4">
