@@ -12,8 +12,15 @@ function Search() {
     const [marginTop, setMarginTop] = useState("80px")
 
     useEffect(() => {
-        page === "results" ? setMarginTop("0") : setMarginTop("80px");
-        page === "results" ? dispatch({ type: 'SET_BANNER', payload: true }) : dispatch({ type: 'SET_BANNER', payload: false })
+        if (page === "results") {
+            setMarginTop("0")
+            dispatch({ type: 'SET_BANNER', payload: true })
+            dispatch({ type: 'SET_FOOTER', payload: true })
+        } else {
+            setMarginTop("80px");
+            dispatch({ type: 'SET_BANNER', payload: false })
+            dispatch({ type: 'SET_FOOTER', payload: false })
+        }
     }, [page])
 
 

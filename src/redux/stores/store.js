@@ -7,10 +7,9 @@ import provincesReducer from "../reducers/provinces.reducer";
 import citiesReducer from "../reducers/cities.reducer";
 import bpfsReducer from "../reducers/bpfs.reducer";
 import bcnsReducer from "../reducers/bcns.reducer";
-import paneReducer from "../reducers/pane.reducer";
 import logReducer from "../reducers/log.reducer";
 import searchReducer from "../reducers/search.reducer";
-import {bannerReducer, addReducer} from "../reducers/ui.reducer";
+import {bannerReducer, addReducer, paneReducer, footerReducer} from "../reducers/ui.reducer";
 import mapCoordsReducer from "../reducers/mapCoords.reducer";
 
 const store = createStore(
@@ -23,6 +22,7 @@ const store = createStore(
         logModal: logReducer,
         search: searchReducer,
         banner: bannerReducer,
+        footer: footerReducer,
         addCity: addReducer,
         bpfs: bpfsReducer,
         bcns: bcnsReducer,

@@ -15,8 +15,9 @@ export default function Profile() {
     const uid = useContext(UidContext);
     const userData = useSelector(userSelector);
     const dispatch = useDispatch();
-    // display banner
+    // display banner and footer
     dispatch({ type: 'SET_BANNER', payload: true })
+    dispatch({ type: 'SET_FOOTER', payload: true })
 
     const [bpfNumber, setBpfNumber] = useState();
 

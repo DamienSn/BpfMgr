@@ -36,8 +36,9 @@ function MapContainerBpf() {
     const uid = useContext(UidContext);
     const dispatch = useDispatch();
 
-    // Don't display banner
+    // Don't display banner and footer
     dispatch({ type: 'SET_BANNER', payload: false })
+    dispatch({ type: 'SET_FOOTER', payload: false })
 
     // Pane
     const pane = useSelector(state => state.mapPane)

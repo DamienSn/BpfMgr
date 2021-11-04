@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 function Add() {
     const uid = useContext(UidContext);
     const dispatch = useDispatch();
-    // display banner
+    // display banner and footer
     dispatch({ type: 'SET_BANNER', payload: true })
+    dispatch({ type: 'SET_FOOTER', payload: true })
 
     // State
     const [cities, setCities] = useState([]);

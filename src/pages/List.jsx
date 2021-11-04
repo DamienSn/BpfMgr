@@ -10,8 +10,9 @@ import { ListTable, ListTableBcn } from '../components/ListTable'
 function List() {
     const uid = useContext(UidContext);
     const dispatch = useDispatch();
-    // display banner
+    // display banner and footer
     dispatch({ type: 'SET_BANNER', payload: true })
+    dispatch({ type: 'SET_FOOTER', payload: true })
 
     // State
     const [dpts, setDpts] = useState([]);
