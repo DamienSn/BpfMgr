@@ -6,23 +6,41 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../redux/selectors/user.selectors';
 import { useDispatch } from 'react-redux';
+import Loader from './Loader';
 
 export default function UserMenuCommands() {
     const uid = useContext(UidContext);
     const dispatch = useDispatch();
+    const userData = useSelector(userSelector);
 
+    // Loader
+    const [loading, setLoading] = useState(false);
+
+    // Show tooltip on click
     const handleProfileBtnClick = (e) => {
         document.querySelector('.tooltip-profile').classList.toggle('active');
     }
 
-    const userData = useSelector(userSelector);
+    const signOut = () => {
+        setLoading(true);
+        axios({
+            url: `${import.meta.env.VITE_API_URL}users/logout`,
+            method: 'post',
+            withCredentials: true
+        })
+            .then((res) => {
+                setLoading(false);
+                window.location = '/';
+            })
+    }
 
     return (
         <div className="user-menu-commands">
+            {loading && <Loader/>}
             {uid ? (
                 <>
                     <div className="flex items-center" onClick={handleProfileBtnClick}>
-                        <CogIcon className="icon-sm cursor-pointer"/>&nbsp;
+                        <CogIcon className="icon-sm cursor-pointer" />&nbsp;
                         <div className="profile-btn"></div>
                     </div>
                     <div className="tooltip-profile">
@@ -41,7 +59,7 @@ export default function UserMenuCommands() {
                         <div onClick={handleProfileBtnClick}>
                             <div className="tooltip-item" onClick={signOut}>
                                 <span>Se déconnecter</span>
-                                <LogoutIcon className="icon-sm"/>
+                                <LogoutIcon className="icon-sm" />
                             </div>
                         </div>
                     </div>
@@ -70,15 +88,4 @@ export default function UserMenuCommands() {
             }
         </div>
     )
-}
-
-function signOut() {
-    axios({
-        url: `${import.meta.env.VITE_API_URL}users/logout`,
-        method: 'post',
-        withCredentials: true
-    })
-        .then((res) => {
-            window.location = '/';
-        })
 }

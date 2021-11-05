@@ -4,6 +4,7 @@ import { XIcon, ExternalLinkIcon, SupportIcon } from '@heroicons/react/outline'
 import sendEmail from '../utilities/email.js';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import Loader from './Loader';
 
 function Log() {
     const dispatch = useDispatch();
@@ -56,12 +57,15 @@ function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    // Loader
+    const [loading, setLoading] = useState(false);
+
     const handleLogin = (e) => {
         e.preventDefault();
 
         const emailErrors = document.querySelector("#email-error")
         const passwordErrors = document.querySelector("#password-error")
-
+        setLoading(true)
         axios({
             method: "post",
             url: `${import.meta.env.VITE_API_URL}users/login`,
@@ -72,6 +76,7 @@ function SignIn() {
             }
         })
             .then(res => {
+                setLoading(false)
                 if (res.data.error) {
                     switch (res.data.error.message) {
                         case 'incorrect password':
@@ -89,6 +94,7 @@ function SignIn() {
 
     return (
         <>
+            {loading && <Loader />}
             <h2>Se connecter</h2>
             <form onSubmit={handleLogin}>
                 <label className="label" htmlFor="email">Email</label>
@@ -111,6 +117,9 @@ function SignUp() {
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
 
+    // Loader
+    const [loading, setLoading] = useState(false);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -118,7 +127,9 @@ function SignUp() {
             document.querySelector('#pwd-not-corresponding').style.display = 'block';
             return;
         }
-
+        // Show loader
+        setLoading(true)
+        // Make request
         axios({
             url: `${import.meta.env.VITE_API_URL}users/create`,
             method: 'post',
@@ -131,6 +142,9 @@ function SignUp() {
             withCredentials: true
         })
             .then(res => {
+                // Don't show loader
+                setLoading(false);
+
                 if (res.data.message.includes('created')) {
                     sendEmail(true, {
                         to: email,
@@ -163,6 +177,7 @@ function SignUp() {
 
     return (
         <>
+            {loading && <Loader/>}
             <h2>Inscription</h2>
             <form id="log-in-form" action="" onSubmit={handleSubmit}>
                 <label className="label" htmlFor="email">Votre email</label>
@@ -189,14 +204,20 @@ function PasswordLost() {
     const [email, setEmail] = useState();
     const [error, setError] = useState();
 
+    const [loading, setLoading] = useState(false);
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         axios({
             url: `${import.meta.env.VITE_API_URL}users/reset_password?email=${email}`,
             method: 'get',
             withCredentials: true
         })
             .then(res => {
+                setLoading(false);
+
                 if (res.data.message === 'error') {
                     setError(res.data.error);
                 } else {
@@ -223,7 +244,8 @@ function PasswordLost() {
     }
 
     return (
-        <div className="">
+        <div>
+            {loading && <Loader/>}
             <div>
                 <h2>Mot de passe oublié</h2>
                 <p><strong>Pas d'inquiétude</strong>, nous sommes là pour vous aider !<br />Nous allons vous envoyer un email contenant un nouveau mot de passe.</p>

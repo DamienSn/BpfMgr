@@ -4,6 +4,7 @@ import { UidContext } from '../components/AppContext'
 import { SupportIcon, PlusIcon, PhotographIcon, HandIcon, DatabaseIcon, ExclamationIcon } from '@heroicons/react/outline'
 import { SuccessToast, ErrorToast } from '../components/Toasts';
 import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../components/Loader';
 
 function Add() {
     const uid = useContext(UidContext);
@@ -19,6 +20,9 @@ function Add() {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [results, setResults] = useState([]);
+
+    // Loader
+    const [loading, setLoading] = useState(false);
 
     // Fetch API to get all cities for select
     useEffect(() => {
@@ -37,6 +41,7 @@ function Add() {
     const handleByHandSubmit = (e) => {
         e.preventDefault();
         if (dateInput !== "") {
+            setLoading(true);
             // Reset default value
             dispatch({ type: 'SET_CITY_INPUT', payload: "" })
 
@@ -50,6 +55,8 @@ function Add() {
                 }
             })
                 .then(res => {
+                    setLoading(false);
+                    
                     if (res.data.message === 'ok') {
                         document.querySelector('#success-toast').classList.add('active');
                         document.querySelector('#error-toast').classList.remove('active');
@@ -77,6 +84,7 @@ function Add() {
     // Make api call to create bpf by photo
     const handleByPhotoSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
 
         // Get selected file
         const input = document.querySelector('#photo input[is="drop-files"]');
@@ -93,6 +101,8 @@ function Add() {
             }
         })
             .then(res => {
+                setLoading(false);
+
                 if (res.data.message === 'ok') {
                     document.querySelector('#success-toast').classList.add('active');
                     document.querySelector('#error-toast').classList.remove('active');
@@ -114,8 +124,10 @@ function Add() {
             .catch(err => console.log(err))
     }
 
+    // Submit CSV file
     const handleCsvSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
 
         // Get selected file
         const input = document.querySelector('#csv input[is="drop-files"]');
@@ -129,13 +141,20 @@ function Add() {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        }).then(res => setResults(res.data.output))
+        })
+            .then(res => {
+                setLoading(false);
+                setResults(res.data.output);
+            })
             .catch(err => console.log(err))
     }
 
     return (
         <main className={`${uid && 'menu-toggled menu-collapse'}`}>
             <h2>Ajouter un BPF</h2>
+
+            {/* Loader */}
+            {loading && <Loader />}
 
             <div className="md:flex mt-6">
 
@@ -195,7 +214,7 @@ function Add() {
                         Merci de vous référer à l'aide :&nbsp;
                         <a href="https://github.com/DamienSn/BpfMgr-Client/wiki/Importer-un-fichier-CSV"
                             className="text-blue-500 underline cursor-pointer hover:text-blue-700"
-                        target="_blank">
+                            target="_blank">
                             <SupportIcon className="icon-sm" />
                             &nbsp;Aide
                         </a>
