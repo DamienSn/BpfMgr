@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useContext } from 'react'
 import { UidContext } from '../components/AppContext'
 import { BadgeCheckIcon, FilterIcon } from '@heroicons/react/outline'
 import SearchBar from '../components/SearchBar'
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ListTable, ListTableBcn } from '../components/ListTable'
 
 function List() {
@@ -15,55 +14,12 @@ function List() {
     dispatch({ type: 'SET_FOOTER', payload: true })
 
     // State
-    const [dpts, setDpts] = useState([]);
-    const [provinces, setProvinces] = useState([]);
+    const dpts = useSelector(state => state.dpts);
+    const provinces = useSelector(state => state.provinces)
     const [dptFilter, setDptFilter] = useState([]);
     const [searchFilter, setSearchFilter] = useState("");
     const [dateFilter, setDateFilter] = useState(null);
     const [tab, setTab] = useState(true); // True : BPF - False : BCN
-
-    useEffect(() => {
-        fetchDpts();
-        fetchProvinces();
-    }, [])
-
-    const toggleSettings = () => {
-        const settings = document.querySelector('.search-settings-panel');
-        if (settings.getAttribute('data-toggled')) {
-            settings.classList.remove('active');
-            settings.removeAttribute('data-toggled');
-        } else {
-            settings.classList.add('active');
-            settings.setAttribute('data-toggled', true)
-        }
-    }
-
-    const fetchDpts = () => {
-        axios({
-            method: 'get',
-            url: 'https://geo.api.gouv.fr/departements',
-            // withCredentials: true
-        })
-            .then(res => setDpts(res.data))
-            .catch(err => console.error(err))
-    }
-
-    const fetchProvinces = () => {
-        axios({
-            method: 'get',
-            url: `${import.meta.env.VITE_API_URL}provinces/get/all`,
-            // withCredentials: true
-        })
-            .then(res => {
-                let data = res.data.data;
-
-                data.forEach((province) => {
-                    province.province_dpts = province.province_dpts.split(',');
-                })
-                setProvinces(data);
-            })
-            .catch(err => console.error(err))
-    }
 
     const handleProvinceSelectChange = (e) => {
         let val = e.target.value;

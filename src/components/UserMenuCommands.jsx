@@ -1,6 +1,6 @@
 import { UidContext } from './AppContext';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CogIcon, LogoutIcon, UserCircleIcon } from '@heroicons/react/outline'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
