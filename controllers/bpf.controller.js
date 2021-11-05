@@ -200,10 +200,11 @@ exports.createByCsv = (req, res) => {
             .on("data", (data) => json.push(data))
             .on("end", () => {
                 const state = new Promise((resolve, reject) => {
+                    json.sort((a, b) => new Date(a.date) - new Date(b.date))
                     json.forEach((item, index, array) => {
                         // Verify date format
                         if (!item.date.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)) {
-                            out.output.push(
+                            output.push(
                                 `Non ajouté : ${item.ville} : date incorrecte`
                             );
                             if (array.length - 1 === index) resolve(array);
@@ -217,15 +218,14 @@ exports.createByCsv = (req, res) => {
                                 },
                                 (err, data) => {
                                     if (err) {
-                                        switch (err) {
-                                            case "existing yet":
-                                                output.push(`Non ajouté : ${item.ville} : bpf déjà existant`);
-                                                break;
-                                            case "no city found":
-                                                output.push(`Non ajouté : ${item.ville} : ville non trouvée (erreur de syntaxe)`);
-                                                break;
-                                            default:
-                                                output.push(`Non ajouté : ${item.ville} : erreur`);
+                                        if (err == "existing yet") {
+                                            output.push(`Non ajouté : ${item.ville} : bpf déjà existant`);
+                                        } else if (err == "no city found") {
+                                            output.push(`Non ajouté : ${item.ville} : ville non trouvée (erreur de syntaxe)`);
+                                        } else if (err.code == "ER_DUP_ENTRY") {
+                                            if (array.length - 1 === index) resolve(array);
+                                        } else {
+                                            output.push(`Non ajouté : ${item.ville} : erreur`);
                                         }
                                     }
                                     if (array.length - 1 === index) resolve(array);
