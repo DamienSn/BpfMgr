@@ -3,6 +3,7 @@ const { promisify } = require("util");
 const { query } = require("./db.js");
 const sqlString = require("sqlstring");
 const bcnModel = require("./bcn.model");
+const { logger } = require("../logs/logger.js");
 
 sql.query = promisify(sql.query);
 
@@ -21,33 +22,57 @@ module.exports.create = async (params, result) => {
 
     const queryBcn = `SELECT * FROM bcns WHERE bcn_user_id=? AND bcn_dpt=?`;
 
-    const querySelectCity = `SELECT city_id, city_departement FROM cities
-    WHERE city_name LIKE "%${sqlString.escape(name)}%"`.replace("'", "").replace("'", "");
+    const queryCreateBcn =
+        "INSERT INTO bcns(bcn_bpf_id, bcn_city_id, bcn_user_id, bcn_dpt, bcn_verification) VALUES (?, ?, ?, ?, ?)";
 
-    const selectedCity = await sql.query(querySelectCity).catch(err => result(err, null));
+    const querySelectCity = `SELECT city_id, city_departement FROM cities
+    WHERE city_name LIKE "%${sqlString.escape(name)}%"`
+        .replace("'", "")
+        .replace("'", "");
+
+    const selectedCity = await sql
+        .query(querySelectCity)
+        .catch((err) => result(err, null));
     if (selectedCity.length == 0) {
+        // logger.log(name)
         result("no city found", null);
         return;
     }
-    const cityId = selectedCity[0].city_id
+    const cityId = selectedCity[0].city_id;
     const dpt = selectedCity[0].city_departement;
 
     // Verify is the city isn't yet validated
-    const verifyBpf = await sql.query(queryVerify, [userId, cityId]).catch(err => result(err, null));
+    const verifyBpf = await sql
+        .query(queryVerify, [userId, cityId])
+        .catch((err) => result(err, null));
     if (verifyBpf.length !== 0) {
         result("existing yet", null);
         return;
     }
 
     // Create BPF
-    const bpf = await sql.query(queryInsert, [cityId, userId, date]).catch(err => result(err, null))
+    const bpf = await sql
+        .query(queryInsert, [cityId, userId, date])
+        .catch((err) => result(err, null));
+
     // Verify if BCN is validated
-    const bcnValidated = await sql.query(queryBcn, [userId, dpt]).catch(err => result(err, null));
+    const bcnValidated = await sql
+        .query(queryBcn, [userId, dpt])
+        .catch((err) => result(err, null));
+
+    // Final steps
     if (bcnValidated.length == 0) {
-        const bpfId = await sql.query("SELECT bpf_id FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?", [userId, cityId]);
-        const bcn = await bcnModel.create({userId, bpfId: bpfId[0].bpf_id, dpt, cityId}, (err, data) => {
-            err ? result(err, null) : result(null, data);
-        })
+        // Get BpfId
+        const bpfId = await sql.query(
+            "SELECT bpf_id FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?",
+            [userId, cityId]
+        );
+        // Validate BCN
+        sql.query(queryCreateBcn, [bpfId[0].bpf_id, cityId, userId, dpt, userId+dpt])
+            .then((res) => result(null, res))
+            .catch((err) => result(err, null));
+    } else {
+        result(null, bpf.data);
     }
 };
 
