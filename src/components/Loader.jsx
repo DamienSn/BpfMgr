@@ -2,7 +2,7 @@ const Loader = () => {
     let circleCommonClasses = 'h-4 w-4 bg-current rounded-full';
 
     return (
-        <div className='fixed top-1/2 left-1/2 flex'>
+        <div className='fixed top-1/2 left-1/2 flex' style={{zIndex: 10000}}>
             <div className={`${circleCommonClasses} mr-1 animate-bounce`}></div>
             <div
                 className={`${circleCommonClasses} mr-1 animate-bounce200`}

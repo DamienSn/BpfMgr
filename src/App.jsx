@@ -3,9 +3,10 @@ import { HashRouter as Router, Route } from "react-router-dom";
 
 // Modules
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./redux/actions/user.actions";
 import { getDpts } from "./redux/actions/dpts.actions"
 import { getProvinces } from './redux/actions/provinces.actions'
@@ -20,7 +21,6 @@ import "./styles/css/style.css";
 import Header from "./components/Header";
 import Log from "./components/Log";
 import Home from "./pages/Home";
-import { useEffect, useState } from "react";
 import { UidContext } from "./components/AppContext";
 import Menu from "./components/Menu";
 import Banner from "./components/Banner";
@@ -32,10 +32,12 @@ import Add from "./pages/Add";
 import MapContainerBpf from "./pages/Map";
 import Search from './pages/Search';
 import Footer from "./components/Footer";
+import Loader from "./components/Loader";
 
 function App() {
     const [uid, setUid] = useState(null);
     const dispatch = useDispatch();
+    const loading = useSelector(state => state.loader)
 
     // Verify JSON Web Token in cookies by fetching the API endpoint
     useEffect(() => {
@@ -68,7 +70,6 @@ function App() {
         dispatch(getCities());
     }, [dispatch])
 
-    // TODO: Loader ?
     return (
         <div className="App h-screen">
             <UidContext.Provider value={uid}>
@@ -76,6 +77,7 @@ function App() {
                     <Header />
                     <Banner />
                     <Log />
+                    {loading && <Loader/>}
                     {uid && <Menu />}
                     <div className="flex flex-col h-full justify-between" style={{height: "calc(100% - 330px)"}}>
                         <Route path="/" exact component={Home} />
@@ -91,7 +93,7 @@ function App() {
                         <Route path="/map" component={MapContainerBpf} />
                         <Route path="/search" component={Search} />
                         <Footer />
-                    </div>F
+                    </div>
                 </Router>
             </UidContext.Provider>
         </div >

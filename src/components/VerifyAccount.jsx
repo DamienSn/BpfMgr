@@ -5,7 +5,6 @@ import { userSelector } from '../redux/selectors/user.selectors';
 import { UidContext } from './AppContext'
 import sendEmail from '../utilities/email';
 import { useDispatch } from 'react-redux';
-import Loader from './Loader';
 
 function VerifyAccount() {
     const uid = useContext(UidContext);
@@ -16,12 +15,9 @@ function VerifyAccount() {
     // display banner
     dispatch({ type: 'SET_BANNER', payload: true })
 
-    // Loader
-    const [loading, setLoading] = useState(false);
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoading(true);
+        dispatch({type: 'SET_LOADER', payload: true});
 
         axios({
             url: `${import.meta.env.VITE_API_URL}users/verify_email?userId=${uid}&code=${code}`,
@@ -29,7 +25,7 @@ function VerifyAccount() {
             withCredentials: true
         })
             .then(res => {
-                setLoading(false);
+                dispatch({type: 'SET_LOADER', payload: false})
                 if (res.data.message === 'error' && res.data.error === 'wrong code') {
                     setError('Code incorrect !')
                 } else {
@@ -37,7 +33,7 @@ function VerifyAccount() {
                 }
             })
             .catch(err => {
-                setLoading(false);
+                dispatch({type: 'SET_LOADER', payload: false});
                 setError('Il y a eu une erreur sur le serveur');
                 console.log(err);
             })

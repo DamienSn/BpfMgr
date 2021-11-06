@@ -6,15 +6,11 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../redux/selectors/user.selectors';
 import { useDispatch } from 'react-redux';
-import Loader from './Loader';
 
 export default function UserMenuCommands() {
     const uid = useContext(UidContext);
     const dispatch = useDispatch();
     const userData = useSelector(userSelector);
-
-    // Loader
-    const [loading, setLoading] = useState(false);
 
     // Show tooltip on click
     const handleProfileBtnClick = (e) => {
@@ -22,21 +18,20 @@ export default function UserMenuCommands() {
     }
 
     const signOut = () => {
-        setLoading(true);
+        dispatch({type: 'SET_LOADER', payload: true});
         axios({
             url: `${import.meta.env.VITE_API_URL}users/logout`,
             method: 'post',
             withCredentials: true
         })
             .then((res) => {
-                setLoading(false);
+                dispatch({type: 'SET_LOADER', payload: false});
                 window.location = '/';
             })
     }
 
     return (
         <div className="user-menu-commands">
-            {loading && <Loader/>}
             {uid ? (
                 <>
                     <div className="flex items-center" onClick={handleProfileBtnClick}>

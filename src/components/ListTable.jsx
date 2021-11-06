@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { getBpfs } from '../redux/actions/bpfs.actions';
 import { getBcns } from '../redux/actions/bcns.actions';
 
+// TODO : Use array.filter() instead of if/else
+
 export function ListTable(props) {
     const dispatch = useDispatch();
     const data = useSelector(state => state.bpfs)
