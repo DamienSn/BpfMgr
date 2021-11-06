@@ -37,7 +37,7 @@ function Add() {
     const handleByHandSubmit = (e) => {
         e.preventDefault();
         if (dateInput !== "") {
-            dispatch({type: 'SET_LOADER', payload: true});
+            dispatch({ type: 'SET_LOADER', payload: true });
             // Reset default value
             dispatch({ type: 'SET_CITY_INPUT', payload: "" })
 
@@ -51,7 +51,7 @@ function Add() {
                 }
             })
                 .then(res => {
-                    dispatch({type: 'SET_LOADER', payload: false});
+                    dispatch({ type: 'SET_LOADER', payload: false });
 
                     if (res.data.message === 'ok') {
                         document.querySelector('#success-toast').classList.add('active');
@@ -72,7 +72,7 @@ function Add() {
                     }
                 })
                 .catch(err => {
-                dispatch({type: 'SET_LOADER', payload: false});
+                    dispatch({ type: 'SET_LOADER', payload: false });
                     console.log(err)
                 })
         } else {
@@ -83,47 +83,52 @@ function Add() {
     // Make api call to create bpf by photo
     const handleByPhotoSubmit = (e) => {
         e.preventDefault();
-        dispatch({type: 'SET_LOADER', payload: true});
+        dispatch({ type: 'SET_LOADER', payload: true });
 
         // Get selected file
         const input = document.querySelector('#photo input[is="drop-files"]');
+        // Loop through selected files
+        for (let i=0; i<input.files.length; i++) {
+            // Genrate form data
+            const formData = new FormData();
+            formData.append("file", input.files[i]);
+            formData.append("userId", uid);
+            formData.append("date", "photo");
 
-        const formData = new FormData();
-        formData.append("file", input.files[0]);
-        formData.append("userId", uid);
-        formData.append("date", "photo");
-
-        // Make request
-        axios.post(`${import.meta.env.VITE_API_URL}bpf/create/by_photo`, formData, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
-            .then(res => {
-                dispatch({type: 'SET_LOADER', payload: false});
-
-                if (res.data.message === 'ok') {
-                    document.querySelector('#success-toast').classList.add('active');
-                    document.querySelector('#error-toast').classList.remove('active');
-
-                    setSuccessMessage('BPF créé !')
-                } else if (res.data.message === 'error') {
-                    document.querySelector('#error-toast').classList.add('active');
-                    document.querySelector('#success-toast').classList.remove('active');
-
-                    if (res.data.error === "existing yet") {
-                        setErrorMessage('Le BPF est déjà pointé')
-                    } else if (res.data.error === "no city found") {
-                        setErrorMessage('Pas de ville trouvée avec ces coordonnées')
-                    } else {
-                        setErrorMessage('Il y a eu une erreur')
-                    }
+            // Make request
+            axios.post(`${import.meta.env.VITE_API_URL}bpf/create/by_photo`, formData, {
+                headers: {
+                    'content-type': 'multipart/form-data'
                 }
             })
-            .catch(err => {
-                dispatch({ type: 'SET_LOADER', payload: false });
-                console.log(err)
-            })
+                .then(res => {
+                    dispatch({ type: 'SET_LOADER', payload: false });
+
+                    if (res.data.message === 'ok') {
+                        document.querySelector('#success-toast').classList.add('active');
+                        document.querySelector('#error-toast').classList.remove('active');
+
+                        setSuccessMessage('BPF créé !')
+                    } else if (res.data.message === 'error') {
+                        document.querySelector('#error-toast').classList.add('active');
+                        document.querySelector('#success-toast').classList.remove('active');
+
+                        if (res.data.error === "existing yet") {
+                            setErrorMessage('Le BPF est déjà pointé')
+                        } else if (res.data.error === "no city found") {
+                            setErrorMessage('Pas de ville trouvée avec ces coordonnées')
+                        } else if (res.data.error === "no gps data") {
+                            setErrorMessage('Le fichier ne possède pas de données GPS')
+                        } else {
+                            setErrorMessage('Il y a eu une erreur')
+                        }
+                    }
+                })
+                .catch(err => {
+                    dispatch({ type: 'SET_LOADER', payload: false });
+                    console.log(err)
+                })
+        }
     }
 
     // Submit CSV file
@@ -193,6 +198,7 @@ function Add() {
                     <form className="mt-4" onSubmit={handleByPhotoSubmit} id="photo">
                         <input
                             type="file"
+                            multiple
                             name="file"
                             label="Glissez un fichier ou cliquez pour ouvrir l'explorateur"
                             help="Choisir une photo pour ajouter un BPF"
