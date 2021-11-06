@@ -68,7 +68,7 @@ export default function Settings() {
                     <div className="picture"></div>
                     <style>
                         {`.params-block .picture {
-                            background-image: url(${userData.user_avatar ? userData.user_avatar : '/icons/person-outline.svg'});
+                            background-image: url(${userData.user_avatar});
                         }`}
                     </style>
                     <form id="upload-photo" onSubmit={handleUploadSubmit}>
