@@ -33,22 +33,33 @@ export function ListTable(props) {
                 </thead>
 
                 <tbody>
-                    {data.map((bpf, index) => {
-                        if (
-                            // eslint-disable-next-line eqeqeq
-                            (props.dpt.includes(bpf.city_departement) || props.dpt.length == 0)
-                            && (bpf.city_name.toLowerCase().includes(props.search.toLowerCase()))
-                        ) {
-                            return (
-                                <tr key={index} data-key={index}>
-                                    <td className="px-4 py-4 border border-blue-300">{bpf.city_name}</td>
-                                    <td className="px-4 py-4 border border-blue-300">{new Date(bpf.bpf_date).toLocaleDateString()}</td>
-                                    <td className="px-4 py-4 border border-blue-300">{`${bpf.dpt_name} (${bpf.city_departement})`}</td>
-                                    <td className="px-4 py-4 border border-blue-300">{bpf.province_name}</td>
-                                </tr>
-                            )
-                        }
-                    })}
+                    {props.dpt.length == 0 ?
+                        data
+                            .filter(bpf => bpf.city_name.toLowerCase().includes(props.search.toLowerCase()))
+                            .map((bpf, index) => {
+                                return (
+                                    <tr key={index} data-key={index}>
+                                        <td className="px-4 py-4 border border-blue-300">{bpf.city_name}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{new Date(bpf.bpf_date).toLocaleDateString()}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{`${bpf.dpt_name} (${bpf.city_departement})`}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{bpf.province_name}</td>
+                                    </tr>
+                                )
+                            })
+                        :
+                        data
+                            .filter(bpf => props.dpt.includes(bpf.city_departement) && bpf.city_name.toLowerCase().includes(props.search.toLowerCase()))
+                            .map((bpf, index) => {
+                                return (
+                                    <tr key={index} data-key={index}>
+                                        <td className="px-4 py-4 border border-blue-300">{bpf.city_name}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{new Date(bpf.bpf_date).toLocaleDateString()}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{`${bpf.dpt_name} (${bpf.city_departement})`}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{bpf.province_name}</td>
+                                    </tr>
+                                )
+                            })
+                    }
                 </tbody>
 
             </table>
@@ -84,22 +95,33 @@ export function ListTableBcn(props) {
                 </thead>
 
                 <tbody>
-                    {data.map((bcn, index) => {
-                        if (
-                            // eslint-disable-next-line eqeqeq
-                            (props.dpt.includes(bcn.city_departement) || props.dpt.length == 0)
-                            && (bcn.city_name.toLowerCase().includes(props.search.toLowerCase()))
-                        ) {
-                            return (
-                                <tr key={index} data-key={index}>
-                                    <td className="px-4 py-4 border border-blue-300">{bcn.city_name}</td>
-                                    <td className="px-4 py-4 border border-blue-300">{new Date(bcn.bpf_date).toLocaleDateString()}</td>
-                                    <td className="px-4 py-4 border border-blue-300">{`${bcn.dpt_name} (${bcn.city_departement})`}</td>
-                                    <td className="px-4 py-4 border border-blue-300">{bcn.province_name}</td>
-                                </tr>
-                            )
-                        }
-                    })}
+                    {props.dpt.length == 0 ?
+                        data
+                            .filter(bcn => bcn.city_name.toLowerCase().includes(props.search.toLowerCase()))
+                            .map((bcn, index) => {
+                                return (
+                                    <tr key={index} data-key={index}>
+                                        <td className="px-4 py-4 border border-blue-300">{bcn.city_name}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{new Date(bcn.bpf_date).toLocaleDateString()}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{`${bcn.dpt_name} (${bcn.city_departement})`}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{bcn.province_name}</td>
+                                    </tr>
+                                )
+                            })
+                        :
+                        data
+                            .filter(bcn => props.dpt.includes(bcn.city_departement) && bcn.city_name.toLowerCase().includes(props.search.toLowerCase()))
+                            .map((bcn, index) => {
+                                return (
+                                    <tr key={index} data-key={index}>
+                                        <td className="px-4 py-4 border border-blue-300">{bcn.city_name}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{new Date(bcn.bpf_date).toLocaleDateString()}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{`${bcn.dpt_name} (${bcn.city_departement})`}</td>
+                                        <td className="px-4 py-4 border border-blue-300">{bcn.province_name}</td>
+                                    </tr>
+                                )
+                            })
+                    }
                 </tbody>
 
             </table>

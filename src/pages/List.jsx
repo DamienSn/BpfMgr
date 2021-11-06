@@ -32,6 +32,11 @@ function List() {
         })
     }
 
+    const handleDptSelectChange = (e) => {
+        let val = e.target.value;
+        val ? setDptFilter([val]) : setDptFilter([]);
+    }
+
     const handlePills = (e) => {
         if (e.target.innerText === 'BPF') {
             document.querySelector('#pill-bcn').classList.remove('pill-active');
@@ -60,7 +65,7 @@ function List() {
                 {/* Departement */}
                 <div>
                     <label htmlFor="dpt-select" className="label">Département</label>
-                    <input type="text" id="dpt-select" list="dpt-list" onChange={e => setDptFilter([e.target.value])} className="input" placeholder="Sélectionner..." />
+                    <input type="text" id="dpt-select" list="dpt-list" onChange={handleDptSelectChange} className="input" placeholder="Sélectionner..." />
                     <datalist id="dpt-list">
                         {dpts.map((dpt, index) =>
                             <option value={dpt.code} key={index}>{dpt.nom}</option>
