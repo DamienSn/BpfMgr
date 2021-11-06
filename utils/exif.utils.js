@@ -1,5 +1,6 @@
 const citiesModel = require("../models/cities.model");
 const {logger} = require('../logs/logger');
+const {convertDMSToDD} = require('../utils/coords.utils')
 
 module.exports.processExif = async (exifData) => {
 
@@ -9,7 +10,12 @@ module.exports.processExif = async (exifData) => {
             reject("no gps data");
         }
 
-        const { GPSLatitude: lat, GPSLongitude: long } = exifData.gps;
+        let { GPSLatitude: lat, GPSLongitude: long } = exifData.gps;
+        // Convert DMS to DD
+        if (Array.isArray(lat) && Array.isArray(long)) {
+            lat = convertDMSToDD(lat[0], lat[1], lat[2], exifData.gps.GPSLatitudeRef)
+            long = convertDMSToDD(long[0], long[1], long[2], exifData.gps.GPSLongitudeRef)
+        }
 
         checkIfLocationIsBpf(lat, long)
             .then((city) => {

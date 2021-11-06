@@ -62,7 +62,6 @@ User.delete = (id, result) => {
                 return;
             }
 
-            console.log(res);
             if (res.affectedRows === 0) {
                 result(null, "Cannot delete admin");
                 return;
@@ -86,7 +85,6 @@ User.getOne = async (id) => {
 
 // Update an user by ID
 User.update = async (id, user, result) => {
-    console.log(user)
     sql.query(
         'UPDATE users SET user_email=?, user_password=?, user_name=?, user_bio=?, user_permissions=?, user_avatar=? WHERE user_id=?',
         [user.user_email, user.user_password, user.user_name, user.user_bio, user.user_permissions, user.user_avatar, id],

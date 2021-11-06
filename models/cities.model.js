@@ -76,8 +76,6 @@ module.exports.getOne = (params, result) => {
         params.poiId,
     ];
 
-    console.log(parameters);
-
     sql.query(queryGetOne, parameters, (err, res) => {
         if (err) {
             result(err, null);

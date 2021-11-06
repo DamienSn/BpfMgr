@@ -99,7 +99,6 @@ exports.createByPhoto = (req, res) => {
         )
     )
         .then(() => {
-            console.log("reading image exif");
             // Read exif of the image to know location
             new ExifImage(
                 {
@@ -110,8 +109,6 @@ exports.createByPhoto = (req, res) => {
                     else {
                         processExif(exifData)
                             .then((response) => {
-                                console.log("processed exif");
-
                                 // Get the date of the BPF
                                 let date;
 
@@ -160,7 +157,6 @@ function createBpfWherePhotoIsGood(city, userId, date) {
             userId,
             date,
         };
-        console.log(data);
 
         bpfModel.create(data, (err, data) => {
             if (err) {

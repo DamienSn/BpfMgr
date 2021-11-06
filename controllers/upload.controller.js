@@ -52,7 +52,6 @@ function registerInDB(fileName, user_id) {
                 if (err) {
                     throw err;
                 }
-                console.log("avatar update : success");
             });
         })
         .catch((err) => {
