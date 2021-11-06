@@ -49,7 +49,6 @@ export default function Menu() {
                 <ul>
                     <li onClick={activateLinks} title="Accueil">
                         <Link to="/" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            {/* <ion-icon src="/icons/home-outline.svg"></ion-icon> */}
                             <span className="svg-container">
                                 <HomeIcon className="icon-md" />
                             </span>
@@ -58,7 +57,6 @@ export default function Menu() {
                     </li>
                     <li onClick={activateLinks} title="Ajouter un BPF/BCN">
                         <Link to="/add" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            {/* <ion-icon src="/icons/add-outline.svg"></ion-icon> */}
                             <span className="svg-container">
                                 <PlusCircleIcon className="icon-md" />
                             </span>
@@ -67,7 +65,6 @@ export default function Menu() {
                     </li>
                     <li onClick={activateLinks} title="Mes BPF/BCN">
                         <Link to="/list" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            {/* <ion-icon src="/icons/list-outline.svg"></ion-icon> */}
                             <span className="svg-container">
                                 <CollectionIcon className="icon-md" />
                             </span>
@@ -76,7 +73,6 @@ export default function Menu() {
                     </li>
                     <li onClick={activateLinks} title="Carte">
                         <Link to="/map" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            {/* <ion-icon src="/icons/map-outline.svg"></ion-icon> */}
                             <span className="svg-container">
                                 <MapIcon className="icon-md" />
                             </span>
@@ -85,7 +81,6 @@ export default function Menu() {
                     </li>
                     <li onClick={activateLinks} title="Recherche">
                         <Link to="/search" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            {/* <ion-icon src="/icons/search-outline.svg"></ion-icon> */}
                             <span className="svg-container">
                                 <SearchIcon className="icon-md" />
                             </span>
