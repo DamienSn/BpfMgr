@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp icons /dist/ && cp img /dist/ && cp uploads /dist/",
+    "build": "vite build && copy icons /dist/ && copy img /dist/ && copy uploads /dist/",
     "serve": "vite preview"
   },
   "dependencies": {
