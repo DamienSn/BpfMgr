@@ -33,6 +33,7 @@ import MapContainerBpf from "./pages/Map";
 import Search from './pages/Search';
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+import About from "./pages/About";
 
 function App() {
     const [uid, setUid] = useState(null);
@@ -92,6 +93,7 @@ function App() {
                         <Route path="/add" exact component={Add} />
                         <Route path="/map" component={MapContainerBpf} />
                         <Route path="/search" component={Search} />
+                        <Route path="/about" component={About} />
                         <Footer />
                     </div>
                 </Router>
