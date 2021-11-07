@@ -1,0 +1,19 @@
+.hero-item {
+    @apply py-12 flex justify-between items-center border-0 border-b-2 border-blue-500 border-opacity-50 flex-wrap;
+}
+
+.hero-item:last-of-type {
+    @apply border-b-0;
+}
+
+.hero-item.right {
+    @apply sm:flex-row md:flex-row-reverse;
+}
+
+.hero-item p {
+    @apply text-xl max-w-sm;
+}
+
+.hero-item img {
+    @apply h-96 cursor-pointer rounded-2xl;
+}
