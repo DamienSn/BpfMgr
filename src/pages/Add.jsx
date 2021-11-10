@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { UidContext } from '../components/AppContext'
 import { SupportIcon, PlusIcon, PhotographIcon, HandIcon, DatabaseIcon, ExclamationIcon } from '@heroicons/react/outline'
-import { SuccessToast, ErrorToast } from '../components/Toasts';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '../components/toaster/ToastProvider';
 
