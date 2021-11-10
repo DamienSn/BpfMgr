@@ -4,10 +4,12 @@ import { UidContext } from '../components/AppContext'
 import { SupportIcon, PlusIcon, PhotographIcon, HandIcon, DatabaseIcon, ExclamationIcon } from '@heroicons/react/outline'
 import { SuccessToast, ErrorToast } from '../components/Toasts';
 import { useDispatch, useSelector } from 'react-redux';
+import { useToast } from '../components/toaster/ToastProvider';
 
 function Add() {
     const uid = useContext(UidContext);
     const dispatch = useDispatch();
+    const toast = useToast();
     // display banner and footer
     dispatch({ type: 'SET_BANNER', payload: true })
     dispatch({ type: 'SET_FOOTER', payload: true })
@@ -16,8 +18,6 @@ function Add() {
     const [cities, setCities] = useState([]);
     const [cityInput, setCityInput] = useState(useSelector(state => state.addCity));
     const [dateInput, setDateInput] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
     const [results, setResults] = useState([]);
 
     // Fetch API to get all cities for select
@@ -54,20 +54,14 @@ function Add() {
                     dispatch({ type: 'SET_LOADER', payload: false });
 
                     if (res.data.message === 'ok') {
-                        document.querySelector('#success-toast').classList.add('active');
-                        document.querySelector('#error-toast').classList.remove('active');
-
-                        setSuccessMessage(`BPF ${cityInput} créé !`)
+                        toast?.pushSuccess(`BPF ${cityInput} créé !`)
                     } else if (res.data.message === 'error') {
-                        document.querySelector('#error-toast').classList.add('active');
-                        document.querySelector('#success-toast').classList.remove('active');
-
                         if (res.data.error === "existing yet") {
-                            setErrorMessage('Le BPF est déjà pointé')
+                            toast?.pushError('Le BPF est déjà pointé')
                         } else if (res.data.error === "no city found") {
-                            setErrorMessage('Pas de ville trouvée avec ces coordonnées')
+                            toast?.pushError('Pas de ville trouvée avec ces coordonnées')
                         } else {
-                            setErrorMessage('Il y a eu une erreur')
+                            toast?.pushError('Il y a eu une erreur')
                         }
                     }
                 })
@@ -105,22 +99,16 @@ function Add() {
                     dispatch({ type: 'SET_LOADER', payload: false });
 
                     if (res.data.message === 'ok') {
-                        document.querySelector('#success-toast').classList.add('active');
-                        document.querySelector('#error-toast').classList.remove('active');
-
-                        setSuccessMessage('BPF créé !')
+                        toast.pushSuccess("BPF créé !")
                     } else if (res.data.message === 'error') {
-                        document.querySelector('#error-toast').classList.add('active');
-                        document.querySelector('#success-toast').classList.remove('active');
-
                         if (res.data.error === "existing yet") {
-                            setErrorMessage('Le BPF est déjà pointé')
+                            toast?.pushError('Le BPF est déjà pointé')
                         } else if (res.data.error === "no city found") {
-                            setErrorMessage('Pas de ville trouvée avec ces coordonnées')
+                            toast?.pushError('Pas de ville trouvée avec ces coordonnées')
                         } else if (res.data.error === "no gps data") {
-                            setErrorMessage('Le fichier ne possède pas de données GPS')
+                            toast?.pushError('La photo ne possède pas de données GPS')
                         } else {
-                            setErrorMessage('Il y a eu une erreur')
+                            toast?.pushError('Il y a eu une erreur')
                         }
                     }
                 })
@@ -248,9 +236,6 @@ function Add() {
                     }
                 </div>
             </details>
-
-            <SuccessToast id="success-toast" message={successMessage} />
-            <ErrorToast id="error-toast" message={errorMessage} />
         </main>
     )
 }

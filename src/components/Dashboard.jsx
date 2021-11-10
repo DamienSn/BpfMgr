@@ -9,6 +9,7 @@ import { ChartBarIcon, ClockIcon } from '@heroicons/react/outline'
 
 function Dashboard() {
     const uid = useContext(UidContext);
+    const userData = useSelector(userSelector);
 
     // State
     const [message, setMessage] = useState('Bienvenue');
@@ -32,11 +33,10 @@ function Dashboard() {
         }
     }, [message]);
 
-    const userData = useSelector(userSelector);
-
     return (
         <section id="dashboard">
             <h2>{message}, {userData.user_name} !</h2>
+        
             <section id="stats">
                     <h3>
                         <ChartBarIcon className="icon-md" />&nbsp; Vos statistiques

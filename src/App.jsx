@@ -34,6 +34,7 @@ import Search from './pages/Search';
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 import About from "./pages/About";
+import ToastProvider from "./components/toaster/ToastProvider";
 
 function App() {
     const [uid, setUid] = useState(null);
@@ -74,29 +75,31 @@ function App() {
     return (
         <div className="App h-screen">
             <UidContext.Provider value={uid}>
-                <Router>
-                    <Header />
-                    <Banner />
-                    <Log />
-                    {loading && <Loader/>}
-                    {uid && <Menu />}
-                    <div className="flex flex-col h-full justify-between" style={{height: "calc(100% - 330px)"}}>
-                        <Route path="/" exact component={Home} />
-                        <Route path="/profile" exact component={Profile} />
-                        <Route path="/settings" exact component={Settings} />
-                        <Route
-                            path="/verify_account"
-                            exact
-                            component={VerifyAccount}
-                        />
-                        <Route path="/list" exact component={List} />
-                        <Route path="/add" exact component={Add} />
-                        <Route path="/map" component={MapContainerBpf} />
-                        <Route path="/search" component={Search} />
-                        <Route path="/about" component={About} />
-                        <Footer />
-                    </div>
-                </Router>
+                <ToastProvider variant={"bottom_right"}>
+                    <Router>
+                        <Header />
+                        <Banner />
+                        <Log />
+                        {loading && <Loader />}
+                        {uid && <Menu />}
+                        <div className="flex flex-col h-full justify-between" style={{ height: "calc(100% - 330px)" }}>
+                            <Route path="/" exact component={Home} />
+                            <Route path="/profile" exact component={Profile} />
+                            <Route path="/settings" exact component={Settings} />
+                            <Route
+                                path="/verify_account"
+                                exact
+                                component={VerifyAccount}
+                            />
+                            <Route path="/list" exact component={List} />
+                            <Route path="/add" exact component={Add} />
+                            <Route path="/map" component={MapContainerBpf} />
+                            <Route path="/search" component={Search} />
+                            <Route path="/about" component={About} />
+                            <Footer />
+                        </div>
+                    </Router>
+                </ToastProvider>
             </UidContext.Provider>
         </div >
     );
