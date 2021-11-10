@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UidContext } from './AppContext';
-import { SuccessToast, ErrorToast } from '../components/Toasts.jsx'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getBpfs } from '../redux/actions/bpfs.actions';
@@ -9,8 +8,6 @@ import { getBcns } from '../redux/actions/bcns.actions';
 export function ListTable(props) {
     const dispatch = useDispatch();
     const data = useSelector(state => state.bpfs)
-    const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
     const [reRender, setReRender] = useState(false);
 
     const uid = useContext(UidContext);
@@ -61,9 +58,6 @@ export function ListTable(props) {
                 </tbody>
 
             </table>
-
-            <SuccessToast id="success-toast" message={successMessage} />
-            <ErrorToast id="error-toast" message={errorMessage} />
         </>
     )
 }
@@ -71,8 +65,6 @@ export function ListTable(props) {
 export function ListTableBcn(props) {
     const dispatch = useDispatch();
     const data = useSelector(state => state.bcns)
-    const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
     const [reRender, setReRender] = useState(false);
 
     const uid = useContext(UidContext);
@@ -123,9 +115,6 @@ export function ListTableBcn(props) {
                 </tbody>
 
             </table>
-
-            <SuccessToast id="success-toast" message={successMessage} />
-            <ErrorToast id="error-toast" message={errorMessage} />
         </>
     )
 }
