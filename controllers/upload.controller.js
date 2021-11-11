@@ -47,7 +47,7 @@ function registerInDB(fileName, user_id) {
     UserModel.getOne(user_id)
         .then((res) => {
             user = res[0];
-            user.user_avatar = `./uploads/profils/${fileName}`;
+            user.user_avatar = `${process.env.UPLOAD_DIR}/profils/${fileName}`;
             UserModel.update(user_id, user, (err, res) => {
                 if (err) {
                     throw err;
