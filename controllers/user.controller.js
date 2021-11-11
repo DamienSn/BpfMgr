@@ -1,5 +1,6 @@
 const User = require("../models/user.model.js");
 const { randomPassword } = require("custom-password-generator");
+const SibApiV3Sdk = require("sib-api-v3-sdk");
 
 exports.create = (req, res) => {
     // Validate request
@@ -26,7 +27,36 @@ exports.create = (req, res) => {
                     err.message ||
                     "Some error occurred while creating the user.",
             });
-        else res.status(200).json(data);
+        else {
+            if (req.body.sendNews) {
+                let defaultClient = SibApiV3Sdk.ApiClient.instance;
+
+                let apiKey = defaultClient.authentications["api-key"];
+                apiKey.apiKey = process.env.SIB_API_KEY;
+
+                let apiInstance = new SibApiV3Sdk.ContactsApi();
+
+                let createContact = new SibApiV3Sdk.CreateContact();
+
+                createContact.email = req.body.email;
+                createContact.listIds = [2];
+
+                apiInstance.createContact(createContact).then(
+                    function (d) {
+                        res.status(200).json(data);
+                    },
+                    function (error) {
+                        res.status(500).json({
+                            message:
+                                err.message ||
+                                "Some error occurred while creating the user.",
+                        });
+                    }
+                );
+            } else {
+                res.status(200).json(data);
+            }
+        }
     });
 };
 
