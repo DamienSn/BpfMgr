@@ -22,10 +22,9 @@ exports.create = (req, res) => {
     // Save user in the database
     User.create(user, (err, data) => {
         if (err)
-            res.status(500).json({
-                message:
-                    err.message ||
-                    "Some error occurred while creating the user.",
+            res.status(200).json({
+                message: "error",
+                error: err
             });
         else {
             if (req.body.sendNews) {
