@@ -94,15 +94,13 @@ exports.createByPhoto = (req, res) => {
 
     pipeline(
         req.file.stream,
-        fs.createWriteStream(
-            `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`
-        )
+        fs.createWriteStream(`${process.env.UPLOAD_DIR}/bpfs/${fileName}`)
     )
         .then(() => {
             // Read exif of the image to know location
             new ExifImage(
                 {
-                    image: `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`,
+                    image: `${process.env.UPLOAD_DIR}/bpfs/${fileName}`,
                 },
                 function (error, exifData) {
                     if (error) console.log("Error: " + error.message);
@@ -121,32 +119,82 @@ exports.createByPhoto = (req, res) => {
                                     req.body.userId,
                                     date
                                 )
-                                    .then((r) =>
-                                        res
-                                            .status(200)
-                                            .json({ message: "ok", data: r })
-                                    )
-                                    .catch((e) =>
-                                        res.status(200).json({
-                                            message: "error",
-                                            error: e,
-                                        })
-                                    );
+                                    .then((r) => {
+                                        fs.unlink(
+                                            `${process.env.UPLOAD_DIR}/bpfs/${fileName}`,
+                                            (err) => {
+                                                if (err) {
+                                                    res.status(200).json({
+                                                        message: "error",
+                                                        error: err,
+                                                    });
+                                                } else {
+                                                    res.status(200).json({
+                                                        message: "ok",
+                                                        data: r,
+                                                    });
+                                                }
+                                            }
+                                        );
+                                    })
+                                    .catch((e) => {
+                                        fs.unlink(
+                                            `${process.env.UPLOAD_DIR}/bpfs/${fileName}`,
+                                            (err) => {
+                                                if (err) {
+                                                    res.status(200).json({
+                                                        message: "error",
+                                                        error: err,
+                                                    });
+                                                } else {
+                                                    res.status(200).json({
+                                                        message: "error",
+                                                        error: e,
+                                                    });
+                                                }
+                                            }
+                                        );
+                                    });
                             })
-                            .catch((err) => {
-                                logger.error(err);
-                                res.status(200).json({
-                                    message: "error",
-                                    error: err,
-                                });
+                            .catch((e) => {
+                                fs.unlink(
+                                    `${process.env.UPLOAD_DIR}/bpfs/${fileName}`,
+                                    (err) => {
+                                        if (err) {
+                                            res.status(200).json({
+                                                message: "error",
+                                                error: err,
+                                            });
+                                        } else {
+                                            res.status(200).json({
+                                                message: "error",
+                                                error: e,
+                                            });
+                                        }
+                                    }
+                                );
                             });
                     }
                 }
             );
         })
-        .catch((err) => {
-            logger.error(err);
-            res.status(200).json({ message: "error", error: e });
+        .catch((e) => {
+           fs.unlink(
+                `${process.env.UPLOAD_DIR}/bpfs/${fileName}`,
+                (err) => {
+                    if (err) {
+                        res.status(200).json({
+                            message: "error",
+                            error: err,
+                        });
+                    } else {
+                        res.status(200).json({
+                            message: "error",
+                            error: e,
+                        });
+                    }
+                }
+            );
         });
 };
 
@@ -180,23 +228,20 @@ exports.createByCsv = (req, res) => {
 
     const fileName = `csv${req.body.userId}.csv`;
     const json = [];
-    let output = []
+    let output = [];
 
     pipeline(
         req.file.stream,
-        fs.createWriteStream(
-            `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`
-        )
+        fs.createWriteStream(`${process.env.UPLOAD_DIR}/bpfs/${fileName}`)
     ).then(() => {
         // Parse CSV
-        fs.createReadStream(
-            `${__dirname}/../../vite-client/dist/uploads/bpfs/${fileName}`
-        )
+        fs.createReadStream(`${process.env.UPLOAD_DIR}/bpfs/${fileName}`)
             .pipe(csv({ separator: ";" }))
             .on("data", (data) => json.push(data))
             .on("end", () => {
+                fs.unlink(`${process.env.UPLOAD_DIR}/bpfs/${fileName}`, (err) => {if (err) throw err});
                 const state = new Promise((resolve, reject) => {
-                    json.sort((a, b) => new Date(a.date) - new Date(b.date))
+                    json.sort((a, b) => new Date(a.date) - new Date(b.date));
                     json.forEach((item, index, array) => {
                         // Verify date format
                         if (!item.date.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)) {
@@ -215,16 +260,24 @@ exports.createByCsv = (req, res) => {
                                 (err, data) => {
                                     if (err) {
                                         if (err == "existing yet") {
-                                            output.push(`Non ajouté : ${item.ville} : bpf déjà existant`);
+                                            output.push(
+                                                `Non ajouté : ${item.ville} : bpf déjà existant`
+                                            );
                                         } else if (err == "no city found") {
-                                            output.push(`Non ajouté : ${item.ville} : ville non trouvée (erreur de syntaxe)`);
+                                            output.push(
+                                                `Non ajouté : ${item.ville} : ville non trouvée (erreur de syntaxe)`
+                                            );
                                         } else if (err.code == "ER_DUP_ENTRY") {
-                                            if (array.length - 1 === index) resolve(array);
+                                            if (array.length - 1 === index)
+                                                resolve(array);
                                         } else {
-                                            output.push(`Non ajouté : ${item.ville} : erreur`);
+                                            output.push(
+                                                `Non ajouté : ${item.ville} : erreur`
+                                            );
                                         }
                                     }
-                                    if (array.length - 1 === index) resolve(array);
+                                    if (array.length - 1 === index)
+                                        resolve(array);
                                 }
                             );
                         }
@@ -237,7 +290,7 @@ exports.createByCsv = (req, res) => {
                             array.length
                         } villes ajoutées`
                     );
-                    res.status(200).json({message: 'ok', output});
+                    res.status(200).json({ message: "ok", output });
                 });
             });
     });
