@@ -114,6 +114,7 @@ function SignUp() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
+    const [sendNews, setSendNews] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -132,7 +133,8 @@ function SignUp() {
                 email: email,
                 password: password,
                 name: name,
-                permissions: "std"
+                permissions: "std",
+                sendNews
             },
             withCredentials: true
         })
@@ -196,6 +198,10 @@ function SignUp() {
 
                 <p className="text-red-600" id="pwd-not-corresponding">Les mots de passe ne correspondent pas</p>
 
+                <div className="block mt-4">
+                    <input type="checkbox" id="send-news" checked={sendNews} onChange={e => setSendNews(!sendNews)} />
+                    <label htmlFor="send-news" className="ml-2">Recevoir la newsletter BpfMgr</label>
+                </div>
                 <button type="submit" className="btn btn-blue block my-4" onClick={handleSubmit}>S'inscrire</button>
             </form>
         </>
