@@ -24,11 +24,10 @@ module.exports.create = async (params, result) => {
 
     const queryCreateBcn =
         "INSERT INTO bcns(bcn_bpf_id, bcn_city_id, bcn_user_id, bcn_dpt, bcn_verification) VALUES (?, ?, ?, ?, ?)";
-
+    let escaped = sqlString.escape(name);
+   escaped = escaped.substring(1, escaped.length-1)
     const querySelectCity = `SELECT city_id, city_departement FROM cities
-    WHERE city_name LIKE "%${sqlString.escape(name)}%"`
-        .replace("'", "")
-        .replace("'", "");
+    WHERE city_name LIKE "%${escaped}%"`
 
     const selectedCity = await sql
         .query(querySelectCity)
@@ -68,7 +67,13 @@ module.exports.create = async (params, result) => {
             [userId, cityId]
         );
         // Validate BCN
-        sql.query(queryCreateBcn, [bpfId[0].bpf_id, cityId, userId, dpt, userId+dpt])
+        sql.query(queryCreateBcn, [
+            bpfId[0].bpf_id,
+            cityId,
+            userId,
+            dpt,
+            userId + dpt,
+        ])
             .then((res) => result(null, res))
             .catch((err) => result(err, null));
     } else {
