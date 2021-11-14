@@ -100,7 +100,7 @@ export default function SignUp() {
 
             <div className="block mt-4">
                 <input type="checkbox" id="send-news" checked={sendNews} onChange={e => setSendNews(!sendNews)} />
-                <label htmlFor="send-news" className="ml-2">Recevoir la newsletter BpfMgr</label>
+                <label htmlFor="send-news" className="ml-2">Recevoir une fois par mois la newsletter BpfMgr</label>
             </div>
 
             {error && <p className="text-red-600 my-2" id="error">{error}</p>}
