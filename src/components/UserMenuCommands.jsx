@@ -68,16 +68,16 @@ export default function UserMenuCommands() {
                 :
                 (
                     <>
-                        <button
+                        <a  href="#/connect"
                             onClick={() => dispatch({ type: 'SET_LOG_MODAL', payload: 'in' })}
                             className="border border-white py-2 px-4 mr-1 rounded bg-gray-100 text-black focus:outline-none focus:ring-4">
                             Connexion
-                        </button>
-                        <button
+                        </a>
+                        <a  href="#/connect"
                             onClick={() => dispatch({ type: 'SET_LOG_MODAL', payload: 'up' })}
                             className="py-2 px-4 rounded border border-white hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-4">
                             Inscription
-                        </button>
+                        </a>
                     </>
                 )
             }

@@ -85,31 +85,28 @@ export default function SignUp() {
     }, [confirmPassword, password])
 
     return (
-        <>
-            <h2>Inscription</h2>
-            <form id="log-in-form" action="" onSubmit={handleSubmit}>
-                <label className="label" htmlFor="email">Votre email</label>
-                <input className="input" type="email" id="email" onChange={e => setEmail(e.target.value)} />
+        <form id="log-in-form" action="" onSubmit={handleSubmit}>
+            <label className="label" htmlFor="email">Votre email</label>
+            <input className="input" type="email" id="email" onChange={e => setEmail(e.target.value)} />
 
-                <label className="label mt-4" htmlFor="name">Comment doit-on vous appeler ?</label>
-                <input className="input" type="text" id="name" onChange={e => setName(e.target.value)} />
+            <label className="label mt-4" htmlFor="name">Comment doit-on vous appeler ?</label>
+            <input className="input" type="text" id="name" onChange={e => setName(e.target.value)} />
 
-                <label className="label mt-4" htmlFor="password">Votre mot de passe</label>
-                <input className="input" type="password" id="password" onChange={e => setPassword(e.target.value)} />
+            <label className="label mt-4" htmlFor="password">Votre mot de passe</label>
+            <input className="input" type="password" id="password" onChange={e => setPassword(e.target.value)} />
 
-                <label className="label mt-4" htmlFor="confirm_password">Confirmer le mot de passe</label>
-                <input className="input" type="password" id="confirm_password" onChange={e => setConfirmPassword(e.target.value)} />
+            <label className="label mt-4" htmlFor="confirm_password">Confirmer le mot de passe</label>
+            <input className="input" type="password" id="confirm_password" onChange={e => setConfirmPassword(e.target.value)} />
 
-                <div className="block mt-4">
-                    <input type="checkbox" id="send-news" checked={sendNews} onChange={e => setSendNews(!sendNews)} />
-                    <label htmlFor="send-news" className="ml-2">Recevoir la newsletter BpfMgr</label>
-                </div>
+            <div className="block mt-4">
+                <input type="checkbox" id="send-news" checked={sendNews} onChange={e => setSendNews(!sendNews)} />
+                <label htmlFor="send-news" className="ml-2">Recevoir la newsletter BpfMgr</label>
+            </div>
 
-                {error && <p className="text-red-600 my-2" id="error">{error}</p>}
+            {error && <p className="text-red-600 my-2" id="error">{error}</p>}
 
-                <button type="submit" className="btn btn-blue block my-4" onClick={handleSubmit}>S'inscrire</button>
+            <button type="submit" className="btn btn-blue block my-4" onClick={handleSubmit}>S'inscrire</button>
 
-            </form>
-        </>
+        </form>
     )
 }

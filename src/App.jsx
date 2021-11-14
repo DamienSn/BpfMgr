@@ -19,7 +19,7 @@ import "./styles/css/style.css";
 
 // Components
 import Header from "./components/Header";
-import Log from "./components/Log";
+import Log from "./pages/Log";
 import Home from "./pages/Home";
 import { UidContext } from "./components/AppContext";
 import Menu from "./components/Menu";
@@ -79,7 +79,6 @@ function App() {
                     <Router>
                         <Header />
                         <Banner />
-                        <Log />
                         {loading && <Loader />}
                         {uid && <Menu />}
                         <div className="flex flex-col h-full justify-between" style={{ height: "calc(100% - 330px)" }}>
@@ -96,6 +95,7 @@ function App() {
                             <Route path="/map" component={MapContainerBpf} />
                             <Route path="/search" component={Search} />
                             <Route path="/about" component={About} />
+                            <Route path="/connect" component={Log} />
                             <Footer />
                         </div>
                     </Router>

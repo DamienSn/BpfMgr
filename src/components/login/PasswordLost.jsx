@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import axios from 'axios';
 import sendEmail from '../../utilities/email.js';
 
@@ -48,10 +48,8 @@ export default function PasswordLost() {
 
     return (
         <div>
-            <div>
-                <h2>Mot de passe oublié</h2>
-                <p><strong>Pas d'inquiétude</strong>, nous sommes là pour vous aider !<br />Nous allons vous envoyer un email contenant un nouveau mot de passe.</p>
-            </div>
+            <p><strong>Pas d'inquiétude</strong>, nous sommes là pour vous aider !<br />Nous allons vous envoyer un email contenant un nouveau mot de passe.</p>
+
             <form action="" className="mt-4" id="log-in-form" onSubmit={handleSubmit}>
                 <label className="label" htmlFor="email">Votre email</label>
                 <input className="input" type="email" id="email" onChange={e => setEmail(e.target.value)} />
