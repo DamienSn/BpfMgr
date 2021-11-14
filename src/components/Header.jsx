@@ -22,12 +22,10 @@ function Header() {
                 : <div></div>
             }
 
-            <div className="brand">
-                {/* <Link to="/" style={{textDecoration: 'none'}}> */}
+            <a className="brand" href="#">
                 <img src="/img/logos/light.svg" alt="Logo" />
                 <h3>BpfMgr</h3>
-                {/* </Link> */}
-            </div>
+            </a>
 
             <UserMenuCommands/>
         </header>
