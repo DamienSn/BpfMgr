@@ -16,6 +16,7 @@ router.delete("/delete/:id", users.delete);
 router.get('/verify_email', users.verifyEmail);
 // new password
 router.get('/reset_password', users.resetPassword)
+router.post('/update_password', users.changePassword)
 
 // auth
 router.post("/login", authController.logIn);

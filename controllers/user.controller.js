@@ -169,3 +169,21 @@ exports.resetPassword = (req, res) => {
         res.status(200).json({ message: "ok", data: password });
     });
 };
+
+/**
+ * Call the model to update password
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+ exports.changePassword = (req, res) => {
+    if (!req.body.email || !req.body.password) {
+        res.status(400).json({ message: "Missing password or email" });
+        return;
+    }
+
+    User.updatePassword({ password: req.body.password, email: req.body.email }, (error, data) => {
+        if (error) res.status(200).json({ message: "error", error });
+        res.status(200).json({ message: "ok", data: req.body.password });
+    });
+};
