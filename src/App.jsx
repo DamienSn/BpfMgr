@@ -35,6 +35,7 @@ import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 import About from "./pages/About";
 import ToastProvider from "./components/toaster/ToastProvider";
+import Legals from "./pages/Legals";
 
 function App() {
     const [uid, setUid] = useState(null);
@@ -96,6 +97,7 @@ function App() {
                             <Route path="/search" component={Search} />
                             <Route path="/about" component={About} />
                             <Route path="/connect" component={Log} />
+                            <Route path="/legal" component={Legals} />
                             <Footer />
                         </div>
                     </Router>
