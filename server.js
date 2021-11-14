@@ -46,6 +46,16 @@ app.get("/users/jwtid", requireAuth, (req, res) => {
     res.status(200).json({ message: "success", id: res.locals.user.user_id });
 });
 
+app.use((req, res, next) => {
+    const apiKey = req.get('x-api-key')
+    console.log(apiKey)
+    if (!apiKey || apiKey !== process.env.BPFMGR_API_KEY) {
+      res.status(401).json({error: 'unauthorised'})
+    } else {
+      next()
+    }
+  })
+
 // routes
 app.get("/", (req, res) => {
     res.json({ message: "BpfMgr API v1" });
