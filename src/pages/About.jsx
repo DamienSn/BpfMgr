@@ -59,7 +59,7 @@ export default function About() {
                     <img src="img/hero/details.jpg" alt="Détails d'un BPF" />
                 </SRLWrapper>
             </div>
-            <div className="hero-item right">
+            <div className="hero-item left">
                 <div className="infos">
                     <h2><TableIcon className="icon-md" />&nbsp;Migrez depuis un tableur</h2>
                     <p>Nous vous proposons d'ajouter les BPF stockés dans un fichier de tableur (Excel, LibreOffice Calc...) directement dans BpfMgr, sans les ajouter un par un. Il suffit d'<b>un fichier CSV, et c'est parti !</b></p>
