@@ -4,6 +4,8 @@ import { UidContext } from '../components/AppContext'
 import { SupportIcon, PlusIcon, PhotographIcon, HandIcon, DatabaseIcon, ExclamationIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '../components/toaster/ToastProvider';
+import { getBpfs } from '../redux/actions/bpfs.actions';
+import { getBcns } from '../redux/actions/bcns.actions';
 
 function Add() {
     const uid = useContext(UidContext);
@@ -39,6 +41,7 @@ function Add() {
             dispatch({ type: 'SET_LOADER', payload: true });
             // Reset default value
             dispatch({ type: 'SET_CITY_INPUT', payload: "" })
+            setCityInput("");
 
             axios({
                 url: `${import.meta.env.VITE_API_URL}bpf/create`,
@@ -51,9 +54,11 @@ function Add() {
             })
                 .then(res => {
                     dispatch({ type: 'SET_LOADER', payload: false });
-
+                    
                     if (res.data.message === 'ok') {
                         toast?.pushSuccess(`BPF ${cityInput} créé !`)
+                        dispatch(getBpfs(uid));
+                        dispatch(getBcns(uid));
                     } else if (res.data.message === 'error') {
                         if (res.data.error === "existing yet") {
                             toast?.pushError('Le BPF est déjà pointé')
@@ -81,7 +86,7 @@ function Add() {
         // Get selected file
         const input = document.querySelector('#photo input[is="drop-files"]');
         // Loop through selected files
-        for (let i=0; i<input.files.length; i++) {
+        for (let i = 0; i < input.files.length; i++) {
             // Genrate form data
             const formData = new FormData();
             formData.append("file", input.files[i]);
@@ -99,6 +104,8 @@ function Add() {
 
                     if (res.data.message === 'ok') {
                         toast.pushSuccess("BPF créé !")
+                        dispatch(getBpfs(uid));
+                        dispatch(getBcns(uid));
                     } else if (res.data.message === 'error') {
                         if (res.data.error === "existing yet") {
                             toast?.pushError('Le BPF est déjà pointé')
@@ -138,6 +145,8 @@ function Add() {
         })
             .then(res => {
                 dispatch({ type: 'SET_LOADER', payload: false });
+                dispatch(getBpfs(uid));
+                dispatch(getBcns(uid));
                 setResults(res.data.output);
             })
             .catch(err => {
