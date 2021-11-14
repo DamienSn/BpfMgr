@@ -108,6 +108,8 @@ User.connect = async (email, password) => {
         sql.query(`SELECT * FROM users WHERE user_email=?`, email,  async (error, results)=>{
             if(error){
                 return reject(error);
+            } else if (results.length < 1) {
+                return reject("incorrect email");
             }
 
             // compare passwords
@@ -116,7 +118,7 @@ User.connect = async (email, password) => {
             if (auth) {
                 return resolve(results);
             } else {
-                return reject({message: 'incorrect password'});
+                return reject('incorrect password');
             }
         });
     });

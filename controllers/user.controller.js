@@ -123,7 +123,6 @@ exports.update = (req, res) => {
 };
 
 exports.connect = (req, res) => {
-    console.log(req.query);
     if (!req.query.email || !req.query.password) {
         res.status(400).json({ message: "n-req-info" });
         return;
