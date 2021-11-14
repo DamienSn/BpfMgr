@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { UidContext } from "../components/AppContext"
 import { BookmarkIcon, CloudUploadIcon } from '@heroicons/react/outline'
 import { useSelector } from "react-redux";
@@ -8,18 +8,25 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getUser } from '../redux/actions/user.actions'
 
+import { useToast } from '../components/toaster/ToastProvider';
+
 export default function Settings() {
     const uid = useContext(UidContext);
     const userData = useSelector(userSelector);
     const dispatch = useDispatch();
+    const toast = useToast()
+
     // display banner and footer
     dispatch({ type: 'SET_BANNER', payload: true })
     dispatch({ type: 'SET_FOOTER', payload: true })
 
     const [bio, setBio] = useState(userData.user_bio);
-    const [password, setPassword] = useState();
-    const [confirmPassword, setConfirmPassword] = useState();
+    const [oldPassword, setOldPassword] = useState("")
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [name, setName] = useState(userData.user_name);
+
+    const [error, setError] = useState()
 
     const handleUploadSubmit = (e) => {
         e.preventDefault();
@@ -38,27 +45,55 @@ export default function Settings() {
             .then(res => dispatch(getUser(userData.user_id)))
     }
 
+    useEffect(() => {
+        if (password !== confirmPassword) {
+            setError("Les mots de passe ne correspondent pas")
+        } else {
+            setError()
+        }
+    })
+
+    const submitPwd = async (e) => {
+        e.preventDefault()
+        if (password !== confirmPassword) return;
+        let res = await axios({
+            method: "post",
+            url: `${import.meta.env.VITE_API_URL}users/update_password`,
+            withCredentials: true,
+            data: {
+                email: userData.user_email,
+                password
+            }
+        })
+        if (res.data.message === "ok") {
+            toast?.pushSuccess("Mot de passe modifié")
+        } else {
+            toast.pushError("Il y a eu une erreur")
+        }
+    }
+
     return (
         <main className={`${uid && 'menu-toggled menu-collapse'}`}>
             <div className="params-page-title">
                 <h2>Paramètres</h2>
-                <button type="submit" className="btn btn-blue">
-                    <BookmarkIcon className="icon-sm" />
-                    &nbsp;Enregistrer
-                </button>
             </div>
-            <div className="params-block profile-params-block">
-                {/* Profil */}
-                <h3 className="params-block-title">Profil</h3>
-                <div className="params-block-content">
-                    {/* Form */}
-                    <form className="info">
-                        <label className="label" htmlFor="name">Nom</label>
-                        <input className="input" type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" />
-                        <label className="label mt-4" htmlFor="bio">A propos de vous</label>
-                        <textarea className="input" name="bio" id="bio" cols="30" rows="3" value={bio} onChange={(e) => setBio(e.target.value)} autoComplete="off"></textarea>
-                    </form>
-                </div>
+            {/* Sécurité */}
+            <div className="params-block">
+                <h3 className="params-block-title">Sécurité</h3>
+                {/* Form */}
+                <form className="content" onSubmit={submitPwd}>
+                    <label className="label" htmlFor="password">Ancien mot de passe</label>
+                    <input className="input" type="password" name="password" id="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} autoComplete="current-password" />
+
+                    <label className="label mt-4" htmlFor="password">Nouveau mot de passe</label>
+                    <input className="input" type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
+                    <label className="label mt-4" htmlFor="password-confirm">Confirmer le mot de passe</label>
+                    <input className="input" type="password" name="password-confirm" id="password-confirm" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" />
+
+                    <p className="text-red-500 mt-2">{error}</p>
+
+                    <button className="btn btn-blue mt-4" type="submit">Enregistrer</button>
+                </form>
             </div>
             {/* Photo de profil */}
             <div className="params-block">
@@ -79,17 +114,6 @@ export default function Settings() {
                         </button>
                     </form>
                 </div>
-            </div>
-            {/* Sécurité */}
-            <div className="params-block">
-                <h3 className="params-block-title">Sécurité</h3>
-                {/* Form */}
-                <form className="content">
-                    <label className="label" htmlFor="password">Nouveau mot de passe</label>
-                    <input className="input" type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="off" />
-                    <label className="label mt-4" htmlFor="password-confirm">Confirmer le mot de passe</label>
-                    <input className="input" type="password" name="password-confirm" id="password-confirm" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="off" />
-                </form>
             </div>
         </main >
     )

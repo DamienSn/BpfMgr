@@ -93,10 +93,10 @@ export default function SignUp() {
             <input className="input" type="text" id="name" onChange={e => setName(e.target.value)} />
 
             <label className="label mt-4" htmlFor="password">Votre mot de passe</label>
-            <input className="input" type="password" id="password" onChange={e => setPassword(e.target.value)} />
+            <input className="input" type="password" id="password" onChange={e => setPassword(e.target.value)} autoComplete="new-password"/>
 
             <label className="label mt-4" htmlFor="confirm_password">Confirmer le mot de passe</label>
-            <input className="input" type="password" id="confirm_password" onChange={e => setConfirmPassword(e.target.value)} />
+            <input className="input" type="password" id="confirm_password" onChange={e => setConfirmPassword(e.target.value)} autoComplete="new-password"/>
 
             <div className="block mt-4">
                 <input type="checkbox" id="send-news" checked={sendNews} onChange={e => setSendNews(!sendNews)} />
