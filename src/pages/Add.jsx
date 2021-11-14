@@ -187,7 +187,7 @@ function Add() {
                             type="file"
                             multiple
                             name="file"
-                            label="Glissez un fichier ou cliquez pour ouvrir l'explorateur"
+                            label="Glissez un fichier ou cliquez ici pour ouvrir l'explorateur"
                             help="Choisir une photo pour ajouter un BPF"
                             is="drop-files"
                             accept="image/jpeg, image/png"
@@ -218,7 +218,7 @@ function Add() {
                         <input
                             type="file"
                             name="file"
-                            label="Glissez un fichier ou cliquez pour ouvrir l'explorateur"
+                            label="Glissez un fichier ou cliquez ici pour ouvrir l'explorateur"
                             help="Choisir un fichier"
                             is="drop-files"
                             accept="text/csv"
