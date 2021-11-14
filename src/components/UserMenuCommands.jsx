@@ -22,7 +22,10 @@ export default function UserMenuCommands() {
         axios({
             url: `${import.meta.env.VITE_API_URL}users/logout`,
             method: 'post',
-            withCredentials: true
+            withCredentials: true,
+            headers: {
+                "x-api-key": import.meta.env.VITE_API_KEY
+            }
         })
             .then((res) => {
                 dispatch({type: 'SET_LOADER', payload: false});

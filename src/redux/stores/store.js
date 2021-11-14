@@ -1,7 +1,6 @@
 import { combineReducers, createStore, applyMiddleware } from "redux"
 import userReducer from "../reducers/user.reducer";
 import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension';
 import dptsReducer from "../reducers/dpts.reducer";
 import provincesReducer from "../reducers/provinces.reducer";
 import citiesReducer from "../reducers/cities.reducer";
@@ -11,6 +10,12 @@ import logReducer from "../reducers/log.reducer";
 import searchReducer from "../reducers/search.reducer";
 import {bannerReducer, addReducer, paneReducer, footerReducer, loaderReducer} from "../reducers/ui.reducer";
 import mapCoordsReducer from "../reducers/mapCoords.reducer";
+
+const composeEnhancers =
+  (import.meta.env.nodeEnv !== 'production' &&
+    typeof window !== 'undefined' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
 
 const store = createStore(
     combineReducers({
@@ -29,7 +34,7 @@ const store = createStore(
         mapCoords: mapCoordsReducer,
         loader: loaderReducer
     }),
-    composeWithDevTools(applyMiddleware(thunk))
+    composeEnhancers(applyMiddleware(thunk))
 )
 
 export default store;

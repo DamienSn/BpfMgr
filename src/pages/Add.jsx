@@ -24,7 +24,10 @@ function Add() {
     // Fetch API to get all cities for select
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_API_URL}cities/all`, {
-            withCredentials: true
+            withCredentials: true,
+            headers: {
+                "x-api-key": import.meta.env.VITE_API_KEY
+            }
         })
             .then(res => {
                 let allCitiesNames = [];
@@ -50,6 +53,9 @@ function Add() {
                     name: cityInput,
                     userId: uid,
                     date: dateInput
+                },
+                headers: {
+                    "x-api-key": import.meta.env.VITE_API_KEY
                 }
             })
                 .then(res => {
@@ -96,7 +102,8 @@ function Add() {
             // Make request
             axios.post(`${import.meta.env.VITE_API_URL}bpf/create/by_photo`, formData, {
                 headers: {
-                    'content-type': 'multipart/form-data'
+                    'content-type': 'multipart/form-data',
+                    "x-api-key": import.meta.env.VITE_API_KEY
                 }
             })
                 .then(res => {
@@ -140,7 +147,8 @@ function Add() {
         // Make request
         axios.post(`${import.meta.env.VITE_API_URL}bpf/csv`, formData, {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                "x-api-key": import.meta.env.VITE_API_KEY
             }
         })
             .then(res => {

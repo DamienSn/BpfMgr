@@ -26,6 +26,9 @@ export default function SignIn() {
             data: {
                 email,
                 password
+            },
+            headers: {
+                "x-api-key": import.meta.env.VITE_API_KEY
             }
         })
             .then(res => {

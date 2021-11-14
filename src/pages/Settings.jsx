@@ -39,7 +39,8 @@ export default function Settings() {
 
         axios.post(`${import.meta.env.VITE_API_URL}users/upload`, formData, {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                "x-api-key": import.meta.env.VITE_API_KEY
             }
         })
             .then(res => dispatch(getUser(userData.user_id)))
@@ -63,6 +64,9 @@ export default function Settings() {
             data: {
                 email: userData.user_email,
                 password
+            },
+            headers: {
+                "x-api-key": import.meta.env.VITE_API_KEY
             }
         })
         if (res.data.message === "ok") {

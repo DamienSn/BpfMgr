@@ -13,7 +13,10 @@ export default function PasswordLost() {
         axios({
             url: `${import.meta.env.VITE_API_URL}users/reset_password?email=${email}`,
             method: 'get',
-            withCredentials: true
+            withCredentials: true,
+            headers: {
+                "x-api-key": import.meta.env.VITE_API_KEY
+            }
         })
             .then(res => {
                 dispatch({ type: 'SET_LOADER', payload: true });
@@ -34,6 +37,9 @@ export default function PasswordLost() {
                                 data: {
                                     email,
                                     password: res.data.data
+                                },
+                                headers: {
+                                    "x-api-key": import.meta.env.VITE_API_KEY
                                 }
                             })
                                 .then(res => {

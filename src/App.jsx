@@ -49,6 +49,9 @@ function App() {
                 method: "get",
                 url: `${import.meta.env.VITE_API_URL}users/jwtid`,
                 withCredentials: true,
+                headers: {
+                    "x-api-key": import.meta.env.VITE_API_KEY
+                }
             })
                 .then((res) => {
                     res.data.id !== undefined

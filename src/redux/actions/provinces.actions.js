@@ -7,6 +7,9 @@ export const getProvinces = () => {
             const res = await axios({
                 method: "get",
                 url: `${import.meta.env.VITE_API_URL}provinces/get/all`,
+                headers: {
+                    "x-api-key": import.meta.env.VITE_API_KEY
+                }
             });
 
             let data = res.data.data;

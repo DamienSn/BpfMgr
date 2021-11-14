@@ -22,7 +22,10 @@ function VerifyAccount() {
         axios({
             url: `${import.meta.env.VITE_API_URL}users/verify_email?userId=${uid}&code=${code}`,
             method: 'get',
-            withCredentials: true
+            withCredentials: true,
+            headers: {
+                "x-api-key": import.meta.env.VITE_API_KEY
+            }
         })
             .then(res => {
                 dispatch({type: 'SET_LOADER', payload: false})

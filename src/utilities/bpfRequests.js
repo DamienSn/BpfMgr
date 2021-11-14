@@ -8,6 +8,9 @@ const getBpfNumber = (userId, callback) => {
             id: userId,
         },
         withCredentials: true,
+        headers: {
+            "x-api-key": import.meta.env.VITE_API_KEY
+        }
     })
         .then((res) => {
             const data = res.data.data;
@@ -24,6 +27,9 @@ const getLatestsBpfs = (userId, callback) => {
                 id: userId,
             },
             withCredentials: true,
+            headers: {
+                "x-api-key": import.meta.env.VITE_API_KEY
+            }
         })
             .then((res) => {
                 const data = res.data.data;
@@ -43,6 +49,9 @@ const getAllBpfs = (userId, callback) => {
             id: userId,
         },
         withCredentials: true,
+        headers: {
+            "x-api-key": import.meta.env.VITE_API_KEY
+        }
     })
         .then((res) => {
             callback(res.data.data == undefined ? [] : res.data.data);
@@ -58,6 +67,9 @@ const getAllBcns = (userId, callback) => {
             id: userId,
         },
         withCredentials: true,
+        headers: {
+            "x-api-key": import.meta.env.VITE_API_KEY
+        }
     })
         .then((res) => {
             callback(res.data.data == undefined ? [] : res.data.data);
@@ -70,6 +82,9 @@ const getAllCities = (callback) => {
         method: "get",
         url: `${import.meta.env.VITE_API_URL}cities/all`,
         withCredentials: true,
+        headers: {
+            "x-api-key": import.meta.env.VITE_API_KEY
+        }
     })
         .then((res) => {
             callback(res.data.data == undefined ? [] : res.data.data);

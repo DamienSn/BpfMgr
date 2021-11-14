@@ -33,7 +33,10 @@ export default function SignUp() {
                 permissions: "std",
                 sendNews
             },
-            withCredentials: true
+            withCredentials: true,
+            headers: {
+                "x-api-key": import.meta.env.VITE_API_KEY
+            }
         })
             .then(res => {
                 if (res.data.message.includes('created')) {
@@ -50,6 +53,9 @@ export default function SignUp() {
                                 data: {
                                     email,
                                     password
+                                },
+                                headers: {
+                                    "x-api-key": import.meta.env.VITE_API_KEY
                                 }
                             })
                                 .then(res => {
