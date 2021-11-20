@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { UidContext } from "../components/AppContext"
-import { BookmarkIcon, CloudUploadIcon } from '@heroicons/react/outline'
+import { CloudUploadIcon, EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
 import { useSelector } from "react-redux";
 import { userSelector } from "../redux/selectors/user.selectors";
 import { ImageUploadProfile } from "../components/ImageUpload";
@@ -25,6 +25,9 @@ export default function Settings() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [name, setName] = useState(userData.user_name);
+
+    const [pwdVisible, setPwdVisible] = useState(false);
+    const [confirmPwdVisible, setConfirmPwdVisible] = useState(false);
 
     const [error, setError] = useState()
 
@@ -90,9 +93,32 @@ export default function Settings() {
                     <input className="input" type="password" name="password" id="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} autoComplete="current-password" />
 
                     <label className="label mt-4" htmlFor="password">Nouveau mot de passe</label>
-                    <input className="input" type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
+                    <div className="relative w-min">
+                        {pwdVisible ?
+                            <button type="button" onClick={() => setPwdVisible(false)}>
+                                <EyeOffIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
+                            </button>
+                            :
+                            <button type="button" onClick={() => setPwdVisible(true)}>
+                                <EyeIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
+                            </button>
+                        }
+                        <input className="input" type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
+                    </div>
+
                     <label className="label mt-4" htmlFor="password-confirm">Confirmer le mot de passe</label>
-                    <input className="input" type="password" name="password-confirm" id="password-confirm" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" />
+                    <div className="relative w-min">
+                        {confirmPwdVisible ?
+                            <button type="button" onClick={() => setConfirmPwdVisible(false)}>
+                                <EyeOffIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
+                            </button>
+                            :
+                            <button type="button" onClick={() => setConfirmPwdVisible(true)}>
+                                <EyeIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
+                            </button>
+                        }
+                        <input className="input" type="password" name="password-confirm" id="password-confirm" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" />
+                    </div>
 
                     <p className="text-red-500 mt-2">{error}</p>
 

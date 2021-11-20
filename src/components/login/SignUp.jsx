@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import sendEmail from '../../utilities/email.js';
 import { useDispatch } from "react-redux";
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 
 export default function SignUp() {
     const dispatch = useDispatch();
@@ -10,6 +11,9 @@ export default function SignUp() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [sendNews, setSendNews] = useState(false);
+
+    const [pwdVisible, setPwdVisible] = useState(false);
+    const [confirmPwdVisible, setConfirmPwdVisible] = useState(false);
 
     const [error, setError] = useState();
 
@@ -99,10 +103,32 @@ export default function SignUp() {
             <input className="input" type="text" id="name" onChange={e => setName(e.target.value)} />
 
             <label className="label mt-4" htmlFor="password">Votre mot de passe</label>
-            <input className="input" type="password" id="password" onChange={e => setPassword(e.target.value)} autoComplete="new-password"/>
+            <div className="relative w-min">
+                {pwdVisible ?
+                    <button type="button" onClick={() => setPwdVisible(false)}>
+                        <EyeOffIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
+                    </button>
+                    :
+                    <button type="button" onClick={() => setPwdVisible(true)}>
+                        <EyeIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
+                    </button>
+                }
+                <input className="input" style={{ 'paddingLeft': '2rem' }} type={pwdVisible ? 'text' : 'password'} id="password" onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
+            </div>
 
             <label className="label mt-4" htmlFor="confirm_password">Confirmer le mot de passe</label>
-            <input className="input" type="password" id="confirm_password" onChange={e => setConfirmPassword(e.target.value)} autoComplete="new-password"/>
+            <div className="relative w-min">
+                {confirmPwdVisible ?
+                    <button type="button" onClick={() => setConfirmPwdVisible(false)}>
+                        <EyeOffIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
+                    </button>
+                    :
+                    <button type="button" onClick={() => setConfirmPwdVisible(true)}>
+                        <EyeIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
+                    </button>
+                }
+                <input className="input" style={{ 'paddingLeft': '2rem' }} type={confirmPwdVisible ? 'text' : 'password'} id="confirm_password" onChange={e => setConfirmPassword(e.target.value)} autoComplete="new-password" />
+            </div>
 
             <div className="block mt-4">
                 <input type="checkbox" id="send-news" checked={sendNews} onChange={e => setSendNews(!sendNews)} />
