@@ -224,7 +224,7 @@ function Add() {
                 <div>
                     <div>
                         Merci de vous référer à l'aide :&nbsp;
-                        <a href="https://github.com/DamienSn/BpfMgr-Client/wiki/Importer-un-fichier-CSV"
+                        <a href="https://github.com/DamienSn/BpfMgr/wiki/Importer-un-fichier-CSV"
                             className="text-blue-500 underline cursor-pointer hover:text-blue-700"
                             target="_blank">
                             <SupportIcon className="icon-sm" />

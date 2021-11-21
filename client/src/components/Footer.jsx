@@ -20,7 +20,7 @@ function Footer() {
                     <div className="w-full flex justify-around flex-wrap items-center mt-2">
                         <div className="px-4 text-center">
                             <a href="/#/about" className="underline">À propos</a><br />
-                            <a href="https://github.com/DamienSn" className="underline">
+                            <a href="https://github.com/DamienSn/BpfMgr" className="underline">
                                 Code source
                             </a><br />
                             <a href="/#/legal" className="underline">Mentions légales</a><br />

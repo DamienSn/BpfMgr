@@ -1,5 +1,5 @@
 // Icons
-import { ArrowCircleDownIcon,CameraIcon, MapIcon, InformationCircleIcon, CurrencyEuroIcon, TableIcon, LightningBoltIcon, CodeIcon, TerminalIcon, IdentificationIcon } from '@heroicons/react/outline'
+import { ArrowCircleDownIcon, CameraIcon, MapIcon, InformationCircleIcon, CurrencyEuroIcon, TableIcon, LightningBoltIcon, CodeIcon, TerminalIcon, IdentificationIcon } from '@heroicons/react/outline'
 
 import { SRLWrapper } from 'simple-react-lightbox'
 
@@ -21,8 +21,8 @@ export default function About() {
             <div className="hero-item left">
                 <div className="infos">
                     <h2><LightningBoltIcon className="icon-md" />&nbsp;Plus besoin de tableur</h2>
-                    <p>BpfMgr signifie BpfManager. C'est une application <b>simple d'utilisation</b> pour gérer vos bpf et bcn.<br/>
-                    <b>Cependant, cette application ne remplace pas une <a href="https://ffvelo.fr/activites-federales/adherents/les-brevets/homologuer-votre-brevet/" className="text-blue-600 underline hover:text-blue-800">homologation officielle</a>, c'est un outil de gestion.</b></p>
+                    <p>BpfMgr signifie BpfManager. C'est une application <b>simple d'utilisation</b> pour gérer vos bpf et bcn.<br />
+                        <b>Cependant, cette application ne remplace pas une <a href="https://ffvelo.fr/activites-federales/adherents/les-brevets/homologuer-votre-brevet/" className="text-blue-600 underline hover:text-blue-800">homologation officielle</a>, c'est un outil de gestion.</b></p>
                 </div>
                 <ArrowCircleDownIcon className="icon-lg animate-bounce text-blue-500" />
                 <SRLWrapper options={galleryOptions}>
@@ -72,12 +72,13 @@ export default function About() {
                 <div className="infos">
                     <h2><CurrencyEuroIcon className="icon-md" />&nbsp;Gratuit à vie</h2>
                     <p>BpfMgr est un projet <b>gratuit</b> et <b>open-source</b>, ce qui signifie que tout le monde peut voir le code source et y contribuer.</p>
+                    <p><b>Pour me soutenir, vous pouvez "Star" le projet et m'offrir un café !</b></p>
                 </div>
-                <div>
-                    <div className="text-5xl font-bold mr-24 mb-8">
-                        <CodeIcon className="icon-lg" />&nbsp;&&nbsp;<TerminalIcon className="icon-lg" />
-                    </div>
-                    <a href="https://github.com/DamienSn" className="btn m-8 mt-8 bg-gray-700 text-white hover:bg-gray-600 outline-none focus:ring">Voir le code</a>
+                <div className="flex flex-col justify-between mr-16 md:mr-32 lg:mr-64 space-y-4">
+                    <iframe src="https://ghbtns.com/github-btn.html?user=DamienSn&repo=BpfMgr&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+                    <a href="https://www.buymeacoffee.com/damiensn" className="btn btn-blue">
+                        ☕ Offrez moi un café
+                    </a>
                 </div>
             </div>
             <div className="hero-item left">
@@ -86,7 +87,7 @@ export default function About() {
                     <h4>Damien Stéphan</h4>
                     <h5>Cycliste 🚴‍♂️, Développeur 💻, Lycéen 👨‍🎓</h5>
                 </div>
-                <p>Créateur de BpfMgr, je suis un cycliste pratiquant les BPF et BCN. Je suis inscrit au Cyclo Club Montrabéen et possède la double licence FFVélo & FFC. C'est dans mon temps libre que j'ai développé cette application, pour aider à la gestion des BPF/BCN qui était complexe avec un tableur.</p>
+                <p className="mr-16 md:mr-32 lg:mr-64">Créateur de BpfMgr, je suis un cycliste pratiquant les BPF et BCN. Je suis inscrit au Cyclo Club Montrabéen et possède la double licence FFVélo & FFC. C'est dans mon temps libre que j'ai développé cette application, pour aider à la gestion des BPF/BCN qui était complexe avec un tableur.</p>
             </div>
         </section>
     )
