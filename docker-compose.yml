@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_NAME
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - backend
+  
+  bpfmgr-api:
+    depends_on:
+      - mysqldb
+    build: ./api
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $API_PORT:$API_PORT
+    environment:
+      - DB_HOST=mysqldb
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_NAME
+      - DB_PORT=3306
+      - CLIENT_URL=$CLIENT_URL
+      - TOKEN_SECRET=$TOKEN_SECRET
+      - UPLOAD_DIR=$UPLOAD_DIR
+      - SIB_API_KEY=$SIB_API_KEY
+      - BPFMGR_API_KEY=$BPFMGR_API_KEY
+      - PORT=$API_PORT
+    networks:
+      - backend
+      - frontend
+
+  bpfmgr-client:
+    depends_on:
+      - bpfmgr-api
+    build:
+      context: ./client
+      args:
+        - VITE_API_URL=$VITE_API_URL
+        - VITE_API_KEY=$BPFMGR_API_KEY
+    ports:
+      - 80:80
+    networks:
+      - frontend  
+
+volumes: 
+  db:
+
+networks:
+  backend:
+  frontend:
