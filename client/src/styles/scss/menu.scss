@@ -1,0 +1,112 @@
+@import "_variables";
+@import "_mixins";
+
+.menu {
+    background: $blueDark;
+}
+
+.menu {
+    @include heading4();
+    margin-top: 80px;
+    color: #fff !important;
+    padding: 15px;
+    width: 220px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    // transition: .2s linear;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.menu li {
+    @apply py-10;
+    cursor: pointer;
+    text-decoration: none;
+    list-style-type: none;
+    height: 60px;
+    width: 100%;
+}
+
+.menu li a {
+    display: flex;
+    align-items: center;
+}
+
+.menu span {
+    @apply text-lg;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+}
+
+.menu.reduced span {
+    display: none;
+}
+
+.menu.reduced {
+    width: 74px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+// Media queries
+@media screen and (max-width: 600px) {
+    .menu {
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        width: 100%!important;
+        height: 75px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .menu ul {
+        display: flex;
+    }
+
+    main {
+        margin-left: 0!important;
+    }
+
+    .menu li {
+        @apply px-2 py-0;
+    }
+}
+
+.nav-link span.svg-container {
+    position: relative;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+// Active icon
+.nav-link span.svg-container::before {
+    content: "";
+    width: 100%;
+    height: 4px;
+    background: $blueSky;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform-origin: center;
+    transform: scale(0);
+    transition: transform .4s ease-in-out;
+    will-change: transform;
+}
+
+.nav-link span.svg-container.active::before, .nav-link span.svg-container:hover::before, .menu li:hover span.svg-container::before {
+    transform: scale(1);
+}
+
+// .nav-link::before {
+//     content: "";
+//     width: 100%;
+//     height: 15px;
+//     background: red;
+// }

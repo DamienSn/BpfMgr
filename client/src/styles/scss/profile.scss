@@ -1,0 +1,28 @@
+@import '_variables';
+
+.profile-page-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px 0;
+    border-bottom: 2px solid $blueSky;
+    border-top: 2px solid $blueSky;
+}
+
+.profile-header > * {
+    padding: 15px;
+}
+
+.profile-header .picture {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    background-position: center;
+}

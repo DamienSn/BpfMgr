@@ -1,0 +1,44 @@
+@import '_variables';
+
+.params-page-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.params-block {
+    padding: 15px 0;
+    border-top: 2px solid $blueSky;
+}
+
+.params-block .content, .params-block .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.params-block-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#picture-block {
+    margin-top: 15px;
+    flex-direction: row;
+}
+
+.params-block-content > * {
+    padding: 15px;
+}
+
+.params-block .picture {
+    width: 215px;
+    height: 215px;
+    background-size: cover;
+    background-position: center;
+    margin-right: 15px;
+}

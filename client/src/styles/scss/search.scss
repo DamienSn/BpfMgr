@@ -1,0 +1,51 @@
+.search-page .home {
+    width: 100%;
+    height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url('/img/bg-ventoux.jpg');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden
+}
+
+// Modal
+.info-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    overflow: auto;
+}
+
+.info-modal .picture {
+    width: 40%;
+    max-height: 20vh;
+    overflow: hidden;
+    transition: filter 0.3s linear;
+}
+
+.info-modal .picture:hover {
+    filter: sepia();
+}
+
+.info-modal .description {
+    overflow: hidden;
+}
+
+.info-modal::-webkit-scrollbar {
+    width: 7px;
+    transform: translateX(-7px);
+}
+
+.info-modal::-webkit-scrollbar-track {
+    @apply bg-gray-300;
+}
+
+.info-modal::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    @apply bg-gray-500;
+}

@@ -1,0 +1,12 @@
+@import '_variables';
+@import '_mixins';
+
+.stat-number {
+    height: 100px;
+    width: 120px;
+    @apply flex justify-center items-center flex-col shadow-lg m-3 bg-white px-1;
+}
+
+.stat-bar {
+    @apply flex items-center flex-wrap;
+}
