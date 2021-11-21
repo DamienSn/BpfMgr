@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 3000;
 const corsOptions = {
     origin: process.env.CLIENT_URL,
     credentials: true,
-    allowedHeaders: ["sessionId", "Content-Type", 'x-api-key'],
+    allowedHeaders: ["sessionId", "Content-Type", "x-api-key"],
     exposedHeaders: ["sessionId"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
@@ -40,6 +40,9 @@ app.use(cookieParser());
 // Access logs with logRequests middleware
 app.use(logRequests);
 
+//static (uploads)
+app.use("/static", express.static("public"));
+
 // jwt
 app.get("*", checkUser);
 app.get("/users/jwtid", requireAuth, (req, res) => {
@@ -47,14 +50,14 @@ app.get("/users/jwtid", requireAuth, (req, res) => {
 });
 
 // Check api key
-app.use((req, res, next) => {
-    const apiKey = req.get('x-api-key')
+app.use(/\/((?!static).)*/, (req, res, next) => {
+    const apiKey = req.get("x-api-key");
     if (!apiKey || apiKey !== process.env.BPFMGR_API_KEY) {
-      res.status(401).json({error: 'unauthorised'})
+        res.status(401).json({ error: "unauthorised" });
     } else {
-      next()
+        next();
     }
-  })
+});
 
 // routes
 app.get("/", (req, res) => {

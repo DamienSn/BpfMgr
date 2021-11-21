@@ -63,7 +63,7 @@ export default function UserMenuCommands() {
                     </div>
                     <style>
                         {`.profile-btn {
-                            background-image: url(${userData.user_avatar ? userData.user_avatar : `https://avatars.dicebear.com/api/initials/${encodeURI(userData.user_name)}.svg`});
+                            background-image: url(${userData.user_avatar ? `${import.meta.env.VITE_API_URL}static/uploads/profils/${userData.user_avatar}` : `https://avatars.dicebear.com/api/initials/${encodeURI(userData.user_name)}.svg`});
                         }`}
                     </style>
                 </>

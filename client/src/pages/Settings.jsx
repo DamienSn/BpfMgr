@@ -133,7 +133,7 @@ export default function Settings() {
                     <div className="picture"></div>
                     <style>
                         {`.params-block .picture {
-                            background-image: url(${userData.user_avatar});
+                            background-image: url(${userData.user_avatar ? `${import.meta.env.VITE_API_URL}static/uploads/profils/${userData.user_avatar}` : `https://avatars.dicebear.com/api/initials/${encodeURI(userData.user_name)}.svg`});
                         }`}
                     </style>
                     <form id="upload-photo" onSubmit={handleUploadSubmit}>

@@ -29,7 +29,7 @@ module.exports.uploadProfil = async (req, res) => {
     await pipeline(
         req.file.stream,
         fs.createWriteStream(
-            `${__dirname}/../../vite-client/dist/uploads/profils/${fileName}`
+            `${process.env.UPLOAD_DIR}/profils/${fileName}`
         )
     );
 
@@ -47,7 +47,7 @@ function registerInDB(fileName, user_id) {
     UserModel.getOne(user_id)
         .then((res) => {
             user = res[0];
-            user.user_avatar = `${process.env.UPLOAD_DIR}/profils/${fileName}`;
+            user.user_avatar = `${fileName}`;
             UserModel.update(user_id, user, (err, res) => {
                 if (err) {
                     throw err;
