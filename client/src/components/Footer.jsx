@@ -33,7 +33,8 @@ function Footer() {
                             BpfMgr vous est proposé de manière <span className="font-bold">gratuite</span> et <span className="font-bold">open-source</span><br />
                             Pour continuer ceci, pensez à nous faire part de vos remarques et à <span className="font-bold">soutenir le projet !</span>
                         </div>
-                        <div className="px-4 flex flex-col justify-center items-center">
+                        <div className="flex flex-col justify-between space-y-4">
+                            <iframe src="https://ghbtns.com/github-btn.html?user=DamienSn&repo=BpfMgr&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
                             <a href="https://www.buymeacoffee.com/damiensn" className="btn btn-blue">
                                 ☕ Offrez moi un café
                             </a>
