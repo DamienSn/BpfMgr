@@ -46,7 +46,14 @@ export default function Settings() {
                 "x-api-key": import.meta.env.VITE_API_KEY
             }
         })
-            .then(res => dispatch(getUser(userData.user_id)))
+            .then(res => {
+                if (res.data.message == 'ok') {
+                    dispatch(getUser(userData.user_id))
+                    toast?.pushSuccess('Photo changée')
+                } else {
+                    toast?.pushError('Il y a eu une erreur')
+                }
+            })
     }
 
     useEffect(() => {
