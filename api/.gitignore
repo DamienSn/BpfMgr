@@ -1,8 +1,0 @@
-.vscode
-*.sql
-db_schema.png
-node_modules
-.env
-# Ignore logs
-*.log
-dbInit

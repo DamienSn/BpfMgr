@@ -26,7 +26,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # uploads
-/uploads
+uploads
 
 # scss maps
 *.map
@@ -34,6 +34,11 @@ yarn-error.log*
 # cities images
 /img/cities/*
 
-# Docker
-Dockerfile
-.dockerignore
+*.sql
+db_schema.png
+dbInit
+
+.vscode
+
+# logs
+*.log
