@@ -110,7 +110,7 @@ export default function Settings() {
                                 <EyeIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
                             </button>
                         }
-                        <input className="input" type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
+                        <input className="input" style={{ 'paddingLeft': '2rem' }} type={pwdVisible ? 'text' : 'password'} name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
                     </div>
 
                     <label className="label mt-4" htmlFor="password-confirm">Confirmer le mot de passe</label>
@@ -124,7 +124,7 @@ export default function Settings() {
                                 <EyeIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
                             </button>
                         }
-                        <input className="input" type="password" name="password-confirm" id="password-confirm" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" />
+                        <input className="input" style={{ 'paddingLeft': '2rem' }} type={confirmPwdVisible ? 'text' : 'password'} name="password-confirm" id="password-confirm" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" />
                     </div>
 
                     <p className="text-red-500 mt-2">{error}</p>
