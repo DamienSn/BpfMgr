@@ -1,10 +1,14 @@
 import { useState } from "react";
+import {useDispatch} from 'react-redux'
 import axios from 'axios';
 import sendEmail from '../../utilities/email.js';
+import { useToast } from '../toaster/ToastProvider';
 
 export default function PasswordLost() {
     const [email, setEmail] = useState();
     const [error, setError] = useState();
+    const dispatch = useDispatch();
+    const toast = useToast()
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,7 +26,9 @@ export default function PasswordLost() {
                 dispatch({ type: 'SET_LOADER', payload: true });
 
                 if (res.data.message === 'error') {
-                    setError(res.data.error);
+                    dispatch({ type: 'SET_LOADER', payload: false });
+                    setError(err);
+                    toast?.pushError("Il y a eu une erreur")
                 } else {
                     sendEmail(false, {
                         userName: email,
@@ -44,19 +50,26 @@ export default function PasswordLost() {
                             })
                                 .then(res => {
                                     dispatch({ type: 'SET_LOADER', payload: false });
-                                    window.location = '/'
+                                    window.location = "/"
                                 })
                                 .catch(err => {
                                     dispatch({ type: 'SET_LOADER', payload: false });
                                     setError(err);
+                                    toast?.pushError("Il y a eu une erreur")
                                 });
                         })
                         .catch(err => {
                             dispatch({ type: 'SET_LOADER', payload: false });
                             setError(err);
-                        });
+                            toast?.pushError("Il y a eu une erreur")
+                        })
                 }
             })
+            .catch(err => {
+                dispatch({ type: 'SET_LOADER', payload: false });
+                setError(err);
+                toast?.pushError("Il y a eu une erreur")
+            });
     }
 
     return (
