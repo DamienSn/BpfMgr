@@ -8,7 +8,7 @@ export default function PasswordLost() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoading(true);
+        dispatch({ type: 'SET_LOADER', payload: true });
 
         axios({
             url: `${import.meta.env.VITE_API_URL}users/reset_password?email=${email}`,
@@ -46,8 +46,15 @@ export default function PasswordLost() {
                                     dispatch({ type: 'SET_LOADER', payload: false });
                                     window.location = '/'
                                 })
+                                .catch(err => {
+                                    dispatch({ type: 'SET_LOADER', payload: false });
+                                    setError(err);
+                                });
                         })
-                        .catch(err => setError(err));
+                        .catch(err => {
+                            dispatch({ type: 'SET_LOADER', payload: false });
+                            setError(err);
+                        });
                 }
             })
     }
