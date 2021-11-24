@@ -35,7 +35,7 @@ function Footer() {
                         </div>
                         <div className="flex flex-col justify-between space-y-4">
                             <iframe src="https://ghbtns.com/github-btn.html?user=DamienSn&repo=BpfMgr&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
-                            <a href="https://www.buymeacoffee.com/damiensn" className="btn btn-blue">
+                            <a href="https://ko-fi.com/damiensn" className="btn btn-blue">
                                 ☕ Offrez moi un café
                             </a>
                         </div>
