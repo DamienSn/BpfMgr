@@ -62,15 +62,3 @@ Nous avons créé ce logiciel pour répondre à un problème de gestion des BPF 
 ## Copyright
 - [x] Ce logiciel est libre (GNU GPL v3)
 © Damien STÉPHAN - 2021
-
-### Contribuer
-Clone the project
-`git clone https://github.com/DamienSn/BpfMgr.git`
-
-Install dependencies for API and client
-`npm i`
-In the folder API and in the folder client
-Run API
-`npm run dev` (In the api folder)
-Run client
-`npm run dev` (In the client folder)
