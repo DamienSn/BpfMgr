@@ -79,7 +79,9 @@ function Dashboard() {
                 {userData.user_permissions === "adm" &&
                     <>
                         <h3 className="mt-4"><TerminalIcon className="icon-md" />&nbsp;Sous le capot</h3>
+                        <a href="#/users">
                         <StatNumber number={users} description="Utilisateurs" />
+                        </a>
                     </>
                 }
             </section>

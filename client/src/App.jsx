@@ -36,11 +36,14 @@ import Loader from "./components/Loader";
 import About from "./pages/About";
 import ToastProvider from "./components/toaster/ToastProvider";
 import Legals from "./pages/Legals";
+import UserMgmt from "./pages/admin/UserMgmt";
+import User from "./pages/admin/User";
 
 function App() {
     const [uid, setUid] = useState(null);
     const dispatch = useDispatch();
     const loading = useSelector(state => state.loader)
+    const userData = useSelector(state => state.user);
 
     // Verify JSON Web Token in cookies by fetching the API endpoint
     useEffect(() => {
@@ -101,6 +104,13 @@ function App() {
                             <Route path="/about" component={About} />
                             <Route path="/connect" component={Log} />
                             <Route path="/legal" component={Legals} />
+                            {/* ProtectedRoutes */}
+                            {userData.user_permissions === "adm" &&
+                                <>
+                                    <Route path="/users/:id" component={User} />
+                                    <Route path="/users" exact component={UserMgmt} />
+                                </>
+                            }
                             <Footer />
                         </div>
                     </Router>
