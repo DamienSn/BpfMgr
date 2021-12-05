@@ -121,6 +121,12 @@ footer.menu-collapse {
     margin-left: 74px;
 }
 
+@media screen and (max-width: 600px) {
+    footer {
+        margin-left: 0;
+    }
+}
+
 // Drop files
 .drop-files {
     border: 2px dashed $blueSky !important;

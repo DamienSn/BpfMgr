@@ -7,7 +7,6 @@ header {
   height: 80px;
   background: #045678;
   color: #fff;
-  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,7 +44,6 @@ header {
 }
 
 .brand img {
-  margin: 10px;
   width: 50px;
   height: 50px;
 }
@@ -573,6 +571,11 @@ footer.menu-collapse {
   margin-left: 74px;
 }
 
+@media screen and (max-width: 600px) {
+  footer {
+    margin-left: 0;
+  }
+}
 .drop-files {
   border: 2px dashed #2699d1 !important;
 }
