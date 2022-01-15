@@ -62,3 +62,5 @@ docker build -t {tag of the image} .
 /* Get image id and then */
 docker run -p 80:80 {image id}
 ```
+# Important note
+If you want to run a container in mode "just run ..." alongside a dev container, consider adding flag `_e VARIABLE={value}`
