@@ -63,4 +63,8 @@ docker build -t {tag of the image} .
 docker run -p 80:80 {image id}
 ```
 # Important note
-If you want to run a container in mode "just run ..." alongside a dev container, consider adding flag `_e VARIABLE={value}`
+If you want to run a container in mode "just run ..." alongside a dev container, consider adding flag `-e VARIABLE={value}`
+Example : you want to run the api not in development mode and connect it to your DB in your host machine.
+`docker run -d -p 5000:5000 -e DB_HOST=host.docker.internal {api image id}`
+Example : you want to run the client not in dev mode alongside with pi in dev mode
+``
