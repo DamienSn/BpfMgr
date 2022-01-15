@@ -4,15 +4,10 @@
 git clone https://github.com/DamienSn/
 ```
 ## Start API
-```
-cd api
-npm install
-npm run dev
-```
-Environement variables (.env)
+### Environement variables (.env)
 ```
 PORT={port to launch api}
-DB_HOST=
+DB_HOST={host.docker.internal (if using db in local machine)} 
 DB_USER=
 DB_PASSWORD=
 DB_NAME=
@@ -22,15 +17,48 @@ UPLOAD_DIR=public/uploads
 SIB_API_KEY={sendinblue api key for newsletter}
 BPFMGR_API_KEY={API key used in bpfmgr_api}
 ```
-## Start client
+### Development
 ```
-cd client
-npm install
+cd api
+code .
+```
+It will open the project in vscode, then click "Reopen in container" (needs remote dev extension installed)
+Open a terminal in the container and run
+```
+npm install (or yarn, pnpm...)
 npm run dev
 ```
-Environement varibles (.env) :
+Forward the ports to your local machine by using the built-in vscode feature in taskbar
+### Just run api
+Build the docker image and run it with the dockerfile
+```
+docker build -t {tag of the image} .
+/* Get image id and then */
+docker run -p {port of the api defined in .env}:{the same} {image id}
+```
+## Start client
+### Environement varibles (.env) :
 ```
 VITE_API_URL={url of the api}
 VITE_API_KEY={api key declared in BPFMGR_API_KEY}
 VITE_UPLOAD_DIR=http://localhost:5000/static/uploads/
+```
+### Development
+```
+cd client
+code .
+```
+It will open the project in vscode, then click "Reopen in container" (needs remote dev extension installed)
+Open a terminal in the container and run
+```
+npm install (or yarn, pnpm...)
+npm run dev
+```
+Forward the ports to your local machine by using the built-in vscode feature in taskbar
+### Just run client
+Build the docker image and run it with the dockerfile
+```
+docker build -t {tag of the image} .
+/* Get image id and then */
+docker run -p 80:80 {image id}
 ```
