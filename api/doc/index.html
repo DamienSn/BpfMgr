@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Free bootstrap documentation template">
+    <title>BpfMgr</title>
+    <!-- using online links -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css">
+    <!-- using local links -->
+    <link rel="stylesheet" href="css/main.min.css">
+    <link rel="stylesheet" href="css/sidebar-themes.min.css">
+    <link rel="stylesheet" href="css/bootstrap-treeview.min.css">
+    <link rel="stylesheet" href="css/postman.min.css">
+
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" /> </head>
+
+<body>
+    <div class="page-wrapper toggled light-theme">
+        <div class="modal dark-background" id="snippetModal" tabindex="-1" role="dialog" aria-labelledby="documentation-response-modal" style="display: none;">
+        <div class="modal-dialog" role="document">
+          <div class="modal-header">
+            <div class="title">Example Response</div>
+            <button type="button" class="close btn-circle" data-dismiss="modal" aria-label="Close">
+              <div>
+              <span id="closeModal" aria-hidden="true">�</span>
+              </div>
+            </button>
+          </div>
+          <div class="modal-content">
+            <div class="modal-body" style="width: 540.5px;">
+              <pre class="  language-javascript">
+                  <code class=" language-javascript"></code>
+              </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <!-- sidebar-brand  -->
+                <div class="sidebar-item sidebar-brand text-white font-weight-bold">API Documentation</div>
+                <!-- sidebar-header  -->
+                <!-- sidebar-menu  -->
+                <div class=" sidebar-item sidebar-menu">
+                    <div id="tree"></div>
+                </div>
+                <!-- sidebar-menu  -->
+            </div>
+        </nav>
+        <!-- page-content  -->
+        <main class="page-content">
+            <div id="overlay" class="overlay"></div>
+            <div class="container-fluid">
+                <div class="row d-flex align-items-center p-3 border-bottom">
+                    <div class="col-md-1">
+                        <a id="toggle-sidebar" class="btn rounded-0 p-3" href="#"> <i class="fas fa-bars"></i> </a>
+                    </div>
+                    <div class="col-md-9"></div>
+                    <div class="col-md-2 text-left">
+                    </div>
+                </div>
+                <div class="row p-lg-4">
+                    <article class="main-content col-md-12 pr-lg-9" id="doc-body">
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12">
+                                <div class="api-information">
+                                    <div class="collection-name">
+                                        <p>BpfMgr</p>
+                                    </div>
+                                    <div class="collection-description">
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="1">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="PUT method" >PUT</span>
+                                            Update user <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/update/:id</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">PATH VARIABLES</div>
+                                        <hr>
+                                          <div class="param row">
+                                            <div class="name col-md-3 col-xs-12">id</div>
+                                            <div class="value col-md-9 col-xs-12">1</div>
+                                            <div class="description col-md-9 col-xs-12"><p>None</p>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper " data-title="Update user">
+                                                  <code>
+                                                    
+{
+    "user_name": "Damien"
+}
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Update user</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="1" data-response-info="response_1">Update user</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="1"  data-id="response_1">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Update user">
+                                                <code class="is-highlighted">
+PUT localhost:5000/users/update/:id
+
+{
+    "user_name": "Damien"
+}</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="2">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            New user <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/create</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper is-expandable" data-title="New user">
+                                                  <code>
+                                                    
+{
+    "email": "john@example.com",
+    "password": "1234",
+    "name": "John DOE",
+    "permissions": "std",
+    "sendNews": false
+}
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">New user</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="2" data-response-info="response_2">New user</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="2"  data-id="response_2">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="New user">
+                                                <code class="is-highlighted">
+POST localhost:5000/users/create
+
+{
+    "email": "john@example.com",
+    "password": "1234",
+    "name": "John DOE",
+    "permissions": "std",
+    "sendNews": false
+}</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="3">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="GET method" >GET</span>
+                                            All users <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/all</div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">All users</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="3" data-response-info="response_3">All users</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="3"  data-id="response_3">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="All users">
+                                                <code class="is-highlighted">
+GET localhost:5000/users/all</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="4">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="DELETE method" >DELETE</span>
+                                            Delete user <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/delete/:id</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">PATH VARIABLES</div>
+                                        <hr>
+                                          <div class="param row">
+                                            <div class="name col-md-3 col-xs-12">id</div>
+                                            <div class="value col-md-9 col-xs-12">61</div>
+                                            <div class="description col-md-9 col-xs-12"><p>None</p>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Delete user</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="4" data-response-info="response_4">Delete user</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="4"  data-id="response_4">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Delete user">
+                                                <code class="is-highlighted">
+DELETE localhost:5000/users/delete/:id</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="5">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="GET method" >GET</span>
+                                            One user <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/:id</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">PATH VARIABLES</div>
+                                        <hr>
+                                          <div class="param row">
+                                            <div class="name col-md-3 col-xs-12">id</div>
+                                            <div class="value col-md-9 col-xs-12">1</div>
+                                            <div class="description col-md-9 col-xs-12"><p>None</p>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">One user</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="5" data-response-info="response_5">One user</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="5"  data-id="response_5">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="One user">
+                                                <code class="is-highlighted">
+GET localhost:5000/users/:id</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="6">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            Connect user <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/login</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper " data-title="Connect user">
+                                                  <code>
+                                                    
+{
+    "email": "damienstephan07@gmail.com",
+    "password": "|J
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Connect user</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="6" data-response-info="response_6">Connect user</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="6"  data-id="response_6">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Connect user">
+                                                <code class="is-highlighted">
+POST localhost:5000/users/login
+
+{
+    "email": "damienstephan07@gmail.com",
+    "password": "|J</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="7">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            Disconnect <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/logout</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper " data-title="Disconnect">
+                                                  <code>
+                                                    
+
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Disconnect</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="7" data-response-info="response_7">Disconnect</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="7"  data-id="response_7">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Disconnect">
+                                                <code class="is-highlighted">
+POST localhost:5000/users/logout
+
+</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="8">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="GET method" >GET</span>
+                                            jwtid <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/jwtid</div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">jwtid</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="8" data-response-info="response_8">jwtid</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="8"  data-id="response_8">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="jwtid">
+                                                <code class="is-highlighted">
+GET localhost:5000/users/jwtid</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="9">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            Photo <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/upload</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">formdata</span></div>
+                                        <hr>
+                                              <div class="param row">
+                                                <div class="name col-md-3 col-xs-12">name</div>
+                                                <div class="value col-md-9 col-xs-12">damienstephan07@gmail.com</div>
+                                                <div class="description col-md-9 col-xs-12"><p>None</p>
+                                                </div>
+                                              </div>
+                                              <div class="param row">
+                                                <div class="name col-md-3 col-xs-12">user_id</div>
+                                                <div class="value col-md-9 col-xs-12">1</div>
+                                                <div class="description col-md-9 col-xs-12"><p>None</p>
+                                                </div>
+                                              </div>
+                                              <div class="param row">
+                                                <div class="name col-md-3 col-xs-12">file</div>
+                                                <div class="value col-md-9 col-xs-12">None</div>
+                                                <div class="description col-md-9 col-xs-12"><p>None</p>
+                                                </div>
+                                              </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Photo</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="9" data-response-info="response_9">Photo</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="9"  data-id="response_9">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Photo">
+                                                <code class="is-highlighted">
+POST localhost:5000/users/upload</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="10">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="GET method" >GET</span>
+                                            Verify email <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">http://localhost:5000/users/verify_email?userId=15&code=370108</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">PARAMS</div>
+                                        <hr>
+                                          <div class="param row">
+                                            <div class="name col-md-3 col-xs-12">userId</div>
+                                            <div class="value col-md-9 col-xs-12">15</div>
+                                            <div class="description col-md-9 col-xs-12"><p>None</p>
+                                            </div>
+                                          </div>
+                                          <div class="param row">
+                                            <div class="name col-md-3 col-xs-12">code</div>
+                                            <div class="value col-md-9 col-xs-12">370108</div>
+                                            <div class="description col-md-9 col-xs-12"><p>None</p>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Verify email</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="10" data-response-info="response_10">Verify email</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="10"  data-id="response_10">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Verify email">
+                                                <code class="is-highlighted">
+GET http://localhost:5000/users/verify_email?userId=15&code=370108</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="11">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            Update password <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/users/update_password</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper " data-title="Update password">
+                                                  <code>
+                                                    
+{
+    "email": "damienstephan07@gmail.com",
+    "password": "damien"
+}
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Update password</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="11" data-response-info="response_11">Update password</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="11"  data-id="response_11">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Update password">
+                                                <code class="is-highlighted">
+POST localhost:5000/users/update_password
+
+{
+    "email": "damienstephan07@gmail.com",
+    "password": "damien"
+}</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="12">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="GET method" >GET</span>
+                                            All <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/cities/all</div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">All</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="12" data-response-info="response_12">All</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="12"  data-id="response_12">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="All">
+                                                <code class="is-highlighted">
+GET localhost:5000/cities/all</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="13">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            One <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/cities/</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper " data-title="One">
+                                                  <code>
+                                                    
+{
+    "name": "Montmorillon"
+}
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">One</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="13" data-response-info="response_13">One</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="13"  data-id="response_13">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="One">
+                                                <code class="is-highlighted">
+POST localhost:5000/cities/
+
+{
+    "name": "Montmorillon"
+}</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="14">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            Get one <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/bpf/get/one</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper " data-title="Get one">
+                                                  <code>
+                                                    
+{
+    "id": "526"
+}
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Get one</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="14" data-response-info="response_14">Get one</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="14"  data-id="response_14">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Get one">
+                                                <code class="is-highlighted">
+POST localhost:5000/bpf/get/one
+
+{
+    "id": "526"
+}</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="15">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            Create by photo <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/bpf/create/by_photo</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">formdata</span></div>
+                                        <hr>
+                                              <div class="param row">
+                                                <div class="name col-md-3 col-xs-12">file</div>
+                                                <div class="value col-md-9 col-xs-12">None</div>
+                                                <div class="description col-md-9 col-xs-12"><p>None</p>
+                                                </div>
+                                              </div>
+                                              <div class="param row">
+                                                <div class="name col-md-3 col-xs-12">userId</div>
+                                                <div class="value col-md-9 col-xs-12">1</div>
+                                                <div class="description col-md-9 col-xs-12"><p>None</p>
+                                                </div>
+                                              </div>
+                                              <div class="param row">
+                                                <div class="name col-md-3 col-xs-12">date</div>
+                                                <div class="value col-md-9 col-xs-12">photo</div>
+                                                <div class="description col-md-9 col-xs-12"><p>None</p>
+                                                </div>
+                                              </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Create by photo</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="15" data-response-info="response_15">Create by photo</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="15"  data-id="response_15">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Create by photo">
+                                                <code class="is-highlighted">
+POST localhost:5000/bpf/create/by_photo</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="16">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="GET method" >GET</span>
+                                            Get all by user <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/bpf/get/all_by_user?id=1</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">PARAMS</div>
+                                        <hr>
+                                          <div class="param row">
+                                            <div class="name col-md-3 col-xs-12">id</div>
+                                            <div class="value col-md-9 col-xs-12">1</div>
+                                            <div class="description col-md-9 col-xs-12"><p>None</p>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Get all by user</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="16" data-response-info="response_16">Get all by user</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="16"  data-id="response_16">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Get all by user">
+                                                <code class="is-highlighted">
+GET localhost:5000/bpf/get/all_by_user?id=1</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="17">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            Create <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">localhost:5000/bpf/create</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper " data-title="Create">
+                                                  <code>
+                                                    
+{
+    "name": "foix",
+    "userId": 1,
+    "date": "2021-06-19 12:00:00"
+}
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Create</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="17" data-response-info="response_17">Create</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="17"  data-id="response_17">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Create">
+                                                <code class="is-highlighted">
+POST localhost:5000/bpf/create
+
+{
+    "name": "foix",
+    "userId": 1,
+    "date": "2021-06-19 12:00:00"
+}</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="18">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="DELETE method" >DELETE</span>
+                                            Delete one <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">http://localhost:5000/bpf/delete</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper " data-title="Delete one">
+                                                  <code>
+                                                    
+{
+    "userId": "1",
+    "city": "foix"
+}
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Delete one</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="18" data-response-info="response_18">Delete one</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="18"  data-id="response_18">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Delete one">
+                                                <code class="is-highlighted">
+DELETE http://localhost:5000/bpf/delete
+
+{
+    "userId": "1",
+    "city": "foix"
+}</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="19">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="DELETE method" >DELETE</span>
+                                            Delete all by user <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">http://localhost:5000/bpf/delete/all?userId=1</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">PARAMS</div>
+                                        <hr>
+                                          <div class="param row">
+                                            <div class="name col-md-3 col-xs-12">userId</div>
+                                            <div class="value col-md-9 col-xs-12">1</div>
+                                            <div class="description col-md-9 col-xs-12"><p>None</p>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Delete all by user</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="19" data-response-info="response_19">Delete all by user</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="19"  data-id="response_19">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Delete all by user">
+                                                <code class="is-highlighted">
+DELETE http://localhost:5000/bpf/delete/all?userId=1</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="20">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="POST method" >POST</span>
+                                            Create by CSV <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">http://localhost:5000/bpf/csv</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">PARAMS</div>
+                                        <hr>
+                                          <div class="param row">
+                                            <div class="name col-md-3 col-xs-12">userId</div>
+                                            <div class="value col-md-9 col-xs-12">45</div>
+                                            <div class="description col-md-9 col-xs-12"><p>None</p>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">formdata</span></div>
+                                        <hr>
+                                              <div class="param row">
+                                                <div class="name col-md-3 col-xs-12">userId</div>
+                                                <div class="value col-md-9 col-xs-12">45</div>
+                                                <div class="description col-md-9 col-xs-12"><p>None</p>
+                                                </div>
+                                              </div>
+                                              <div class="param row">
+                                                <div class="name col-md-3 col-xs-12">file</div>
+                                                <div class="value col-md-9 col-xs-12">None</div>
+                                                <div class="description col-md-9 col-xs-12"><p>None</p>
+                                                </div>
+                                              </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Create by CSV</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="20" data-response-info="response_20">Create by CSV</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="20"  data-id="response_20">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Create by CSV">
+                                                <code class="is-highlighted">
+POST http://localhost:5000/bpf/csv</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="21">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="GET method" >GET</span>
+                                            Get all by user <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">http://localhost:5000/bcn/get/all_by_user?id=1</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">PARAMS</div>
+                                        <hr>
+                                          <div class="param row">
+                                            <div class="name col-md-3 col-xs-12">id</div>
+                                            <div class="value col-md-9 col-xs-12">1</div>
+                                            <div class="description col-md-9 col-xs-12"><p>None</p>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Get all by user</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="21" data-response-info="response_21">Get all by user</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="21"  data-id="response_21">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Get all by user">
+                                                <code class="is-highlighted">
+GET http://localhost:5000/bcn/get/all_by_user?id=1</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="22">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="DELETE method" >DELETE</span>
+                                            Delete one <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">http://localhost:5000/bcn/delete</div>
+                                    
+                                    <div class="request-body">
+                                        <div class="body-heading">BODY <span class="body-type">raw</span></div>
+                                        <hr>
+                                            <div class="raw-body code-snippet">
+                                              <pre class="body-block click-to-expand-wrapper is-snippet-wrapper " data-title="Delete one">
+                                                  <code>
+                                                    
+{
+    "userId": 1,
+    "city": "porté-puymorens"
+}
+                                                  </code>
+                                              </pre>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Delete one</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="22" data-response-info="response_22">Delete one</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="22"  data-id="response_22">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Delete one">
+                                                <code class="is-highlighted">
+DELETE http://localhost:5000/bcn/delete
+
+{
+    "userId": 1,
+    "city": "porté-puymorens"
+}</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-no-padding row-eq-height">
+                            <div class="col-md-6 col-xs-12 section">
+                                <div class="api-information" id="23">
+                                     <div class="heading">
+                                        <div class="name">
+                                            <span class="GET method" >GET</span>
+                                            Get provinces <span class="lock-icon"></span>
+                                        </div>
+                                     </div>
+                                    <div class="url">http://localhost:5000/provinces/get/all</div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 examples">
+                                <div class="sample-request">
+                                    <div class="heading">
+                                        <span>Example Request</span>
+                                    </div>
+                                    <div class="responses-index">
+                                        <div class="dropdown response-name">
+                                            <button class="btn   responses-dropdown truncate" type="button" id="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                              <span id="selected" class="response-name-label">Get provinces</span>
+                                                <span class="caret"></span>
+
+                                            </button>
+
+                                            <ul class="dropdown-menu" aria-labelledby="f678f251-1750-4e3a-b5d8-05b4c6b0fb37_dropdown">
+                                                <li class="truncate" data-request-info="23" data-response-info="response_23">Get provinces</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formatted-requests " data-request-id="23"  data-id="response_23">
+                                    <div class="request code-snippet">
+                                        <div>
+                                            <pre class="click-to-expand-wrapper is-snippet-wrapper " data-title="Get provinces">
+                                                <code class="is-highlighted">
+GET http://localhost:5000/provinces/get/all</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </main>
+        <!-- page-content" -->
+    </div>
+    <!-- page-wrapper -->
+    <!-- using online scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+    </script>
+    <script src="https://malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="js/bootstrap-treeview.min.js"></script>
+    <script src="js/main.min.js"></script>
+    <script type="application/javascript">
+        var data = [{'text': 'Users', 'nodes': [{'text': 'Update user', 'href': '#1', 'method': 'PUT'}, {'text': 'New user', 'href': '#2', 'method': 'POST'}, {'text': 'All users', 'href': '#3', 'method': 'GET'}, {'text': 'Delete user', 'href': '#4', 'method': 'DELETE'}, {'text': 'One user', 'href': '#5', 'method': 'GET'}, {'text': 'Connect user', 'href': '#6', 'method': 'POST'}, {'text': 'Disconnect', 'href': '#7', 'method': 'POST'}, {'text': 'jwtid', 'href': '#8', 'method': 'GET'}, {'text': 'Photo', 'href': '#9', 'method': 'POST'}, {'text': 'Verify email', 'href': '#10', 'method': 'GET'}, {'text': 'Update password', 'href': '#11', 'method': 'POST'}], 'icon': 'fas fa-folder', 'selectable': 'false'}, {'text': 'Cities', 'nodes': [{'text': 'All', 'href': '#12', 'method': 'GET'}, {'text': 'One', 'href': '#13', 'method': 'POST'}], 'icon': 'fas fa-folder', 'selectable': 'false'}, {'text': 'BPF', 'nodes': [{'text': 'Get one', 'href': '#14', 'method': 'POST'}, {'text': 'Create by photo', 'href': '#15', 'method': 'POST'}, {'text': 'Get all by user', 'href': '#16', 'method': 'GET'}, {'text': 'Create', 'href': '#17', 'method': 'POST'}, {'text': 'Delete one', 'href': '#18', 'method': 'DELETE'}, {'text': 'Delete all by user', 'href': '#19', 'method': 'DELETE'}, {'text': 'Create by CSV', 'href': '#20', 'method': 'POST'}], 'icon': 'fas fa-folder', 'selectable': 'false'}, {'text': 'BCN', 'nodes': [{'text': 'Get all by user', 'href': '#21', 'method': 'GET'}, {'text': 'Delete one', 'href': '#22', 'method': 'DELETE'}], 'icon': 'fas fa-folder', 'selectable': 'false'}, {'text': 'Get provinces', 'href': '#23', 'method': 'GET'}]
+        $('#tree').treeview({
+            data: data,
+            levels: 10,
+            expandIcon: 'fas fa-caret-right',
+            collapseIcon: 'fas fa-caret-down',
+            enableLinks: true,
+            showIcon: true,
+            showMethod: true
+        });
+    </script>
+
+</body>
+
+</html>
