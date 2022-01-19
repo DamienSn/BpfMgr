@@ -45,3 +45,6 @@ dbInit
 
 documents
 public
+heroku
+
+postman_doc_gen.exe
