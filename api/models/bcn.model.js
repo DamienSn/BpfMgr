@@ -55,7 +55,7 @@ module.exports.getAllByUser = (params, result) => {
     id = parseInt(id);
 
     const queryGetAllByUser = `
-    SELECT bcn_bpf_id, bcn_user_id, bpf_date, city_name, city_departement, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
+    SELECT bcn_bpf_id, bcn_user_id, bpf_date, city_name, city_departement, city_poi_id, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
     FROM bcns
     INNER JOIN bpfs ON bcn_bpf_id=bpf_id
     INNER JOIN cities ON bpf_city_id=city_id
