@@ -54,6 +54,13 @@ function Log() {
                     </button>
                 </div>
             </div>
+            {/* Bandeau suppression comptes utilisateurs */}
+            <div className="bg-red-400 border border-red-600 rounded-lg mx-4 my-6 px-6 py-3">
+                <h3>Problème technique</h3>
+                <p>Suite à un problème technique important, les comptes utilisateurs ont dûs être supprimés.</p>
+                <p>Si vous utilisiez BpfMgr, vous pouvez créer un nouveau compte avec la même adresse e-mail.</p>
+                <p>Nous sommes désolés pour le désagrément, et vous remercions de l'utilisation de BpfMgr et de votre compréhension.</p>
+            </div>
             {tab === "up" && <SignUp />}
             {tab === "in" && <SignIn />}
             {tab === "pwd" && <PasswordLost />}

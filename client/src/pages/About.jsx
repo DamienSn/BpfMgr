@@ -24,7 +24,9 @@ export default function About() {
                     <p>BpfMgr signifie BpfManager. C'est une application <b>simple d'utilisation</b> pour gérer vos bpf et bcn.<br />
                         <b>Cependant, cette application ne remplace pas une <a href="https://ffvelo.fr/activites-federales/adherents/les-brevets/homologuer-votre-brevet/" className="text-blue-600 underline hover:text-blue-800">homologation officielle</a>, c'est un outil de gestion.</b></p>
                 </div>
-                <ArrowCircleDownIcon className="icon-lg animate-bounce text-blue-500" />
+                <div className="hidden lg:block">
+                    <ArrowCircleDownIcon className="icon-lg animate-bounce text-blue-500" />
+                </div>
                 <SRLWrapper options={galleryOptions}>
                     <img src="img/hero/stats.jpg" alt="Capture d'écran de l'interface BpfMgr" />
                 </SRLWrapper>
