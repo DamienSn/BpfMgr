@@ -40,6 +40,10 @@ main {
     margin-left: 75px + 15px;
 }
 
+main.disconnected {
+    margin-left: 0;
+}
+
 h1 {
     @include heading1();
 }

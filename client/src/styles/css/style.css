@@ -473,6 +473,10 @@ main {
   margin-left: 90px;
 }
 
+main.disconnected {
+  margin-left: 0;
+}
+
 h1 {
   font-family: "Ubuntu", sans-serif;
   font-size: 60px;

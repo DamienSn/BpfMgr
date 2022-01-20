@@ -16,7 +16,7 @@ function Home() {
     dispatch({ type: 'SET_FOOTER', payload: true })
 
     return (
-        <main>
+        <main className={`${!uid && 'disconnected'}`}>
             {uid ?
                 <>
                     {!userData.user_verified &&
