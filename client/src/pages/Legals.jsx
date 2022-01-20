@@ -2,7 +2,7 @@ import React from 'react'
 
 function Legals() {
     return (
-        <section className="mt-4 mx-4 md:mx-12 lg:mx-24">
+        <main>
             <h1>Mentions légales</h1>
             <h3>Editeur</h3>
             Vous êtes actuellement connecté au site Internet BpfMgr
@@ -24,7 +24,7 @@ function Legals() {
 
             <h3>Droits d’auteur – Copyright</h3>
             Ce site est développé par Damien STEPHAN. Il est open-source, sous licence GNU.
-        </section>
+        </main>
     )
 }
 

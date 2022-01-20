@@ -164,7 +164,7 @@ function Add() {
     }
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <main>
             <h2>Ajouter un BPF</h2>
 
             <div className="md:flex mt-6">

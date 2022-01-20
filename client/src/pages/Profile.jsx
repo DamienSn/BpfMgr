@@ -24,7 +24,7 @@ export default function Profile() {
     getBpfNumber(uid, setBpfNumber);
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <main>
             <div className="profile-page-title">
                 <h2>Profil</h2>
                 <Link to="/settings" className="btn btn-outline-blue mr-4">

@@ -16,7 +16,7 @@ function Home() {
     dispatch({ type: 'SET_FOOTER', payload: true })
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <main>
             {uid ?
                 <>
                     {!userData.user_verified &&
