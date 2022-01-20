@@ -6,7 +6,7 @@ function Header() {
     const uid = useContext(UidContext);
 
     return (
-        <header class="p-2 md:p-5">
+        <header class="pr-2 md:pr-5">
             <a className="brand" href="#">
                 <img src="/img/logos/light.svg" alt="Logo" class="margin-0 md:m-2"/>
             </a>
