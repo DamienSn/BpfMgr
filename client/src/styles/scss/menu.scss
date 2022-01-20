@@ -61,6 +61,16 @@
     transform: scale(1);
 }
 
+// Tooltip
+.menu-tooltip {
+    @apply absolute top-1/2 w-auto p-2 m-2 min-w-max left-14 
+    rounded-md shadow-md 
+    text-white bg-gray-900 
+    text-sm font-bold 
+    transition-all duration-100 
+    transform scale-0 origin-left;
+}
+
 // Mobile menu
 @media screen and (max-width: 600px) {
     .menu {
