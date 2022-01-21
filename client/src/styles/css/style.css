@@ -224,7 +224,7 @@ header {
     transform scale-0 origin-left;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 640px) {
   .menu {
     position: fixed;
     bottom: 0;
@@ -243,6 +243,7 @@ header {
 
   main {
     margin-left: 0 !important;
+    @apply py-2;
   }
 
   .menu li {
@@ -550,19 +551,6 @@ textarea {
   resize: none;
 }
 
-footer.menu-toggled {
-  margin-left: 249px;
-}
-
-footer.menu-collapse {
-  margin-left: 74px;
-}
-
-@media screen and (max-width: 600px) {
-  footer {
-    margin-left: 0;
-  }
-}
 .drop-files {
   border: 2px dashed #2699d1 !important;
 }

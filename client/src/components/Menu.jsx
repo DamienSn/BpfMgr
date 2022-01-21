@@ -61,7 +61,7 @@ function MenuItem(props) {
     useEffect(activateLinks);
 
     return (
-        <li onClick={activateLinks} aria-label={text} className='relative group'>
+        <li onClick={activateLinks} aria-label={props.text} className='relative group'>
             <Link to={props.path} style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
                 {props.children}
             </Link>
