@@ -61,11 +61,11 @@ function MenuItem(props) {
     useEffect(activateLinks);
 
     return (
-        <li onClick={activateLinks} title={props.text} className='relative group'>
+        <li onClick={activateLinks} aria-label={text} className='relative group'>
             <Link to={props.path} style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
                 {props.children}
             </Link>
-            <span className="menu-tooltip group-hover:scale-100">{props.text}</span>
+            <span className="menu-tooltip sm:group-hover:scale-100">{props.text}</span>
         </li>
     )
 }
