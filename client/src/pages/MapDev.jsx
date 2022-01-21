@@ -93,7 +93,7 @@ function MapContainerBpfDev() {
 
         bpfLayer.on("load", ()=>{    
             bpfLayer.eachFeature(layer=>{
-                console.log(layer.feature.properties.IDENTIFIANT_POI);
+                console.log(layer.feature.properties.IDENTIFIANT_POI, bpfs);
             });
         })
 
