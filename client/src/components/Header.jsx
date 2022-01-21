@@ -12,19 +12,19 @@ function Header() {
     }
 
     return (
-        <header class="p-2 md:p-5">
+        <header className="p-2 md:p-5">
             {uid ?
                 <div className="menu-toggle" onClick={handleMenuClick}>
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
-                : <div class="hidden md:block"></div>
+                : <div className="hidden md:block"></div>
             }
 
             <a className="brand" href="#">
-                <img src="/img/logos/light.svg" alt="Logo" class="margin-0 md:m-2"/>
-                <h3 class="text-2xl md:text-3xl lg:text-4xl">BpfMgr</h3>
+                <img src="/img/logos/light.svg" alt="Logo" className="margin-0 md:m-2"/>
+                <h3 className="text-2xl md:text-3xl lg:text-4xl">BpfMgr</h3>
             </a>
 
             <UserMenuCommands/>

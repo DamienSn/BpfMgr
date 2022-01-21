@@ -70,6 +70,8 @@ app.use("/bpf", bpfRoutes);
 app.use("/bcn", bcnRoutes);
 app.use("/provinces", provinceRoutes);
 
+console.log(process.env.CLIENT_URL);
+
 // server
 app.listen(PORT, () => {
     logger.info(`Server listening at port ${PORT}`);

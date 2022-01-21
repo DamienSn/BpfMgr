@@ -72,7 +72,7 @@ export default function Menu() {
                         </Link>
                     </li>
                     <li onClick={activateLinks} title="Carte">
-                        <Link to="/map" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
+                        <Link to="/map-dev" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
                             <span className="svg-container">
                                 <MapIcon className="icon-md" />
                             </span>
