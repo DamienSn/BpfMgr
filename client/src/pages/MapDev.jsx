@@ -32,9 +32,6 @@ function MapContainerBpfDev() {
     const pane = useSelector(state => state.mapPane)
     const bpfs = useSelector(state => state.bpfs);
 
-    console.log(bpfToDoMarker);
-
-
     useEffect(() => {
 
         document.getElementById("map").remove();
@@ -64,7 +61,6 @@ function MapContainerBpfDev() {
             'OpenStreetMap': osmLayer,
             'Satellite (Esri)': satelliteLayer,
         };
-        
         const layerControl = L.control.layers(baseLayers).addTo(map);
 
         const bpfDoneIcon = L.icon({
