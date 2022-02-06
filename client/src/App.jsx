@@ -30,6 +30,7 @@ import VerifyAccount from "./components/VerifyAccount";
 import List from "./pages/List";
 import Add from "./pages/Add";
 import MapContainerBpf from "./pages/Map";
+import MapContainerBpfDev from "./pages/MapDev";
 import Search from './pages/Search';
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
@@ -89,28 +90,29 @@ function App() {
                         {loading && <Loader />}
                         {uid && <Menu />}
                         <div className="flex flex-col h-full justify-between" style={{ height: "calc(100% - 330px)" }}>
-                                <Route path="/" exact component={Home} />
-                                <Route path="/profile" exact component={Profile} />
-                                <Route path="/settings" exact component={Settings} />
-                                <Route
-                                    path="/verify_account"
-                                    exact
-                                    component={VerifyAccount}
-                                />
-                                <Route path="/list" exact component={List} />
-                                <Route path="/add" exact component={Add} />
-                                <Route path="/map" component={MapContainerBpf} />
-                                <Route path="/search" component={Search} />
-                                <Route path="/about" component={About} />
-                                <Route path="/connect" component={Log} />
-                                <Route path="/legal" component={Legals} />
-                                {/* ProtectedRoutes */}
-                                {userData.user_permissions === "adm" &&
-                                    <>
-                                        <Route path="/users/:id" component={User} />
-                                        <Route path="/users" exact component={UserMgmt} />
-                                    </>
-                                }
+                            <Route path="/" exact component={Home} />
+                            <Route path="/profile" exact component={Profile} />
+                            <Route path="/settings" exact component={Settings} />
+                            <Route
+                                path="/verify_account"
+                                exact
+                                component={VerifyAccount}
+                            />
+                            <Route path="/list" exact component={List} />
+                            <Route path="/add" exact component={Add} />
+                            <Route path="/map" component={MapContainerBpf} />
+                            <Route path="/map-dev" component={MapContainerBpfDev} />
+                            <Route path="/search" component={Search} />
+                            <Route path="/about" component={About} />
+                            <Route path="/connect" component={Log} />
+                            <Route path="/legal" component={Legals} />
+                            {/* ProtectedRoutes */}
+                            {userData.user_permissions === "adm" &&
+                                <>
+                                    <Route path="/users/:id" component={User} />
+                                    <Route path="/users" exact component={UserMgmt} />
+                                </>
+                            }
                             <Footer />
                         </div>
                     </Router>
