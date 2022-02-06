@@ -5,26 +5,14 @@ import UserMenuCommands from './UserMenuCommands'
 function Header() {
     const uid = useContext(UidContext);
 
-    const handleMenuClick = (e) => {
-        document.querySelector('.menu').classList.toggle('reduced');
-        document.querySelector('main').classList.toggle('menu-collapse');
-        document.querySelector('footer').classList.toggle('menu-collapse');
-    }
-
     return (
-        <header className="p-2 md:p-5">
-            {uid ?
-                <div className="menu-toggle" onClick={handleMenuClick}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                : <div className="hidden md:block"></div>
-            }
-
+        <header class="pr-2 md:pr-5">
             <a className="brand" href="#">
-                <img src="/img/logos/light.svg" alt="Logo" className="margin-0 md:m-2"/>
-                <h3 className="text-2xl md:text-3xl lg:text-4xl">BpfMgr</h3>
+                <img src="/img/logos/light.svg" alt="Logo" class="margin-0 md:m-2"/>
+            </a>
+
+            <a href="#">
+                <h3 class="text-2xl md:text-3xl lg:text-4xl">BpfMgr</h3>
             </a>
 
             <UserMenuCommands/>

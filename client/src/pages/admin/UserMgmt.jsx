@@ -25,7 +25,7 @@ export default function UserMgmt() {
     }, [])
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <main>
             <h2><UserGroupIcon className="icon-md" />&nbsp;Gestion des utilisateurs</h2>
             <table className="w-full mt-6">
                 <thead>

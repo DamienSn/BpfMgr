@@ -44,7 +44,7 @@ function MapContainerBpf() {
     const pane = useSelector(state => state.mapPane)
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <main>
             <h2><MapIcon className="icon-md" />&nbsp;Carte</h2>
 
             <MapPane id={pane.id} validated={pane.validated} active={pane.active} />

@@ -73,7 +73,7 @@ function Search() {
     }
 
     return (
-        <main className={`search-page ${uid && 'menu-toggled menu-collapse'}`} style={{ marginTop }}>
+        <main className="search-page" style={{ marginTop }}>
             {page === "home" ?
                 <div className="p-12 bg-blue-300 bg-opacity-70 home">
                     <h1><GlobeIcon className="icon-lg" />&nbsp;Explorer</h1>

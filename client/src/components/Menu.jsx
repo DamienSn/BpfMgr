@@ -1,17 +1,34 @@
 import { HomeIcon, PlusCircleIcon, CollectionIcon, MapIcon, SearchIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react';
+import React from 'react';
 
 export default function Menu() {
+    return (
+        <aside className="menu">
+            <nav>
+                <ul>
+                    <MenuItem text="Accueil" path="/"><HomeIcon className='icon-md' /></MenuItem>
+                    <MenuItem text="Ajouter un BPF/BCN" path="/add"><PlusCircleIcon className='icon-md' /></MenuItem>
+                    <MenuItem text="Mes BPF/BCN" path="/list"><CollectionIcon className='icon-md' /></MenuItem>
+                    <MenuItem text="Carte" path="/map"><MapIcon className='icon-md' /></MenuItem>
+                    <MenuItem text="Recherche" path="/search"><SearchIcon className='icon-md' /></MenuItem>
+                </ul>
+            </nav>
+        </aside>
+    )
+}
+
+function MenuItem(props) {
     const removeActiveLinks = () => {
-        const icons = document.querySelectorAll('.nav-link span.svg-container');
+        const icons = document.querySelectorAll('.nav-link');
         icons.forEach((icon) => {
             icon.classList.remove('active');
         })
     }
 
     const activateIcon = (index) => {
-        const icons = document.querySelectorAll('.nav-link span.svg-container');
+        const icons = document.querySelectorAll('.nav-link');
         icons[index].classList.add('active');
     }
 
@@ -44,51 +61,11 @@ export default function Menu() {
     useEffect(activateLinks);
 
     return (
-        <aside className="menu reduced">
-            <nav>
-                <ul>
-                    <li onClick={activateLinks} title="Accueil">
-                        <Link to="/" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            <span className="svg-container">
-                                <HomeIcon className="icon-md" />
-                            </span>
-                            <span>&nbsp;Accueil</span>
-                        </Link>
-                    </li>
-                    <li onClick={activateLinks} title="Ajouter un BPF/BCN">
-                        <Link to="/add" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            <span className="svg-container">
-                                <PlusCircleIcon className="icon-md" />
-                            </span>
-                            <span>&nbsp;Ajouter</span>
-                        </Link>
-                    </li>
-                    <li onClick={activateLinks} title="Mes BPF/BCN">
-                        <Link to="/list" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            <span className="svg-container">
-                                <CollectionIcon className="icon-md" />
-                            </span>
-                            <span>&nbsp;Mes BPF/BCN</span>
-                        </Link>
-                    </li>
-                    <li onClick={activateLinks} title="Carte">
-                        <Link to="/map-dev" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            <span className="svg-container">
-                                <MapIcon className="icon-md" />
-                            </span>
-                            <span>&nbsp;Carte</span>
-                        </Link>
-                    </li>
-                    <li onClick={activateLinks} title="Recherche">
-                        <Link to="/search" style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
-                            <span className="svg-container">
-                                <SearchIcon className="icon-md" />
-                            </span>
-                            <span>&nbsp;Recherche</span>
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
+        <li onClick={activateLinks} aria-label={props.text} className='relative group'>
+            <Link to={props.path} style={{ textDecoration: 'none', color: '#fff' }} className="nav-link">
+                {props.children}
+            </Link>
+            <span className="menu-tooltip sm:group-hover:scale-100">{props.text}</span>
+        </li>
     )
 }

@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ListTable, ListTableBcn } from '../components/ListTable'
 
 function List() {
-    const uid = useContext(UidContext);
     const dispatch = useDispatch();
     // display banner and footer
     dispatch({ type: 'SET_BANNER', payload: true })
@@ -50,7 +49,7 @@ function List() {
     }
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <main>
             <h2>
                 <BadgeCheckIcon className="icon-lg" />
                 &nbsp;Vos BPF

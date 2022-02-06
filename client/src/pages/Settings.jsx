@@ -11,7 +11,6 @@ import { getUser } from '../redux/actions/user.actions'
 import { useToast } from '../components/toaster/ToastProvider';
 
 export default function Settings() {
-    const uid = useContext(UidContext);
     const userData = useSelector(userSelector);
     const dispatch = useDispatch();
     const toast = useToast()
@@ -87,7 +86,7 @@ export default function Settings() {
     }
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <main>
             <div className="params-page-title">
                 <h2>Paramètres</h2>
             </div>

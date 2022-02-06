@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { useToast } from '../../components/toaster/ToastProvider';
 
 function User() {
-    const uid = useContext(UidContext);
     const { id } = useParams()
     const [userData, setUserData] = useState({});
 
@@ -65,7 +64,7 @@ function User() {
     }
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <main>
             <div className="my-6 flex items-center justify-between">
                 <h2><UserIcon className="icon-md" />&nbsp;Gestion de l'utilisateur</h2>
                 <a href="#/users" className="btn btn-outline-blue mr-8">Retour&nbsp;<ChevronDoubleLeftIcon className="icon-sm" /></a>
