@@ -73,7 +73,7 @@ function Search() {
     }
 
     return (
-        <main className="search-page" style={{ marginTop }}>
+        <main className="search-page pl-0" style={{marginTop}}>
             {page === "home" ?
                 <div className="p-12 bg-blue-300 bg-opacity-70 home">
                     <h1><GlobeIcon className="icon-lg" />&nbsp;Explorer</h1>
