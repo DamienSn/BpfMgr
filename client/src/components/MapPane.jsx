@@ -52,11 +52,11 @@ function MapPane(props) {
                     <h2>{city && city.city_name}</h2>
 
                     {/* City image */}
-                    <SRLWrapper options={galleryOptions}>
+                    {/* <SRLWrapper options={galleryOptions}>
                         <a href={`/img/cities/${city ? city.city_id : "1"}.jpg`}>
                             <img src={`/img/cities/${city ? city.city_id : "1"}.jpg`} alt={city ? city.city_name : 'Photo du BPF'} />
                         </a>
-                    </SRLWrapper>
+                    </SRLWrapper> */}
 
                     {/* Is validated ? */}
                     {props.validated &&

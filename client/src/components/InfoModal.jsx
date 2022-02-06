@@ -76,14 +76,14 @@ function InfoModal(props) {
                             <button className="btn btn-outline-blue mt-4 ml-2" onClick={viewOnMap}><MapIcon className="icon-sm" />&nbsp;Carte</button>
                         </div>
                         {/* Picture */}
-                        <div className="picture mt-4 ml-4">
+                        {/* <div className="picture mt-4 ml-4"> */}
                             {/* City image */}
-                            <SRLWrapper options={galleryOptions}>
+                            {/* <SRLWrapper options={galleryOptions}>
                                 <a href={`/img/cities/${city ? city.city_id : "1"}.jpg`}>
                                     <img src={`/img/cities/${city ? city.city_id : "1"}.jpg`} alt={city ? city.city_name : 'Photo du BPF'} />
                                 </a>
                             </SRLWrapper>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
