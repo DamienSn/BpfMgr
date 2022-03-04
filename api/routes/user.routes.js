@@ -19,6 +19,7 @@ router.get('/reset_password', users.resetPassword)
 router.post('/update_password', users.changePassword)
 
 // auth
+router.post("/login/with_licence", (req, res) => {authController.logIn(req, res, "licence")});
 router.post("/login", authController.logIn);
 router.post("/logout", authController.logOut);
 

@@ -19,13 +19,20 @@ const createToken = (id) => {
  * @param {*} req
  * @param {*} res
  */
-exports.logIn = async (req, res) => {
-    const { email, password } = req.body;
-
+exports.logIn = async (req, res, type) => {
+    
     try {
-        const user = await User.connect(email, password).catch((error) => {
-            res.status(200).send({message: 'error', error});
-        });
+        if (type !== "licence") {
+            const { email, password } = req.body;
+            const user = await User.connect(email, password).catch((error) => {
+                res.status(200).send({ message: 'error', error });
+            });
+        } else {
+            const { email, licence } = req.body;
+            const user = await User.connectWithLicence({email, licence}).catch((error) => {
+                res.status(200).send({ message: 'error', error });
+            });
+        }
 
         const token = createToken(user[0].user_id);
         res.cookie("jwt", token, { httpOnly: true, maxAge });

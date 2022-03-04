@@ -126,7 +126,7 @@ User.connect = async (email, password) => {
     });
 }
 
-User.connectWithLicence = async (email, licence) => {
+User.connectWithLicence = async ({email, licence}) => {
     return new Promise((resolve, reject)=>{
         sql.query(`SELECT * FROM users WHERE user_email=?`, email,  async (error, results)=>{
             if(error){

@@ -140,11 +140,6 @@ exports.connect = (req, res) => {
     });
 };
 
-const connectWIthLicence = new Controller({
-    model: User.connectWithLicence,
-    message: "ok"
-})
-
 exports.verifyEmail = (req, res) => {
     if (!req.query.userId || !req.query.code) {
         res.status(400).json({ message: "Missing code or uid" });
