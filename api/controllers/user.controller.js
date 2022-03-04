@@ -1,6 +1,7 @@
 const User = require("../models/user.model.js");
 const { randomPassword } = require("custom-password-generator");
 const SibApiV3Sdk = require("sib-api-v3-sdk");
+const Controller = require("./Controller.js");
 
 exports.create = (req, res) => {
     // Validate request
@@ -138,6 +139,11 @@ exports.connect = (req, res) => {
         }
     });
 };
+
+const connectWIthLicence = new Controller({
+    model: User.connectWithLicence,
+    message: "ok"
+})
 
 exports.verifyEmail = (req, res) => {
     if (!req.query.userId || !req.query.code) {
