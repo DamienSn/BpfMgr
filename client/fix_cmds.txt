@@ -1,0 +1,4 @@
+npm install react-scripts@5.0.0
+npm update follow-redirects --depth 5
+npm update nanoid --depth 4
+npm update url-parse --depth 6
