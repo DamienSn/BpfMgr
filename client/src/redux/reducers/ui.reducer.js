@@ -28,15 +28,6 @@ export function addReducer(state="", action) {
     }
 }
 
-// Pane Reducer
-import {SET_PANE, SET_PANE_ACTIVE} from '../actions/pane.actions'
-
-const initialState = {
-    id: null,
-    validated: false,
-    active: false
-};
-
 export function paneReducer(state=initialState, action) {
     switch(action.type) {
         case SET_PANE:

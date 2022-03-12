@@ -51,14 +51,7 @@ function Search() {
     })
 
     const displayModal = (e) => {
-        dispatch({
-            type: 'SET_SEARCH',
-            payload: {
-                id: e.target.attributes["data-city"].value,
-                page: 'results',
-                active: true
-            }
-        })
+        window.location.hash = `#map/${e.target.attributes["data-city"].value}`
     }
 
     const handleProvinceSelectChange = (e) => {
@@ -93,7 +86,7 @@ function Search() {
                 <>
                     <h2><GlobeIcon className="icon-lg" />&nbsp;Explorer</h2>
 
-                    <div className="search-results mb-10">
+                    <div className="search-results mb-10 ml-4">
                         {/* Form */}
                         <form className="w-full flex flex-wrap justify-between">
                             {/* Search bar */}
@@ -142,7 +135,7 @@ function Search() {
                                         </p>
                                         <p>{/[^.]*À voir:[^.]*\./.exec(city.city_description)[0]}</p>
 
-                                        <button className="py-1 px-2 rounded btn-outline-blue" data-city={city.city_id} onClick={displayModal}>Plus d'infos&nbsp;<ArrowSmRightIcon className="icon-sm" /></button>
+                                        <button className="py-1 px-2 rounded btn-outline-blue" data-city={city.city_poi_id} onClick={displayModal}>Plus d'infos&nbsp;<ArrowSmRightIcon className="icon-sm" /></button>
                                     </div>
                                 )
                             })}
