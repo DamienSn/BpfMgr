@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '../components/toaster/ToastProvider';
 import { getBpfs } from '../redux/actions/bpfs.actions';
 import { getBcns } from '../redux/actions/bcns.actions';
+import Tabs from '../components/Tabs';
 
 function Add() {
     const uid = useContext(UidContext);
@@ -60,7 +61,7 @@ function Add() {
             })
                 .then(res => {
                     dispatch({ type: 'SET_LOADER', payload: false });
-                    
+
                     if (res.data.message === 'ok') {
                         toast?.pushSuccess(`BPF ${cityInput} créé !`)
                         dispatch(getBpfs(uid));
@@ -167,91 +168,92 @@ function Add() {
         <main>
             <h2>Ajouter un BPF</h2>
 
-            <div className="md:flex mt-6">
-
-                {/* Add bpf by hand */}
-                <div className="lg:border-r-2 border-blue-300 pr-20">
-                    <h4><HandIcon className="icon-sm" />&nbsp;Manuellement</h4>
-                    <p>Ajoutez votre BPF tout seul, comme un grand !</p>
-                    <form action="" className="mt-4" onSubmit={handleByHandSubmit}>
-                        <div>
-                            <label htmlFor="city-input" className="label">Lieu</label>
-                            <input type="text" id="city-input" className="input" list="cities-input-list" placeholder="Taper pour rechercher..." required onInput={e => setCityInput(e.target.value)} value={cityInput} />
-                            <p><SupportIcon className="icon-sm" /> Pensez aux tirets !</p>
-                            <datalist id="cities-input-list">
-                                {cities.map((city, index) =>
-                                    <option data-value={city} key={index}>{city}</option>
-                                )
-                                }
-                            </datalist>
-                        </div>
-
-                        <div className="mt-4">
-                            <label htmlFor="date-input" className="label">Date</label>
-                            <input type="date" className="input" id="date-input" onInput={e => setDateInput(e.target.value)} />
-                        </div>
-
-                        <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
-                    </form>
+            <Tabs tabs={{ titles: ["Manuellement", "Avec une photo", "Avec un CSV"] }}>
+                <div id="tabs-titles">
+                    <h5><HandIcon className="icon-sm" />&nbsp;Manuellement</h5>
+                    <h5><PhotographIcon className="icon-sm" />&nbsp;Avec une photo</h5>
+                    <h5><DatabaseIcon className="icon-sm" />&nbsp;Avec un CSV</h5>
                 </div>
-
-                {/* Add bpf with photo */}
-                <div className="sm:mt-12 md:mt-0 lg:pl-20">
-                    <h4><PhotographIcon className="icon-sm" />&nbsp;Avec une photo</h4>
-                    <p>Importez une photo <span className="font-bold underline">géolocalisée</span> et laissez nous faire le reste !</p>
-                    <form className="mt-4" onSubmit={handleByPhotoSubmit} id="photo">
-                        <input
-                            type="file"
-                            multiple
-                            name="file"
-                            label="Glissez un fichier ou cliquez ici pour ouvrir l'explorateur"
-                            help="Choisir une photo pour ajouter un BPF"
-                            is="drop-files"
-                            accept="image/jpeg, image/png"
-                        />
-
-                        <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
-
-                        {/* <p><ExclamationIcon className="icon-sm" />&nbsp;La photo doit être géolocalisée</p> */}
-                    </form>
-                </div>
-            </div>
-
-            <p className="mt-4"><SupportIcon className="icon-sm" />&nbsp;Si, lors de l'ajout d'un BPF, aucun BPF du département n'est validé, <span className="font-bold">le BCN sera validé automatiquement</span> avec ce BPF</p>
-
-            <details>
-                <summary className="btn btn-outline-green mt-8 cursor-pointer"><DatabaseIcon className="icon-sm" />&nbsp;Avec un CSV</summary>
-                <div>
+                <div id="tabs-bodies">
+                    {/* Ajout Manuel */}
                     <div>
-                        Merci de vous référer à l'aide :&nbsp;
-                        <a href="https://github.com/DamienSn/BpfMgr/wiki/Importer-un-fichier-CSV"
-                            className="text-blue-500 underline cursor-pointer hover:text-blue-700"
-                            target="_blank">
-                            <SupportIcon className="icon-sm" />
-                            &nbsp;Aide
-                        </a>
+                        <p>Ajoutez votre BPF tout seul, comme un grand !</p>
+                        <form action="" className="mt-4" onSubmit={handleByHandSubmit}>
+                            <div>
+                                <label htmlFor="city-input" className="label">Lieu</label>
+                                <input type="text" id="city-input" className="input" list="cities-input-list" placeholder="Taper pour rechercher..." required onInput={e => setCityInput(e.target.value)} value={cityInput} />
+                                <p><SupportIcon className="icon-sm" /> Pensez aux tirets !</p>
+                                <datalist id="cities-input-list">
+                                    {cities.map((city, index) =>
+                                        <option data-value={city} key={index}>{city}</option>
+                                    )
+                                    }
+                                </datalist>
+                            </div>
+
+                            <div className="mt-4">
+                                <label htmlFor="date-input" className="label">Date</label>
+                                <input type="date" className="input" id="date-input" onInput={e => setDateInput(e.target.value)} />
+                            </div>
+
+                            <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
+                        </form>
                     </div>
-                    <form className="mt-4" id="csv" onSubmit={handleCsvSubmit}>
-                        <input
-                            type="file"
-                            name="file"
-                            label="Glissez un fichier ou cliquez ici pour ouvrir l'explorateur"
-                            help="Choisir un fichier"
-                            is="drop-files"
-                            accept="text/csv"
-                        />
 
-                        <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
+                    {/* Ajout avec une photo */}
+                    <div>
+                        <p>Importez une photo <span className="font-bold underline">géolocalisée</span> et laissez nous faire le reste !</p>
+                        <form className="mt-4" onSubmit={handleByPhotoSubmit} id="photo">
+                            <input
+                                type="file"
+                                multiple
+                                name="file"
+                                label="Glissez un fichier ou cliquez ici pour ouvrir l'explorateur"
+                                help="Choisir une photo pour ajouter un BPF"
+                                is="drop-files"
+                                accept="image/jpeg, image/png"
+                            />
 
-                        {/* <p><ExclamationIcon className="icon-sm" />&nbsp;La photo doit être géolocalisée</p> */}
-                    </form>
-                    {results.length > 0 &&
-                        <div className="results bg-gray-400 text-white rounded font-mono p-4 mt-8 h-[300px] w-[500px] overflow-scroll text-xs">
-                            {results.map((result, index) => <p key={index}>{result}</p>)}
+                            <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
+
+                            {/* <p><ExclamationIcon className="icon-sm" />&nbsp;La photo doit être géolocalisée</p> */}
+                        </form>
+                    </div>
+
+                    {/* Ajout CSV */}
+                    <div>
+                        <div>
+                            Merci de vous référer à l'aide :&nbsp;
+                            <a href="https://github.com/DamienSn/BpfMgr/wiki/Importer-un-fichier-CSV"
+                                className="text-blue-500 underline cursor-pointer hover:text-blue-700"
+                                target="_blank">
+                                <SupportIcon className="icon-sm" />
+                                &nbsp;Aide
+                            </a>
                         </div>
-                    }
+                        <form className="mt-4" id="csv" onSubmit={handleCsvSubmit}>
+                            <input
+                                type="file"
+                                name="file"
+                                label="Glissez un fichier ou cliquez ici pour ouvrir l'explorateur"
+                                help="Choisir un fichier"
+                                is="drop-files"
+                                accept="text/csv"
+                            />
+
+                            <button type="submit" className="btn btn-blue mt-4"><PlusIcon className="icon-sm" />&nbsp;Ajouter</button>
+
+                            {/* <p><ExclamationIcon className="icon-sm" />&nbsp;La photo doit être géolocalisée</p> */}
+                        </form>
+                        {results.length > 0 &&
+                            <div className="results bg-gray-400 text-white rounded font-mono p-4 mt-8 h-[300px] w-[500px] overflow-scroll text-xs">
+                                {results.map((result, index) => <p key={index}>{result}</p>)}
+                            </div>
+                        }
+                    </div>
                 </div>
-            </details>
+            </Tabs>
+            <p className="mt-4"><SupportIcon className="icon-sm" />&nbsp;Si, lors de l'ajout d'un BPF, aucun BPF du département n'est validé, <span className="font-bold">le BCN sera validé automatiquement</span> avec ce BPF</p>
         </main>
     )
 }

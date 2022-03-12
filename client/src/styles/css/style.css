@@ -608,4 +608,13 @@ textarea {
   margin-top: 15px;
 }
 
+.tab {
+  @apply border-2 inline-block p-2 rounded rounded-b-none cursor-pointer hover:bg-blue-500 hover:text-white hover:border-blue-500;
+  border-bottom-color: #3b82f6;
+}
+
+.tab.active {
+  @apply border-2 border-b-0 border-blue-500 rounded rounded-b-none inline-block p-2 cursor-pointer hover:bg-blue-500 hover:text-white hover:border-blue-500;
+}
+
 /*# sourceMappingURL=style.css.map */
