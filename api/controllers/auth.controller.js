@@ -22,14 +22,15 @@ const createToken = (id) => {
 exports.logIn = async (req, res, type) => {
     
     try {
+        let user = null;
         if (type !== "licence") {
             const { email, password } = req.body;
-            const user = await User.connect(email, password).catch((error) => {
+            user = await User.connect(email, password).catch((error) => {
                 res.status(200).send({ message: 'error', error });
             });
         } else {
             const { email, licence } = req.body;
-            const user = await User.connectWithLicence({email, licence}).catch((error) => {
+            user = await User.connectWithLicence({email, licence}).catch((error) => {
                 res.status(200).send({ message: 'error', error });
             });
         }

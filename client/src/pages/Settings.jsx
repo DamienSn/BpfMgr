@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { UidContext } from "../components/AppContext"
-import { CloudUploadIcon, EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
+import { CloudUploadIcon, EyeIcon, EyeOffIcon, LinkIcon } from '@heroicons/react/outline'
 import { useSelector } from "react-redux";
 import { userSelector } from "../redux/selectors/user.selectors";
 import { ImageUploadProfile } from "../components/ImageUpload";
@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { getUser } from '../redux/actions/user.actions'
 
 import { useToast } from '../components/toaster/ToastProvider';
+import { useLocation } from "react-router-dom";
 
 export default function Settings() {
     const userData = useSelector(userSelector);
@@ -19,6 +20,7 @@ export default function Settings() {
     dispatch({ type: 'SET_BANNER', payload: true })
     dispatch({ type: 'SET_FOOTER', payload: true })
 
+    // State
     const [bio, setBio] = useState(userData.user_bio);
     const [oldPassword, setOldPassword] = useState("")
     const [password, setPassword] = useState("");
@@ -29,6 +31,28 @@ export default function Settings() {
     const [confirmPwdVisible, setConfirmPwdVisible] = useState(false);
 
     const [error, setError] = useState()
+
+    // Token
+    const search = window.location.search;
+    const token = new URLSearchParams(search).get('access_token');
+
+    // Fetch data for token
+    useEffect(() => {
+        if (!token) return;
+        axios({
+            url: `${import.meta.env.VITE_API_URL}users/update/licence`,
+            method: "PUT",
+            data: {
+                user_id: userData.user_id,
+                user_licence: token,
+                user: userData
+            },
+            headers: {
+                "x-api-key": import.meta.env.VITE_API_KEY
+            }
+        })
+            .then(res => console.log(res))
+    })
 
     const handleUploadSubmit = (e) => {
         e.preventDefault();
@@ -90,6 +114,20 @@ export default function Settings() {
             <div className="params-page-title">
                 <h2>Paramètres</h2>
             </div>
+            {/* Licence */}
+            <div className="params-block">
+                <h3 className="params-block-title">Homologuation</h3>
+                <p>Pour homologuer vos BPF, vous devez vous connecter avec votre compte FFVelo.</p>
+                {userData.user_licence &&
+                    <div className="alert">
+                        Vous êtes connecté avec la FFVelo. Votre numéro de licence est <bold>{userData.user_licence}</bold>
+                    </div>}
+                <a href={`https://sso.ffcyclo.org?redirect_uri=${import.meta.env.VITE_LICENCE_REDIRECT_URI}`} className="btn btn-blue inline-block mt-4">
+                    <LinkIcon class="icon-sm" />&nbsp;
+                    Se connecter avec FFVelo
+                </a>
+            </div>
+
             {/* Sécurité */}
             <div className="params-block">
                 <h3 className="params-block-title">Sécurité</h3>

@@ -2,6 +2,7 @@ const User = require("../models/user.model.js");
 const { randomPassword } = require("custom-password-generator");
 const SibApiV3Sdk = require("sib-api-v3-sdk");
 const Controller = require("./Controller.js");
+const axios = require('axios');
 
 exports.create = (req, res) => {
     // Validate request
@@ -177,7 +178,7 @@ exports.resetPassword = (req, res) => {
  * @param {*} res
  * @returns
  */
- exports.changePassword = (req, res) => {
+exports.changePassword = (req, res) => {
     if (!req.body.email || !req.body.password) {
         res.status(400).json({ message: "Missing password or email" });
         return;
@@ -188,3 +189,24 @@ exports.resetPassword = (req, res) => {
         res.status(200).json({ message: "ok", data: req.body.password });
     });
 };
+
+exports.editLicence = async (req, res) => {
+    if (!req.body.user_id || !req.body.user_licence ||!req.body.user) {
+        res.status(400).json({ message: "Missing id or licence" });
+        return;
+    }
+
+    const response = await axios({
+        url: "https://sso.ffcyclo.org/resources/me",
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${req.body.user_licence}`
+        }
+    })
+    // console.log(response.data)
+
+    User.update(req.body.user_id, { ...req.body.user, user_licence: response.data.NumeroAdherent }, (error, data) => {
+        if (error) res.status(200).json({ message: "error", error });
+        res.status(200).json({ message: "ok", data: req.data });
+    });
+}

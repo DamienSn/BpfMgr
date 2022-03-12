@@ -4,7 +4,8 @@ import { BpfStats, BcnStats } from "./BpfStats";
 import { useSelector } from 'react-redux';
 import { userSelector } from '../redux/selectors/user.selectors';
 import axios from 'axios';
-import { StatNumber } from './Stats.jsx'
+import { StatNumber } from './Stats.jsx';
+import { useLocation } from 'react-router-dom';
 
 // Icons
 import { ChartBarIcon, ClockIcon, TerminalIcon } from '@heroicons/react/outline'
@@ -12,6 +13,11 @@ import { ChartBarIcon, ClockIcon, TerminalIcon } from '@heroicons/react/outline'
 function Dashboard() {
     const uid = useContext(UidContext);
     const userData = useSelector(userSelector);
+
+    // Token
+    const search = window.location.search;
+    const token = new URLSearchParams(search).get('access_token');
+    if (token) { window.location.hash = '/settings' }
 
     // State
     const [message, setMessage] = useState('Bienvenue');
@@ -80,7 +86,7 @@ function Dashboard() {
                     <>
                         <h3 className="mt-4"><TerminalIcon className="icon-md" />&nbsp;Sous le capot</h3>
                         <a href="#/users">
-                        <StatNumber number={users} description="Utilisateurs" />
+                            <StatNumber number={users} description="Utilisateurs" />
                         </a>
                     </>
                 }

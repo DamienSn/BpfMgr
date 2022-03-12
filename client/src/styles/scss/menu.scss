@@ -69,6 +69,7 @@
     text-sm font-bold 
     transition-all duration-100 
     transform scale-0 origin-left;
+    z-index: 10000;
 }
 
 // Mobile menu

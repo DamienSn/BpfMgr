@@ -11,6 +11,7 @@
   "author": "Damien STEPHAN",
   "license": "GPL-3.0",
   "dependencies": {
+    "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",

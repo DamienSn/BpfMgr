@@ -22,7 +22,7 @@ router.post('/update_password', users.changePassword)
 router.post("/login/with_licence", (req, res) => {authController.logIn(req, res, "licence")});
 router.post("/login", authController.logIn);
 router.post("/logout", authController.logOut);
-
+router.put('/update/licence', users.editLicence)
 router.put("/update/:id", users.update);
 
 // photo

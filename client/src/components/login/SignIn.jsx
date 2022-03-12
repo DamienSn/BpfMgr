@@ -27,7 +27,8 @@ export default function SignIn() {
             withCredentials: true,
             data: {
                 email,
-                password
+                password,
+                type: "login"
             },
             headers: {
                 "x-api-key": import.meta.env.VITE_API_KEY

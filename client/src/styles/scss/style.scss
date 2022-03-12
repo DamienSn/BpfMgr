@@ -119,10 +119,9 @@ textarea {
 
 // Alerts
 .alert {
-    background: $blueSky;
-    border-radius: 15px;
-    padding: 15px;
-    margin: 15px;
+    @apply bg-green-400 rounded
+    border-2 border-green-500
+    m-4 p-4;
 }
 
 .alert-red {
