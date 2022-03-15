@@ -179,7 +179,7 @@ exports.createByPhoto = (req, res) => {
             );
         })
         .catch((e) => {
-           fs.unlink(
+            fs.unlink(
                 `${process.env.UPLOAD_DIR}/bpfs/${fileName}`,
                 (err) => {
                     if (err) {
@@ -239,7 +239,7 @@ exports.createByCsv = (req, res) => {
             .pipe(csv({ separator: ";" }))
             .on("data", (data) => json.push(data))
             .on("end", () => {
-                fs.unlink(`${process.env.UPLOAD_DIR}/bpfs/${fileName}`, (err) => {if (err) throw err});
+                fs.unlink(`${process.env.UPLOAD_DIR}/bpfs/${fileName}`, (err) => { if (err) throw err });
                 const state = new Promise((resolve, reject) => {
                     json.sort((a, b) => new Date(a.date) - new Date(b.date));
                     json.forEach((item, index, array) => {
@@ -286,8 +286,7 @@ exports.createByCsv = (req, res) => {
 
                 state.then((array) => {
                     output.push(
-                        `${array.length - output.length}/${
-                            array.length
+                        `${array.length - output.length}/${array.length
                         } villes ajoutées`
                     );
                     res.status(200).json({ message: "ok", output });
