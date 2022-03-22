@@ -25,9 +25,10 @@ module.exports.create = async (params, result) => {
     const queryCreateBcn =
         "INSERT INTO bcns(bcn_bpf_id, bcn_city_id, bcn_user_id, bcn_dpt, bcn_verification) VALUES (?, ?, ?, ?, ?)";
     let escaped = sqlString.escape(name);
-   escaped = escaped.substring(1, escaped.length-1)
+    escaped = escaped.substring(1, escaped.length-1)
     const querySelectCity = `SELECT city_id, city_departement FROM cities
-    WHERE city_name LIKE "%${escaped}%"`
+    WHERE city_name LIKE "%${escaped}%"
+    ORDER BY (city_name="${escaped}") DESC, LENGTH(city_name);`
 
     const selectedCity = await sql
         .query(querySelectCity)
