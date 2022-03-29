@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useContext } from 'react'
 import { UidContext } from '../components/AppContext'
-import { BadgeCheckIcon, FilterIcon } from '@heroicons/react/outline'
+import { BadgeCheckIcon, CalendarIcon } from '@heroicons/react/outline'
 import SearchBar from '../components/SearchBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { ListTable, ListTableBcn } from '../components/ListTable'
@@ -17,7 +17,7 @@ function List() {
     const provinces = useSelector(state => state.provinces)
     const [dptFilter, setDptFilter] = useState([]);
     const [searchFilter, setSearchFilter] = useState("");
-    const [dateFilter, setDateFilter] = useState(null);
+    const [dateFilter, setDateFilter] = useState("asc");
     const [tab, setTab] = useState(true); // True : BPF - False : BCN
 
     const handleProvinceSelectChange = (e) => {
@@ -34,6 +34,14 @@ function List() {
     const handleDptSelectChange = (e) => {
         let val = e.target.value;
         val ? setDptFilter([val]) : setDptFilter([]);
+    }
+
+    const handleDateFilterChange = (e) => {
+        if (dateFilter === "desc") {
+            setDateFilter("asc");
+        } else {
+            setDateFilter("desc")
+        }
     }
 
     const handlePills = (e) => {
@@ -81,6 +89,14 @@ function List() {
                             <option value={province.province_name} key={index}>{province.province_dpts.join(', ')}</option>
                         )}
                     </datalist>
+                </div>
+
+                {/* Date */}
+                <div class="flex items-center">
+                    <button id="date" checked={dateFilter} onClick={handleDateFilterChange} class="btn btn-outline-blue">
+                        <CalendarIcon class="icon-sm" />&nbsp;
+                        {dateFilter === "desc" ? "A partir du plus récent" : "A partir du plus ancien"}
+                    </button>
                 </div>
             </div>
 
