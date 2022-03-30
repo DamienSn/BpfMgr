@@ -48,13 +48,10 @@ function MapContainerBpf() {
     const pane = hash.length > 2 ? true : false;
 
     return (
-        <main>
-            {console.dir(pane)}
-            <h2><MapIcon className="icon-md" />&nbsp;Carte</h2>
-
+        <main className="p-0 mt-16 sm:mb-0 mb-20">
             {pane && <MapPane />}
 
-            <MapContainer fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false}>
+            <MapContainer fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700}>
 
                 <ZoomControl position="bottomleft" />
 

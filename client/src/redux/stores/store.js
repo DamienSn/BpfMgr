@@ -8,7 +8,7 @@ import citiesReducer from "../reducers/cities.reducer";
 import bpfsReducer from "../reducers/bpfs.reducer";
 import bcnsReducer from "../reducers/bcns.reducer";
 import searchReducer from "../reducers/search.reducer";
-import {bannerReducer, addReducer, footerReducer, loaderReducer} from "../reducers/ui.reducer";
+import {bannerReducer, addReducer, footerReducer, loaderReducer, selBpfReducer, selBcnReducer} from "../reducers/ui.reducer";
 import mapCoordsReducer from "../reducers/mapCoords.reducer";
 import logReducer from "../reducers/log.reducer";
 
@@ -28,7 +28,9 @@ const store = createStore(
         bcns: bcnsReducer,
         mapCoords: mapCoordsReducer,
         loader: loaderReducer,
-        logModal: logReducer
+        logModal: logReducer,
+        selectionBpf: selBpfReducer,
+        selectionBcn: selBcnReducer
     }),
     compose
 )

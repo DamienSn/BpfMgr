@@ -133,7 +133,7 @@ function Search() {
                                             <span className="font-bold">Province : </span>
                                             {provinces.find(pro => pro.province_id == city.city_province_id).province_name}
                                         </p>
-                                        <p>{/[^.]*À voir:[^.]*\./.exec(city.city_description)[0]}</p>
+                                        <p>{city && /[^.]*À voir:[^.]*\./.exec(city.city_description)[0]}</p>
 
                                         <button className="py-1 px-2 rounded btn-outline-blue" data-city={city.city_poi_id} onClick={displayModal}>Plus d'infos&nbsp;<ArrowSmRightIcon className="icon-sm" /></button>
                                     </div>
