@@ -5,7 +5,7 @@ function Tabs(props) {
 
     return (
         <>
-            <ul className="tabs">
+            <ul className="tabs flex">
                 {props.children[0].props.children.map((tab, i) =>
                     <li className={`tab ${active === i ? 'active' : ''}`} key={i} onClick={() => setActive(i)} role="navigation">{tab}</li>
                 )}
