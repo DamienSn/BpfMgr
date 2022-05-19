@@ -30,6 +30,7 @@ import VerifyAccount from "./components/VerifyAccount";
 import List from "./pages/List";
 import Add from "./pages/Add";
 import MapContainerBpf from "./pages/Map";
+// import MapContainerBpfDev from "./pages/MapDev";
 import Search from './pages/Search';
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
@@ -100,6 +101,7 @@ function App() {
                             <Route path="/list" exact component={List} />
                             <Route path="/add" exact component={Add} />
                             <Route path="/map" component={MapContainerBpf} />
+                            {/* <Route path="/map-dev" component={MapContainerBpfDev} /> */}
                             <Route path="/search" component={Search} />
                             <Route path="/about" component={About} />
                             <Route path="/connect" component={Log} />

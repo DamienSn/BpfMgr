@@ -37,11 +37,7 @@ export default function CitiesLayer(props) {
     }, [cities])
 
     function handleInfoClick(e) {
-        dispatch(setPane({
-            id: e.target.attributes["data-city"].value,
-            validated: false,
-            active: true
-        }))
+        window.location.hash = `#map/${e.target.attributes["data-city"].value}`;
     }
 
     return (
@@ -52,7 +48,7 @@ export default function CitiesLayer(props) {
                             <Popup>
                                 {`${city.city_name} (${city.city_departement})`}<br />
                                 Non validé<br/>
-                                <span className="underline text-blue-600 cursor-pointer" data-city={city.city_id} onClick={handleInfoClick}>Plus d'infos</span>
+                                <span className="underline text-blue-600 cursor-pointer" data-city={city.city_poi_id} onClick={handleInfoClick}>Plus d'infos</span>
                             </Popup>
                         </Marker>
                     )

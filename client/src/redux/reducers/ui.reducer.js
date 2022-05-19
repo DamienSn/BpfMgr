@@ -28,15 +28,6 @@ export function addReducer(state="", action) {
     }
 }
 
-// Pane Reducer
-import {SET_PANE, SET_PANE_ACTIVE} from '../actions/pane.actions'
-
-const initialState = {
-    id: null,
-    validated: false,
-    active: false
-};
-
 export function paneReducer(state=initialState, action) {
     switch(action.type) {
         case SET_PANE:
@@ -53,6 +44,41 @@ export function loaderReducer(state=false, action) {
     switch (action.type) {
         case 'SET_LOADER':
             return action.payload;
+        default:
+            return state;
+    }
+}
+
+// TABLE reducer
+export function selBpfReducer(state=[], action) {
+    switch (action.type) {
+        case 'SET_SEL_BPF':
+            return action.payload
+            // let arr = state;
+            // const index = arr.indexOf(action.payload)
+            // if (index === -1) {
+            //     arr.push(action.payload);
+            // } else {
+            //     arr.splice(index, 1);
+            // }
+            // return arr;
+        case "CLEAR_SEL_BPF":
+            return [];
+        default:
+            return state;
+    }
+}
+export function selBcnReducer(state=[], action) {
+    switch (action.type) {
+        case 'SET_SEL_BCN':
+            console.log(state)
+            const index = state.indexOf(action.payload)
+            if (index === -1) {
+                state.push(action.payload);
+            } else {
+                state.splice(index, 1);
+            }
+            return state;
         default:
             return state;
     }

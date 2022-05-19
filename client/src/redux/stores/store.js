@@ -7,10 +7,10 @@ import provincesReducer from "../reducers/provinces.reducer";
 import citiesReducer from "../reducers/cities.reducer";
 import bpfsReducer from "../reducers/bpfs.reducer";
 import bcnsReducer from "../reducers/bcns.reducer";
-import logReducer from "../reducers/log.reducer";
 import searchReducer from "../reducers/search.reducer";
-import {bannerReducer, addReducer, paneReducer, footerReducer, loaderReducer} from "../reducers/ui.reducer";
+import {bannerReducer, addReducer, footerReducer, loaderReducer, selBpfReducer, selBcnReducer} from "../reducers/ui.reducer";
 import mapCoordsReducer from "../reducers/mapCoords.reducer";
+import logReducer from "../reducers/log.reducer";
 
 const compose = import.meta.env.PROD ? applyMiddleware(thunk) : composeWithDevTools(applyMiddleware(thunk));
 
@@ -20,8 +20,6 @@ const store = createStore(
         dpts: dptsReducer,
         provinces: provincesReducer,
         cities: citiesReducer,
-        mapPane: paneReducer,
-        logModal: logReducer,
         search: searchReducer,
         banner: bannerReducer,
         footer: footerReducer,
@@ -29,7 +27,10 @@ const store = createStore(
         bpfs: bpfsReducer,
         bcns: bcnsReducer,
         mapCoords: mapCoordsReducer,
-        loader: loaderReducer
+        loader: loaderReducer,
+        logModal: logReducer,
+        selectionBpf: selBpfReducer,
+        selectionBcn: selBcnReducer
     }),
     compose
 )

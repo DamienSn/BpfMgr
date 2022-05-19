@@ -70,7 +70,7 @@ export default function UserMenuCommands() {
             )
                 :
                 (
-                    <div class="flex">
+                    <div className="flex">
                         <a  href="#/connect"
                             onClick={() => dispatch({ type: 'SET_LOG_MODAL', payload: 'in' })}
                             className="border border-white py-2 px-4 mr-1 rounded bg-gray-100 text-black focus:outline-none focus:ring-4">

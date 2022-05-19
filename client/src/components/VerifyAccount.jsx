@@ -47,7 +47,7 @@ function VerifyAccount() {
     }
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
+        <main className={`${!uid && 'disconnected'}`}>
             {userData.user_verified ?
                 <>
                     <h2>Votre compte est déjà vérifié</h2>

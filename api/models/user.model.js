@@ -9,6 +9,7 @@ const User = function (user) {
     this.name = user.name;
     this.bio = user.bio;
     this.permissions = user.permissions;
+    this.licence = user.licence
 };
 
 async function crypt(str) {
@@ -22,7 +23,8 @@ User.create = async (user, result) => {
         user_password: user.password,
         user_email: user.email,
         user_name: user.name,
-        user_permissions: user.permissions
+        user_permissions: user.permissions,
+        user_licence: user.licence | null
     }
     data.user_password = await crypt(data.user_password);
     data.user_verification_code = randomCode();
@@ -86,8 +88,8 @@ User.getOne = async (id) => {
 // Update an user by ID
 User.update = async (id, user, result) => {
     sql.query(
-        'UPDATE users SET user_email=?, user_password=?, user_name=?, user_bio=?, user_permissions=?, user_avatar=? WHERE user_id=?',
-        [user.user_email, user.user_password, user.user_name, user.user_bio, user.user_permissions, user.user_avatar, id],
+        'UPDATE users SET user_email=?, user_password=?, user_name=?, user_bio=?, user_permissions=?, user_avatar=?, user_licence=? WHERE user_id=?',
+        [user.user_email, user.user_password, user.user_name, user.user_bio, user.user_permissions, user.user_avatar, user.user_licence, id],
         (err, res) => {
             if (err) {
                 result(null, 'There were an error during updating user (id=' + id + ') : ' + err);
@@ -120,6 +122,21 @@ User.connect = async (email, password) => {
             } else {
                 return reject('incorrect password');
             }
+        });
+    });
+}
+
+User.connectWithLicence = async ({email, licence}) => {
+    return new Promise((resolve, reject)=>{
+        sql.query(`SELECT * FROM users WHERE user_email=?`, email,  async (error, results)=>{
+            if(error){
+                return reject(error);
+            } else if (results.length < 1) {
+                return reject("incorrect email");
+            } else if (results[0].user_licence !== licence) {
+                return reject("incorrect licence id");
+            }
+            return resolve(results);
         });
     });
 }

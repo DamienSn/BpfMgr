@@ -9,6 +9,7 @@ export function ListTable(props) {
     const dispatch = useDispatch();
     const data = useSelector(state => state.bpfs)
     const [reRender, setReRender] = useState(false);
+    const sel = useSelector(state => state.selectionBpf)
 
     const uid = useContext(UidContext);
 
@@ -16,11 +17,31 @@ export function ListTable(props) {
         dispatch(getBpfs(uid))
     }, [uid, reRender])
 
+    const dateSort = (a, b) => {
+        if (props.date === "asc") {
+            return new Date(a.bpf_date) - new Date(b.bpf_date)
+        } else {
+            return new Date(b.bpf_date) - new Date(a.bpf_date)
+        }
+    };
+
+    const handleRowSelect = (e, city) => {
+        let arr = [...sel];
+        const index = arr.indexOf(city)
+        if (index === -1) {
+            arr.push(city);
+        } else {
+            arr.splice(index, 1);
+        }
+        dispatch({ type: 'SET_SEL_BPF', payload: arr })
+    }
+
     return (
         <>
             <table className="w-full mt-6">
 
-                <thead className="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                <thead className="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase">
+                    <th></th>
                     <th>Ville</th>
                     <th>Date</th>
                     <th>Département</th>
@@ -31,9 +52,11 @@ export function ListTable(props) {
                     {props.dpt.length == 0 ?
                         data
                             .filter(bpf => bpf.city_name.toLowerCase().includes(props.search.toLowerCase()))
+                            .sort((a, b) => dateSort(a, b))
                             .map((bpf, index) => {
                                 return (
                                     <tr key={index} data-key={index}>
+                                        <td><input type="checkbox" onChange={(e) => handleRowSelect(e, bpf.city_name)} checked={props.checked || [...sel].indexOf(bpf.city_name) > -1} /></td>
                                         <td className="px-4 py-4 border border-blue-300">{bpf.city_name}</td>
                                         <td className="px-4 py-4 border border-blue-300">{new Date(bpf.bpf_date).toLocaleDateString()}</td>
                                         <td className="px-4 py-4 border border-blue-300">{`${bpf.dpt_name} (${bpf.city_departement})`}</td>
@@ -44,9 +67,11 @@ export function ListTable(props) {
                         :
                         data
                             .filter(bpf => props.dpt.includes(bpf.city_departement) && bpf.city_name.toLowerCase().includes(props.search.toLowerCase()))
+                            .sort((a, b) => dateSort(a, b))
                             .map((bpf, index) => {
                                 return (
                                     <tr key={index} data-key={index}>
+                                        <td><input type="checkbox" onChange={(e) => handleRowSelect(e, bpf.city_name)} checked={props.checked || [...sel].indexOf(bpf.city_name) > -1} /></td>
                                         <td className="px-4 py-4 border border-blue-300">{bpf.city_name}</td>
                                         <td className="px-4 py-4 border border-blue-300">{new Date(bpf.bpf_date).toLocaleDateString()}</td>
                                         <td className="px-4 py-4 border border-blue-300">{`${bpf.dpt_name} (${bpf.city_departement})`}</td>
@@ -73,6 +98,14 @@ export function ListTableBcn(props) {
         dispatch(getBcns(uid))
     }, [uid, reRender])
 
+    const dateSort = (a, b) => {
+        if (props.date === "asc") {
+            return new Date(a.bpf_date) - new Date(b.bpf_date)
+        } else {
+            return new Date(b.bpf_date) - new Date(a.bpf_date)
+        }
+    };
+
     return (
         <>
             <table className="w-full mt-6">
@@ -88,6 +121,7 @@ export function ListTableBcn(props) {
                     {props.dpt.length == 0 ?
                         data
                             .filter(bcn => bcn.city_name.toLowerCase().includes(props.search.toLowerCase()))
+                            .sort((a, b) => dateSort(a, b))
                             .map((bcn, index) => {
                                 return (
                                     <tr key={index} data-key={index}>
@@ -101,6 +135,7 @@ export function ListTableBcn(props) {
                         :
                         data
                             .filter(bcn => props.dpt.includes(bcn.city_departement) && bcn.city_name.toLowerCase().includes(props.search.toLowerCase()))
+                            .sort((a, b) => dateSort(a, b))
                             .map((bcn, index) => {
                                 return (
                                     <tr key={index} data-key={index}>

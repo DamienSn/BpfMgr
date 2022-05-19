@@ -4,13 +4,14 @@
   "description": "API of BpfMgr",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js",
     "dev": "set NODE_ENV=development && nodemon server.js"
   },
   "author": "Damien STEPHAN",
   "license": "GPL-3.0",
   "dependencies": {
+    "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -25,5 +26,9 @@
     "sib-api-v3-sdk": "^8.2.1",
     "sqlstring": "^2.3.1",
     "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "jest": "^27.5.1"
   }
 }

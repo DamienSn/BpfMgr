@@ -40,16 +40,18 @@ function MapContainerBpf() {
     dispatch({ type: 'SET_BANNER', payload: false })
     dispatch({ type: 'SET_FOOTER', payload: false })
 
+    // Get poi id
+    let hash = window.location.hash
+    hash = hash.split("/")
+
     // Pane
-    const pane = useSelector(state => state.mapPane)
+    const pane = hash.length > 2 ? true : false;
 
     return (
-        <main className={`${uid && 'menu-toggled menu-collapse'}`}>
-            <h2><MapIcon className="icon-md" />&nbsp;Carte</h2>
+        <main className="p-0 mt-16 sm:mb-0 mb-20">
+            {pane && <MapPane />}
 
-            <MapPane id={pane.id} validated={pane.validated} active={pane.active} />
-
-            <MapContainer fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false}>
+            <MapContainer fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700}>
 
                 <ZoomControl position="bottomleft" />
 

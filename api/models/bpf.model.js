@@ -25,7 +25,7 @@ module.exports.create = async (params, result) => {
     const queryCreateBcn =
         "INSERT INTO bcns(bcn_bpf_id, bcn_city_id, bcn_user_id, bcn_dpt, bcn_verification) VALUES (?, ?, ?, ?, ?)";
     let escaped = sqlString.escape(name);
-    escaped = escaped.substring(1, escaped.length-1)
+    escaped = escaped.substring(1, escaped.length - 1)
     const querySelectCity = `SELECT city_id, city_departement FROM cities
     WHERE city_name LIKE "%${escaped}%"
     ORDER BY (city_name="${escaped}") DESC, LENGTH(city_name);`
@@ -91,7 +91,7 @@ module.exports.getOne = (params, result) => {
     const { id, date } = params;
 
     const queryGetOne = `
-    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
+    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, city_poi_id, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
     FROM bpfs
     INNER JOIN cities ON bpf_city_id=city_id
     INNER JOIN users ON bpf_user_id=user_id
@@ -113,7 +113,7 @@ module.exports.getOne = (params, result) => {
 module.exports.getAllByUser = (id, result) => {
     id = parseInt(id);
     const queryGetAllByUser = `
-    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
+    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, city_poi_id, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
     FROM bpfs
     INNER JOIN cities ON bpf_city_id=city_id
     INNER JOIN users ON bpf_user_id=user_id
@@ -134,19 +134,32 @@ module.exports.getAllByUser = (id, result) => {
 module.exports.deleteOne = (params, result) => {
     const { userId, city } = params;
 
-    const queryCity = "SELECT city_id FROM cities WHERE city_name LIKE ?";
+    const queryCity = "SELECT city_id, city_departement FROM cities WHERE city_name LIKE ? ORDER BY (city_name=?) DESC, LENGTH(city_name);";
     const queryDeleteOne = `DELETE FROM bpfs
     WHERE bpf_user_id=? AND bpf_city_id=?`;
     const queryDeleteBcn = `DELETE FROM bcns
     WHERE bcn_user_id=? AND bcn_city_id=?`;
+    const queryBpfs = `SELECT * FROM bpfs
+    INNER JOIN cities ON bpf_city_id=city_id
+    WHERE bpf_user_id=? AND city_departement=?`
 
-    sql.query(queryCity, [city])
+    sql.query(queryCity, [city, city])
         .then((res) => {
             const cityId = res[0].city_id;
             const promise1 = sql.query(queryDeleteOne, [userId, cityId]);
             const promise2 = sql.query(queryDeleteBcn, [userId, cityId]);
-            Promise.all([promise1, promise2])
-                .then((res) => result(null, res))
+            const promise3 = sql.query(queryBpfs, [userId, res[0].city_departement])
+            Promise.all([promise1, promise2, promise3])
+                .then((res) => {
+                    // Get others bpfs from departement of deleted city
+                    if (res[2].length > 0) {
+                        let data = res[2];
+                        data.sort((a, b) => new Date(a.bpf_date) - new Date(b.bpf_date));
+                        bcnModel.create({ bpfId: data[0].bpf_id, cityId: res[0].bpf_city_id, userId, dpt: res[0].city_departement }, result)
+                    } else {
+                        result(null, res)
+                    }
+                })
                 .catch((err) => result(err, null));
         })
         .catch((err) => result(err, null));

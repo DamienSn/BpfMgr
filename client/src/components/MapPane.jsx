@@ -13,11 +13,19 @@ function MapPane(props) {
     const cities = useSelector(state => state.cities)
     const dpts = useSelector(state => state.dpts)
     const provinces = useSelector(state => state.provinces)
+    const bpfs = useSelector(state => state.bpfs)
 
-    const city = cities.find(city => city.city_id == props.id)
+    // Get poi id
+    // Get poi id
+    let hash = window.location.hash
+    hash = hash.split("/")
+    const poi = hash[2]
+
+    const city = cities.find(city => city.city_poi_id == poi)
+    const validated = bpfs.find(bpf => bpf.city_poi_id == poi)
 
     function closePane() {
-        dispatch({ type: 'SET_PANE_ACTIVE', payload: false })
+        window.location.hash = "#/map"
     }
 
     const galleryOptions = {
@@ -34,12 +42,12 @@ function MapPane(props) {
     }
 
     const handleValidateClick = () => {
-        dispatch({type: 'SET_CITY_INPUT', payload: city.city_name});
+        dispatch({ type: 'SET_CITY_INPUT', payload: city.city_name });
         window.location.hash = "#/add"
     }
 
     return (
-        <section className={`map-pane ${props.active && 'active'} fixed right-0 py-5 px-8 bg-gray-200`}>
+        <section className={`map-pane active fixed right-0 py-5 px-8 bg-gray-200`}>
             {/* Close button */}
             <div className="map-pane-header flex justify-end">
                 <button id="map-pane-close" onClick={closePane}>
@@ -59,13 +67,13 @@ function MapPane(props) {
                     </SRLWrapper> */}
 
                     {/* Is validated ? */}
-                    {props.validated &&
+                    {validated &&
                         <p className="mt-4 text-green-500">
-                        <BadgeCheckIcon className="icon-sm" />
-                        &nbsp;Validée
-                    </p>}
+                            <BadgeCheckIcon className="icon-sm" />
+                            &nbsp;Validée
+                        </p>}
                     {/* Case not validated */}
-                    {!props.validated &&
+                    {!validated &&
                         <button className="btn btn-outline-green mt-4" onClick={handleValidateClick}>Valider</button>
                     }
                     {/* Province */}

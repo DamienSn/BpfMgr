@@ -13,7 +13,8 @@ function Footer() {
             {displayFooter &&
                 <footer className={`bg-gray-300 py-6 px-4 mt-6
                             flex flex-col justify-center items-center
-                            ${uid && 'menu-toggled menu-collapse'}`}>
+                            ml-0
+                            ${uid && 'sm:ml-[74px]'}`}>
 
                     <h5 className="font-extrabold border-b border-gray-500 pb-2">© Damien STEPHAN - 2021</h5>
 
