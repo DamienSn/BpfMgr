@@ -57,7 +57,8 @@ export default function DoneLayer(props) {
 
                     const icon = L.icon({
                         iconUrl,
-                        iconSize: [30, 30]
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 30]
                     })
 
                     return (
