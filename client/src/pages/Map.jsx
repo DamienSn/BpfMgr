@@ -163,12 +163,12 @@ function SearchControl() {
 
 function ProvincesLayer() {
     return (
-        <GeoJSON data={provincesShapes} style={{ color: 'orangered' }} />
+        <GeoJSON data={provincesShapes} style={{ color: 'brown', weight: 2.5 }} />
     )
 }
 
 function DptsLayer() {
-    return <GeoJSON data={dptsShapes} style={{ fillOpacity: 0 }} />
+    return <GeoJSON data={dptsShapes} style={{ fillOpacity: 0, weight: 2, color: "darkviolet" }} />
 }
 
 /**
