@@ -1,9 +1,9 @@
 # Builder of the client
 FROM node:14 AS builder
 WORKDIR /client
-COPY ./client/package*.json .
+COPY ./client/package*.json ./
 RUN npm install
-COPY ./client .
+COPY ./client ./
 
 # Get and define env variables
 ARG VITE_API_URL
@@ -22,9 +22,9 @@ RUN npm run build
 # Final container
 FROM node:14 AS final
 WORKDIR /app
-COPY ./api/package*.json .
+COPY ./api/package*.json ./
 RUN npm install
-COPY ./api .
+COPY ./api ./
 CMD rm ./public/* && mkdir ./public/bpfs && mkdir ./public/profils
 COPY --from=builder client/dist ./public
 COPY ./client/img ./public/img
