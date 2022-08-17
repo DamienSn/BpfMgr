@@ -17,8 +17,26 @@ jobs:
     - name: Build and push
       env:
         HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-      run: heroku container:push -a heroku-gh-actions web
+        PORT: ${{secrets.PORT}}
+        DB_HOST: ${{secrets.DB_HOST}}
+        DB_USER: ${{secrets.DB_USER}}
+        DB_PASSWORD: ${{secerts.DB_PASSWORD}}
+        DB_NAME: ${{secrets.DB_NAME}}
+        TOKEN_SECRET: ${{secrets.TOKEN_SECRET}}
+        CLIENT_URL: ${{secrets.CLIENT_URL}}
+        UPLOAD_DIR: ${{secrets.UPLOAD_DIR}}
+        SIB_API_KEY: ${{secrets.SIB_API_KEY}}
+        BPFMGR_API_KEY: ${{secrets.BPFMGR_API_KEY}}
+        STATIC_URL: ${{secrets.STATIC_URL}}
+        API_PREFIX: ${{secrets.API_PREFIX}}
+        VITE_API_URL: ${{secrets.VITE_API_URL}}
+        VITE_API_KEY: ${{secrets.VITE_API_KEY}}
+        VITE_UPLOAD_DIR: ${{secrets.VITE_UPLOAD_DIR}}
+        VITE_PWA_MODE: ${{secrets.VITE_PWA_MODE}}
+        VITE_LICENCE_REDIRECT_URI: ${{secrets.VITE_LICENCE_REDIRECT_URI}}
+
+      run: heroku container:push -a ${{secrets.HEROKU_APP}} web
     - name: Release
       env:
         HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-      run: heroku container:release -a heroku-gh-actions web
+      run: heroku container:release -a ${{secrets.HEROKU_APP}} web
