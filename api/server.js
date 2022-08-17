@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { logger } = require("./logs/logger");
+const path = require("path");
 
 // Import middlewares
 const { checkUser, requireAuth } = require("./middlewares/auth.middleware");
@@ -28,7 +29,14 @@ const corsOptions = {
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
 };
-app.use(cors(corsOptions));
+
+if(process.env.NODE_ENV === "production") {
+    console.log("Production config")
+    app.use(express.static("public"));
+    app.use("/api/", cors(corsOptions));
+} else {
+    app.use(cors(corsOptions));
+}
 
 // Convert body to JSON
 app.use(bodyParser.json());
@@ -41,16 +49,16 @@ app.use(cookieParser());
 app.use(logRequests);
 
 //static (uploads)
-app.use("/static", express.static("public"));
+app.use("/static/uploads", express.static("public/uploads"));
 
 // jwt
-app.get("*", checkUser);
-app.get("/users/jwtid", requireAuth, (req, res) => {
+app.get(`${process.env.API_PREFIX}*`, checkUser);
+app.get(`${process.env.API_PREFIX}/users/jwtid`, requireAuth, (req, res) => {
     res.status(200).json({ message: "success", id: res.locals.user.user_id });
 });
 
 // Check api key
-app.use(/\/((?!static).)*/, (req, res, next) => {
+app.use(process.env.API_PREFIX || "/*", (req, res, next) => {
     const apiKey = req.get("x-api-key");
     if (!apiKey || apiKey !== process.env.BPFMGR_API_KEY) {
         res.status(401).json({ error: "unauthorised" });
@@ -60,15 +68,15 @@ app.use(/\/((?!static).)*/, (req, res, next) => {
 });
 
 // routes
-app.get("/", (req, res) => {
+app.get(`${process.env.API_PREFIX}/`, (req, res) => {
     res.json({ message: "BpfMgr API v1" });
 });
 
-app.use("/users", userRoutes);
-app.use("/cities", citiesRoutes);
-app.use("/bpf", bpfRoutes);
-app.use("/bcn", bcnRoutes);
-app.use("/provinces", provinceRoutes);
+app.use(`${process.env.API_PREFIX}/users`, userRoutes);
+app.use(`${process.env.API_PREFIX}/cities`, citiesRoutes);
+app.use(`${process.env.API_PREFIX}/bpf`, bpfRoutes);
+app.use(`${process.env.API_PREFIX}/bcn`, bcnRoutes);
+app.use(`${process.env.API_PREFIX}/provinces`, provinceRoutes);
 
 console.log(process.env.CLIENT_URL);
 
