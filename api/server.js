@@ -16,6 +16,7 @@ const citiesRoutes = require("./routes/cities.routes.js");
 const bpfRoutes = require("./routes/bpf.routes");
 const bcnRoutes = require("./routes/bcn.routes");
 const provinceRoutes = require("./routes/province.routes");
+const dptsRoutes = require("./routes/dpts.routes");
 
 const app = express();
 
@@ -77,6 +78,7 @@ app.use(`${process.env.API_PREFIX}/cities`, citiesRoutes);
 app.use(`${process.env.API_PREFIX}/bpf`, bpfRoutes);
 app.use(`${process.env.API_PREFIX}/bcn`, bcnRoutes);
 app.use(`${process.env.API_PREFIX}/provinces`, provinceRoutes);
+app.use(`${process.env.API_PREFIX}/dpts`, dptsRoutes);
 
 console.log(process.env.CLIENT_URL);
 
