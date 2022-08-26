@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useContext } from 'react'
 import { UidContext } from '../components/AppContext'
-import { MapIcon } from '@heroicons/react/outline'
 
 // Map components
-import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, GeoJSON, ZoomControl, useMapEvents } from '@monsonjeremy/react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, GeoJSON, ZoomControl, LayerGroup } from '@monsonjeremy/react-leaflet'
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import 'leaflet-geosearch/dist/geosearch.css'
 import * as GeoSearch from 'leaflet-geosearch';
+import SideControls from '../components/map/SideControls'
 
 // GeoJSON shapes (departements and provinces)
 import provincesShapes from '../utilities/provinces-shapes.json';
@@ -28,7 +28,6 @@ import MapPane from '../components/MapPane'
 import DoneLayer from '../components/map/DoneLayer'
 import CitiesLayer from '../components/map/CitiesLayer'
 import { useDispatch } from 'react-redux'
-import axios from 'axios'
 
 /**
  * Container of the map
@@ -48,12 +47,14 @@ function MapContainerBpf() {
     // Pane
     const pane = hash.length > 2 ? true : false;
 
+    const [map, setMap] = useState(null);
+
     return (
-        <main className="p-0 mt-16 mb-0">
+        <main className="p-0 mt-16 mb-0 grid grid-rows-6 md:grid-cols-6 md:grid-rows-1 map-page">
+            <SideControls map={map}/>
             {pane && <MapPane />}
 
-            <MapContainer fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700} style={{heigth: "calc(100% - 15px)"}}>
-
+            <MapContainer className="col-start-1 row-span-5 md:col-span-5 h-auto" fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700} whenCreated={setMap}>
                 <ZoomControl position="bottomleft" />
 
                 {/* Layers */}
@@ -84,12 +85,12 @@ function MapContainerBpf() {
 
                     {/* Marker Layers */}
                     {/* Done BPF layer */}
-                    <LayersControl.Overlay name="Mes BPF">
+                    <LayersControl.Overlay name="Mes BPF" checked>
                         <DoneLayer />
                     </LayersControl.Overlay>
 
                     {/* Others BPF layer */}
-                    <LayersControl.Overlay name="BPF non faits">
+                    <LayersControl.Overlay name="BPF non faits" checked>
                         <CitiesLayer />
                     </LayersControl.Overlay>
 
@@ -104,8 +105,11 @@ function MapContainerBpf() {
                     </LayersControl.Overlay>
 
                     {/* Départements colorés */}
-                    <LayersControl.Overlay checked name="Coloration des départements">
+                    <LayersControl.Overlay checked name="Coloration des départements terminés">
                         <DptsLayer />
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay name="Coloration des départements non terminés">
+                        <NotDoneDptsLayer />
                     </LayersControl.Overlay>
 
                 </LayersControl>
@@ -190,22 +194,33 @@ function DptsLayer() {
             doneDpts.push(dpt.code)
         }
     })
-    console.log(doneDpts)
+
     return (
-        <>
-            {/* <GeoJSON data={data} style={{ fill: true, fillOpacity: 0.5, color: "red", weight: 0 }} /> */}
+        <LayerGroup>
             {doneDpts.map(dpt => <GeoJSON key={dpt} data={dptsShapes.features.filter(a => a.properties.code == dpt)[0]} style={{ fill: true, fillOpacity: 0.5, color: "green", weight: 0 }} />)}
-        </>
+        </LayerGroup>
     )
 }
 
-/**
- * Aller à la réunion
- */
-function GoToCtl() {
-    const map = useMap();
-    // map.panTo()
-    return <button>Aller à La Réunion</button>
+function NotDoneDptsLayer() {
+    let doneBpfs = useSelector(state => state.bpfs);
+    let dpts = useSelector(state => state.dpts)
+
+    let notDoneDpts = [];
+    dpts.forEach(dpt => {
+        // Get done bpfs of the departement
+        const bpfs = doneBpfs.filter(a => a.city_departement == dpt.code);
+        // Check if all dpt bpfs are done
+        if (bpfs.length != dpt.dpt_cities_number) {
+            notDoneDpts.push(dpt.code)
+        }
+    })
+
+    return (
+        <LayerGroup>
+            {doneBpfs.length != 0 && notDoneDpts.map(dpt => <GeoJSON key={dpt} data={dptsShapes.features.filter(a => a.properties.code == dpt)[0]} style={{ fill: true, fillOpacity: 0.5, color: "red", weight: 0 }} />)}
+        </LayerGroup>
+    )
 }
 
 export default MapContainerBpf;
