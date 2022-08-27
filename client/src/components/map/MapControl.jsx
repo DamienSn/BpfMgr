@@ -4,21 +4,21 @@ import { useState } from 'react'
 
 function MapControl({ name, toggling, defaultChecked }) {
     const [isToggled, setIsToggled] = useState(defaultChecked)
-    const [layer, setLayer] = useState(null)
+    // const [layer, setLayer] = useState(null)
 
-    useEffect(() => {
-        if (toggling) {
-            setLayer(toggling.firstChild.firstChild)
-        }
-    }, [toggling])
+    // useEffect(() => {
+    //     if (toggling) {
+    //         setLayer(toggling.firstChild.firstChild)
+    //     }
+    // }, [toggling])
 
     const toggleLayer = (e) => {
-        if (e.target.checked && !layer.checked) {
+        if (e.target.checked && !toggling.firstChild.firstChild.checked) {
             setIsToggled(true)
-            layer.click()
-        } else if (!e.target.checked && layer.checked) {
+            toggling.firstChild.firstChild.click()
+        } else if (!e.target.checked && toggling.firstChild.firstChild.checked) {
             setIsToggled(false);
-            layer.click()
+            toggling.firstChild.firstChild.click()
         }
     }
 
