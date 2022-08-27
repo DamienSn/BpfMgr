@@ -73,7 +73,7 @@ module.exports.create = async (params, result) => {
             cityId,
             userId,
             dpt,
-            userId + dpt,
+            userId + "_" + dpt,
         ])
             .then((res) => result(null, res))
             .catch((err) => result(err, null));
