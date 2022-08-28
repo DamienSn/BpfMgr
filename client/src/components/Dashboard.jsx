@@ -80,6 +80,7 @@ function Dashboard() {
                             <li key={index}>{bpf.city_name} ({bpf.city_departement}) - Le {new Date(bpf.bpf_date).toLocaleDateString()}</li>
                         )
                     }
+                    {latestsBpfs.length == 0 && <p><span className="font-bold">Validez des BPF ! </span>Les trois derniers que vous avez validé apparaîtront ici.</p>}
                 </div>
 
                 {userData.user_permissions === "adm" &&
