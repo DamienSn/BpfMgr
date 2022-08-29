@@ -175,7 +175,7 @@ textarea {
 
 @media screen and (max-width: 640px) {
     .leaflet-container {
-        height: calc((100vh - 80px - 75px + 15px) / 6 * 5);
+        height: calc((100vh - 75px + 15px) / 6 * 5);
         margin-top: 0;
     }
 

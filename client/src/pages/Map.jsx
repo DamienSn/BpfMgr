@@ -50,11 +50,11 @@ function MapContainerBpf() {
     const [map, setMap] = useState(null);
 
     return (
-        <main className="p-0 mt-16 mb-0 grid grid-rows-6 md:grid-cols-6 md:grid-rows-1 map-page">
+        <main className="p-0 mt-16 mb-0 md:grid md:grid-cols-6 md:grid-rows-1 map-page">
             <SideControls map={map}/>
             {pane && <MapPane />}
 
-            <MapContainer className="col-start-1 row-span-5 md:col-span-5 h-auto" fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700} whenCreated={setMap}>
+            <MapContainer className="row-start-0 col-start-2 md:col-span-4 lg:col-start-2 lg:col-end-7 h-auto" fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700} whenCreated={setMap}>
                 <ZoomControl position="bottomleft" />
 
                 {/* Layers */}

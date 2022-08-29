@@ -1,15 +1,10 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import { useSelector } from "react-redux"
+import { AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline"
 
 import MapControl from './MapControl';
 
 function SideControls({ map }) {
-    const dpts = useSelector(state => state.dpts);
-    const provinces = useSelector(state => state.provinces);
-
-    const [dptFilter, setDptFilter] = useState("");
-
     // Hide overlay layers toggle on map
     useEffect(() => {
         const layers = document.querySelector(".leaflet-control-layers-overlays");
@@ -20,16 +15,23 @@ function SideControls({ map }) {
         }
     })
 
-    const handleProvinceSelectChange = (e) => {
-        let val = e.target.value;
-        provinces.forEach(pro => {
-            if (pro.province_name == val) {
-                setDptFilter(pro.province_dpts);
-            } else if (e.target.value === "") {
-                setDptFilter([])
+    const [isVisible, setIsVisible] = useState(false);
+    const [mobile, setMobile] = useState(false);
+
+    useEffect(() => {
+        if (window.innerWidth < 724) {
+            setMobile(true)
+        } else {
+            setMobile(false);
+        }
+        window.addEventListener("resize", () => {
+            if (window.innerWidth < 724) {
+                setMobile(true)
+            } else {
+                setMobile(false);
             }
         })
-    }
+    }, [])
 
     const flyToLaReunion = () => {
         map.flyTo([-21.1351121, 55.2471124], 10)
@@ -59,49 +61,37 @@ function SideControls({ map }) {
     })
 
     return (
-        <div className='col-span-1 mt-4 md:ml-4 md:mt-8 space-y-4'>
-            <div>
-                <h4>Sites</h4>
-                <MapControl name="BPFs validés" defaultChecked={true} toggling={doneCheckbox}/>
-                <MapControl name="BPFs non validés" defaultChecked={true} toggling={notDoneCheckbox}/>
+        <div className='md:col-span-2 lg:col-span-1 mt-4 md:ml-4 md:mt-8 space-y-4'>
+            {/* Mobile menu toggler */}
+            <div className="visible md:hidden w-full py-2 font-bold text-center" onClick={e => setIsVisible(!isVisible)} aria-role="button">
+                Menu d'affichage&nbsp;
+                {isVisible ? <ChevronUpIcon className="icon-sm" /> : <ChevronDownIcon className="icon-sm" />}
             </div>
 
-            <div>
-                <h4>Contours</h4>
-                <MapControl name="Départements" defaultChecked={true} toggling={dptsShapesCheckbox}/>
-                <MapControl name="Provinces" defaultChecked={false} toggling={provincesShapesCheckbox}/>
-            </div>
+            <div style={{ display: !isVisible && mobile ? "none" : "block" }} className="pb-4 md:pb-0 px-2 md:px-0">
+                <div>
+                    <h4 className="text-xl lg:text-2xl">Sites</h4>
+                    <MapControl name="BPFs validés" defaultChecked={true} toggling={doneCheckbox} />
+                    <MapControl name="BPFs non validés" defaultChecked={true} toggling={notDoneCheckbox} />
+                </div>
 
-            <div>
-                <h4>Départements des BPF</h4>
-                <MapControl name="Départements terminés (BPF)" defaultChecked={true} toggling={doneDptsSurfacesCheckbox}/>
-                <MapControl name="Départements non terminés (BPF)" defaultChecked={false} toggling={otherDptsSurfacesCheckbox}/>
-            </div>
-            
-            <div>
-                <h4>Aller à</h4>
-                <button className="btn btn-outline-blue mr-2" onClick={flyToLaReunion}>La Réunion</button>
-                <button className="btn btn-outline-blue" onClick={flyToFrance}>France</button>
-            </div>
+                <div>
+                    <h4 className="text-xl lg:text-2xl">Contours</h4>
+                    <MapControl name="Départements" defaultChecked={true} toggling={dptsShapesCheckbox} />
+                    <MapControl name="Provinces" defaultChecked={false} toggling={provincesShapesCheckbox} />
+                </div>
 
-            <div>
-                <h4>Filtres</h4>
+                <div>
+                    <h4 className="text-xl lg:text-2xl">Départements des BPF</h4>
+                    <MapControl name="Départements terminés (BPF)" defaultChecked={true} toggling={doneDptsSurfacesCheckbox} />
+                    <MapControl name="Départements non terminés (BPF)" defaultChecked={false} toggling={otherDptsSurfacesCheckbox} />
+                </div>
 
-                <label htmlFor="dpt-bar">Département</label>
-                <input type="search" list="data-dpt-bar" id="dpt-bar" placeholder="Sélectionner" className="input block mt-2 mb-4" onChange={e => setDptFilter([e.target.value])} />
-                <datalist id="data-dpt-bar">
-                    {dpts.map((dpt, index) =>
-                        <option value={dpt.code} key={index}>{dpt.nom}</option>
-                    )}
-                </datalist>
-
-                <label htmlFor="province-bar">Province</label>
-                <input type="search" list="data-province-bar" id="province-bar" placeholder="Sélectionner" className="input block mt-2" onChange={handleProvinceSelectChange} />
-                <datalist id="data-province-bar">
-                    {provinces.map((province, index) =>
-                        <option value={province.province_name} key={index}>{province.province_dpts.join(', ')}</option>
-                    )}
-                </datalist>
+                <div className="space-y-2">
+                    <h4 className='text-xl lg:text-2xl'>Aller à</h4>
+                    <button className="btn btn-outline-blue mr-2" onClick={flyToLaReunion}>La Réunion</button>
+                    <button className="btn btn-outline-blue " onClick={flyToFrance}>France</button>
+                </div>
             </div>
         </div>
     )
