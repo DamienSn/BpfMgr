@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useContext } from 'react'
 import { UidContext } from '../components/AppContext'
-import { MapIcon } from '@heroicons/react/outline'
 
 // Map components
-import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, GeoJSON, ZoomControl, useMapEvents } from '@monsonjeremy/react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, GeoJSON, ZoomControl, LayerGroup } from '@monsonjeremy/react-leaflet'
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import 'leaflet-geosearch/dist/geosearch.css'
 import * as GeoSearch from 'leaflet-geosearch';
+import SideControls from '../components/map/SideControls'
 
 // GeoJSON shapes (departements and provinces)
 import provincesShapes from '../utilities/provinces-shapes.json';
@@ -47,12 +47,14 @@ function MapContainerBpf() {
     // Pane
     const pane = hash.length > 2 ? true : false;
 
+    const [map, setMap] = useState(null);
+
     return (
-        <main className="p-0 mt-16 sm:mb-0 mb-20">
+        <main className="p-0 mt-16 mb-0 md:grid md:grid-cols-6 md:grid-rows-1 map-page">
+            <SideControls map={map}/>
             {pane && <MapPane />}
 
-            <MapContainer fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700}>
-
+            <MapContainer className="row-start-0 col-start-2 md:col-span-4 lg:col-start-2 lg:col-end-7 h-auto" fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700} whenCreated={setMap}>
                 <ZoomControl position="bottomleft" />
 
                 {/* Layers */}
@@ -83,12 +85,12 @@ function MapContainerBpf() {
 
                     {/* Marker Layers */}
                     {/* Done BPF layer */}
-                    <LayersControl.Overlay checked name="Mes BPF">
+                    <LayersControl.Overlay name="Mes BPF" checked>
                         <DoneLayer />
                     </LayersControl.Overlay>
 
                     {/* Others BPF layer */}
-                    <LayersControl.Overlay checked name="BPF non faits">
+                    <LayersControl.Overlay name="BPF non faits" checked>
                         <CitiesLayer />
                     </LayersControl.Overlay>
 
@@ -97,9 +99,17 @@ function MapContainerBpf() {
                         <ProvincesLayer />
                     </LayersControl.Overlay>
 
-                    {/* Departements */}
+                    {/* Departements contours */}
                     <LayersControl.Overlay checked name="Contours des départements">
+                        <DptsShapesLayer />
+                    </LayersControl.Overlay>
+
+                    {/* Départements colorés */}
+                    <LayersControl.Overlay checked name="Coloration des départements terminés">
                         <DptsLayer />
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay name="Coloration des départements non terminés">
+                        <NotDoneDptsLayer />
                     </LayersControl.Overlay>
 
                 </LayersControl>
@@ -134,17 +144,17 @@ function BpfMap() {
 
     return (
         <>
-        <Marker position={position} icon={L.icon({
-            iconUrl: homeMarker,
-            iconSize: [40, 60]
-        })}>
-            <Popup>
-                Votre position
-            </Popup>
-        </Marker>
-        {mapCoords.length > 0 &&
-            <Marker position={mapCoords}></Marker>
-        }
+            <Marker position={position} icon={L.icon({
+                iconUrl: homeMarker,
+                iconSize: [40, 60]
+            })}>
+                <Popup>
+                    Votre position
+                </Popup>
+            </Marker>
+            {mapCoords.length > 0 &&
+                <Marker position={mapCoords}></Marker>
+            }
         </>
     )
 }
@@ -167,17 +177,50 @@ function ProvincesLayer() {
     )
 }
 
-function DptsLayer() {
+function DptsShapesLayer() {
     return <GeoJSON data={dptsShapes} style={{ fillOpacity: 0, weight: 2, color: "darkviolet" }} />
 }
 
-/**
- * Aller à la réunion
- */
-function GoToCtl() {
-    const map = useMap();
-    // map.panTo()
-    return <button>Aller à La Réunion</button>
+function DptsLayer() {
+    let doneBpfs = useSelector(state => state.bpfs);
+    let dpts = useSelector(state => state.dpts)
+
+    let doneDpts = [];
+    dpts.forEach(dpt => {
+        // Get done bpfs of the departement
+        const bpfs = doneBpfs.filter(a => a.city_departement == dpt.code);
+        // Check if all dpt bpfs are done
+        if (bpfs.length == dpt.dpt_cities_number) {
+            doneDpts.push(dpt.code)
+        }
+    })
+
+    return (
+        <LayerGroup>
+            {doneDpts.map(dpt => <GeoJSON key={dpt} data={dptsShapes.features.filter(a => a.properties.code == dpt)[0]} style={{ fill: true, fillOpacity: 0.5, color: "green", weight: 0 }} />)}
+        </LayerGroup>
+    )
+}
+
+function NotDoneDptsLayer() {
+    let doneBpfs = useSelector(state => state.bpfs);
+    let dpts = useSelector(state => state.dpts)
+
+    let notDoneDpts = [];
+    dpts.forEach(dpt => {
+        // Get done bpfs of the departement
+        const bpfs = doneBpfs.filter(a => a.city_departement == dpt.code);
+        // Check if all dpt bpfs are done
+        if (bpfs.length != dpt.dpt_cities_number) {
+            notDoneDpts.push(dpt.code)
+        }
+    })
+
+    return (
+        <LayerGroup>
+            {doneBpfs.length != 0 && notDoneDpts.map(dpt => <GeoJSON key={dpt} data={dptsShapes.features.filter(a => a.properties.code == dpt)[0]} style={{ fill: true, fillOpacity: 0.5, color: "red", weight: 0 }} />)}
+        </LayerGroup>
+    )
 }
 
 export default MapContainerBpf;
