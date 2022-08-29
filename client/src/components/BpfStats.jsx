@@ -14,7 +14,7 @@ export function BpfStats() {
 
     useEffect(() => {
         dpts.forEach(dpt => {
-            if (bpfs.filter(i => i.city_departement == dpt.code).length == 6) {
+            if (bpfs.filter(i => i.city_departement == dpt.code).length == dpt.dpt_cities_number) {
                 setDoneDpts(doneDpts + 1)
             }
         })
