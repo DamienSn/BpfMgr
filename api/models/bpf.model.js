@@ -20,7 +20,9 @@ module.exports.create = async (params, result) => {
 
     const queryVerify = `SELECT * FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?`;
 
-    const queryBcn = `SELECT * FROM bcns WHERE bcn_user_id=? AND bcn_dpt=?`;
+    const queryBcn = `SELECT * FROM bcns
+    INNER JOIN bpfs ON bpf_id=bcn_bpf_id
+    WHERE bcn_user_id=? AND bcn_dpt=?`;
 
     const queryCreateBcn =
         "INSERT INTO bcns(bcn_bpf_id, bcn_city_id, bcn_user_id, bcn_dpt, bcn_verification) VALUES (?, ?, ?, ?, ?)";
@@ -62,6 +64,7 @@ module.exports.create = async (params, result) => {
 
     // Final steps
     if (bcnValidated.length == 0) {
+        console.log("creating new bpf")
         // Get BpfId
         const bpfId = await sql.query(
             "SELECT bpf_id FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?",
@@ -77,7 +80,19 @@ module.exports.create = async (params, result) => {
         ])
             .then((res) => result(null, res))
             .catch((err) => result(err, null));
+    } else if (new Date(date) < new Date(bcnValidated[0].bpf_date)) {
+        console.log("updating bpf")
+        // Get BpfId
+        const bpfId = await sql.query(
+            "SELECT bpf_id FROM bpfs WHERE bpf_user_id=? AND bpf_city_id=?",
+            [userId, cityId]
+        );
+
+        sql.query("UPDATE bcns SET bcn_bpf_id=?, bcn_city_id=? WHERE bcn_id=?", [bpfId[0].bpf_id, cityId, bcnValidated[0].bcn_id])
+        .then(res => result(null, res))
+        .catch(err => result(err, null))
     } else {
+        console.log("skipping")
         result(null, bpf.data);
     }
 };
@@ -139,6 +154,8 @@ module.exports.deleteOne = (params, result) => {
     WHERE bpf_user_id=? AND bpf_city_id=?`;
     const queryDeleteBcn = `DELETE FROM bcns
     WHERE bcn_user_id=? AND bcn_city_id=?`;
+    const queryGetBcn = `SELECT * FROM bcns
+    WHERE bcn_user_id=? and bcn_dpt=?`;
     const queryBpfs = `SELECT * FROM bpfs
     INNER JOIN cities ON bpf_city_id=city_id
     WHERE bpf_user_id=? AND city_departement=?`
@@ -149,10 +166,11 @@ module.exports.deleteOne = (params, result) => {
             const promise1 = sql.query(queryDeleteOne, [userId, cityId]);
             const promise2 = sql.query(queryDeleteBcn, [userId, cityId]);
             const promise3 = sql.query(queryBpfs, [userId, res[0].city_departement])
-            Promise.all([promise1, promise2, promise3])
+            const promise4 = sql.query(queryGetBcn, [userId, res[0].city_departement])
+            Promise.all([promise1, promise2, promise3, promise4])
                 .then((res) => {
                     // Get others bpfs from departement of deleted city
-                    if (res[2].length > 0) {
+                    if (res[2].length > 0 && res[3].length == 0) {
                         let data = res[2];
                         data.sort((a, b) => new Date(a.bpf_date) - new Date(b.bpf_date));
                         bcnModel.create({ bpfId: data[0].bpf_id, cityId: res[0].bpf_city_id, userId, dpt: res[0].city_departement }, result)
