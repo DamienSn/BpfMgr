@@ -40,7 +40,7 @@ function checkIfLocationIsBpf(lat, long) {
                 reject(err)
             } else {
                 // Calculer la lat et long min et max
-                const margin = 0.005;
+                const margin = 0.020;
                 const coords = {
                     lat,
                     latMin: lat - margin,

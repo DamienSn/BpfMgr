@@ -34,7 +34,7 @@ uploads
 # cities images
 /img/cities/*
 
-*.sql
+# *.sql
 db_schema.png
 dbInit
 

@@ -5,10 +5,14 @@ export const getDpts = () => {
     return async (dispatch) => {
         try {
             const res = await axios({
+                url: `${import.meta.env.VITE_API_URL}dpts/all`,
                 method: "get",
-                url: "https://geo.api.gouv.fr/departements",
+                withCredentials: true,
+                headers: {
+                    "x-api-key": import.meta.env.VITE_API_KEY
+                }
             });
-            dispatch({ type: GET_DPTS, payload: res.data });
+            dispatch({ type: GET_DPTS, payload: res.data.data });
         } catch (err) {
             (err) => console.log("DPTS FETCH ERROR --- " + err);
         }

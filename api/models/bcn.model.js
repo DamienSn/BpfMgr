@@ -11,9 +11,9 @@ sql.query = promisify(sql.query);
 module.exports.create = (params, result) => {
     const { bpfId, userId, dpt, cityId } = params;
 
-    const query ="INSERT INTO bcns(bcn_bpf_id, bcn_city_id, bcn_user_id, bcn_dpt) VALUES (?, ?, ?, ?)";
+    const query ="INSERT INTO bcns(bcn_bpf_id, bcn_city_id, bcn_user_id, bcn_dpt, bcn_verification) VALUES (?, ?, ?, ?, ?)";
 
-    sql.query(query, [bpfId, cityId, userId, dpt])
+    sql.query(query, [bpfId, cityId, userId, dpt, userId + "_" + dpt])
         .then((res) => result(null, res))
         .catch((err) => result(err, null));
 };
