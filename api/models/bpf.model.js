@@ -169,9 +169,12 @@ module.exports.deleteOne = (params, result) => {
             const promise4 = sql.query(queryGetBcn, [userId, res[0].city_departement])
             Promise.all([promise1, promise2, promise3, promise4])
                 .then((res) => {
+                    const doneBpfs = res[2].filter(a => a.bpf_city_id != cityId)
+                    const doneBcns = res[3].filter(a => a.bcn_city_id != cityId)
+                    console.log(doneBpfs, doneBcns)
                     // Get others bpfs from departement of deleted city
-                    if (res[2].length > 0 && res[3].length == 0) {
-                        let data = res[2];
+                    if (doneBpfs.length > 0 && doneBcns.length == 0) {
+                        let data = doneBpfs;
                         data.sort((a, b) => new Date(a.bpf_date) - new Date(b.bpf_date));
                         bcnModel.create({ bpfId: data[0].bpf_id, cityId: res[0].bpf_city_id, userId, dpt: res[0].city_departement }, result)
                     } else {
