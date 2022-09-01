@@ -21,7 +21,7 @@ import colors from '../utilities/colors-dpts.json'
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [15, 25],
-            iconAnchor: [0, 0],
+            iconAnchor: [7, 25],
             popupAnchor: [0, 0],
             shadowSize: [25, 25]
         });
@@ -30,7 +30,7 @@ import colors from '../utilities/colors-dpts.json'
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [15, 25],
-            iconAnchor: [0, 0],
+            iconAnchor: [7, 25],
             popupAnchor: [0, 0],
             shadowSize: [25, 25]
         });
@@ -39,7 +39,7 @@ import colors from '../utilities/colors-dpts.json'
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [15, 25],
-            iconAnchor: [0, 0],
+            iconAnchor: [7, 25],
             popupAnchor: [0, 0],
             shadowSize: [25, 25]
         });
@@ -48,7 +48,7 @@ import colors from '../utilities/colors-dpts.json'
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [15, 25],
-            iconAnchor: [0, 0],
+            iconAnchor: [7, 25],
             popupAnchor: [0, 0],
             shadowSize: [25, 25]
         });
@@ -57,7 +57,7 @@ import colors from '../utilities/colors-dpts.json'
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [15, 25],
-            iconAnchor: [0, 0],
+            iconAnchor: [7, 25],
             popupAnchor: [0, 0],
             shadowSize: [25, 25]
         });
@@ -66,7 +66,7 @@ import colors from '../utilities/colors-dpts.json'
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [15, 25],
-            iconAnchor: [0, 0],
+            iconAnchor: [7, 25],
             popupAnchor: [0, 0],
             shadowSize: [25, 25]
         });

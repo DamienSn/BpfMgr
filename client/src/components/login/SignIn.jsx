@@ -62,11 +62,11 @@ export default function SignIn() {
             <label className="label mt-4" htmlFor="password">Mot de passe</label>
             <div className="relative w-min">
                 {pwdVisible ?
-                    <button type="button" onClick={() => setPwdVisible(false)}>
-                        <EyeOffIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
+                    <button type="button" onClick={() => setPwdVisible(false)} tabIndex={-1}>
+                        <EyeOffIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }}/>
                     </button>
                     :
-                    <button type="button" onClick={() => setPwdVisible(true)}>
+                    <button type="button" onClick={() => setPwdVisible(true)} tabIndex={-1}>
                         <EyeIcon className="icon-sm absolute left-0 top-1/2 ml-2 cursor-pointer" style={{ transform: 'translateY(-50%)' }} />
                     </button>
                 }
@@ -75,7 +75,7 @@ export default function SignIn() {
 
             <p className="text-red-500 mt-2">{error}</p>
 
-            <button type="submit" className="btn btn-blue my-4">Se connecter</button>
+            <button type="submit" className="btn btn-blue my-4" >Se connecter</button>
         </form>
     )
 }

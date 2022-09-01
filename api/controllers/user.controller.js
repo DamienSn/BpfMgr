@@ -23,20 +23,20 @@ exports.create = (req, res) => {
 
     // Save user in the database
     User.create(user, (err, data) => {
-        if (err)
+        if (err) {
             res.status(200).json({
                 message: "error",
                 error: err
             });
-        else {
+        } else {
+            // Connect to sendinblue
+            let defaultClient = SibApiV3Sdk.ApiClient.instance;
+            let apiKey = defaultClient.authentications["api-key"];
+            apiKey.apiKey = process.env.SIB_API_KEY;
+            let apiInstance = new SibApiV3Sdk.ContactsApi();
+
             if (req.body.sendNews) {
-                let defaultClient = SibApiV3Sdk.ApiClient.instance;
-
-                let apiKey = defaultClient.authentications["api-key"];
-                apiKey.apiKey = process.env.SIB_API_KEY;
-
-                let apiInstance = new SibApiV3Sdk.ContactsApi();
-
+                // Add the user to the newsletter list
                 let createContact = new SibApiV3Sdk.CreateContact();
 
                 createContact.email = req.body.email;
@@ -54,9 +54,26 @@ exports.create = (req, res) => {
                         });
                     }
                 );
-            } else {
-                res.status(200).json(data);
             }
+            // Add the user to the info list
+            let createContact = new SibApiV3Sdk.CreateContact();
+
+            createContact.email = req.body.email;
+            createContact.listIds = [3];
+
+            apiInstance.createContact(createContact).then(
+                function (d) {
+                    res.status(200).json(data);
+                },
+                function (error) {
+                    res.status(500).json({
+                        message:
+                            err.message ||
+                            "Some error occurred while creating the user.",
+                    });
+                }
+            );
+            res.status(200).json(data);
         }
     });
 };
@@ -191,7 +208,7 @@ exports.changePassword = (req, res) => {
 };
 
 exports.editLicence = async (req, res) => {
-    if (!req.body.user_id || !req.body.user_licence ||!req.body.user) {
+    if (!req.body.user_id || !req.body.user_licence || !req.body.user) {
         res.status(400).json({ message: "Missing id or licence" });
         return;
     }
