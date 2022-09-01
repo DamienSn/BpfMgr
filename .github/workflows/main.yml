@@ -20,7 +20,7 @@ jobs:
         PORT: ${{secrets.PORT}}
         DB_HOST: ${{secrets.DB_HOST}}
         DB_USER: ${{secrets.DB_USER}}
-        DB_PASSWORD: ${{secerts.DB_PASSWORD}}
+        DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         DB_NAME: ${{secrets.DB_NAME}}
         TOKEN_SECRET: ${{secrets.TOKEN_SECRET}}
         CLIENT_URL: ${{secrets.CLIENT_URL}}
