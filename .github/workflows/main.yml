@@ -34,6 +34,26 @@ jobs:
         VITE_UPLOAD_DIR: ${{secrets.VITE_UPLOAD_DIR}}
         VITE_PWA_MODE: ${{secrets.VITE_PWA_MODE}}
         VITE_LICENCE_REDIRECT_URI: ${{secrets.VITE_LICENCE_REDIRECT_URI}}
+      
+      with:
+        docker_build_args: |
+          PORT
+          DB_HOST
+          DB_USER
+          DB_PASSWORD
+          DB_NAME
+          TOKEN_SECRET
+          CLIENT_URL
+          UPLOAD_DIR
+          SIB_API_KEY
+          BPFMGR_API_KEY
+          STATIC_URL
+          API_PREFIX
+          VITE_API_URL
+          VITE_API_KEY
+          VITE_UPLOAD_DIR
+          VITE_PWA_MODE
+          VITE_LICENCE_REDIRECT_URI
 
       run: heroku container:push -a ${{secrets.HEROKU_APP}} web
     - name: Release
