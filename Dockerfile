@@ -25,7 +25,7 @@ WORKDIR /app
 COPY ./api/package*.json ./
 RUN npm install
 COPY ./api ./
-CMD rm ./public/* && mkdir ./public/bpfs && mkdir ./public/profils
+RUN bash -c 'rm ./public/* && mkdir ./public/uploads && mkdir ./public/uploads/bpfs && mkdir ./public/uploads/profils}'
 COPY --from=builder client/dist ./public
 COPY ./client/img ./public/img
 
