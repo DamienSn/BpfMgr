@@ -25,7 +25,6 @@ WORKDIR /app
 COPY ./api/package*.json ./
 RUN npm install
 COPY ./api ./
-RUN rm ./public/*
 RUN mkdir ./public/uploads/bpfs
 RUN mkdir ./public/uploads/profils
 COPY --from=builder client/dist ./public
