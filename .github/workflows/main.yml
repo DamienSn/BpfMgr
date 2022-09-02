@@ -10,11 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Login to Heroku Container registry
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
-    - name: Build and push
+    - uses: akhileshns/heroku-deploy@v3.12.12
       env:
         HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         PORT: ${{secrets.PORT}}
@@ -36,6 +32,9 @@ jobs:
         VITE_LICENCE_REDIRECT_URI: ${{secrets.VITE_LICENCE_REDIRECT_URI}}
       
       with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: ${{secrets.HEROKU_APP}}
+        usedocker: true
         docker_build_args: |
           PORT
           DB_HOST
@@ -54,9 +53,3 @@ jobs:
           VITE_UPLOAD_DIR
           VITE_PWA_MODE
           VITE_LICENCE_REDIRECT_URI
-
-      run: heroku container:push -a ${{secrets.HEROKU_APP}} web
-    - name: Release
-      env:
-        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-      run: heroku container:release -a ${{secrets.HEROKU_APP}} web
