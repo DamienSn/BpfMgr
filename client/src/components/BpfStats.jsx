@@ -10,15 +10,14 @@ export function BpfStats() {
     const bpfs = useSelector(state => state.bpfs)
     const cities = useSelector(state => state.cities)
     const dpts = useSelector(state => state.dpts);
-    const [doneDpts, setDoneDpts] = useState(0);
+    const doneDpts = [];
 
-    useEffect(() => {
-        dpts.forEach(dpt => {
-            if (bpfs.filter(i => i.city_departement == dpt.code).length == dpt.dpt_cities_number) {
-                setDoneDpts(doneDpts + 1)
-            }
-        })
-    }, [dpts, bpfs])
+    dpts.map(dpt => {
+        const bpfsDpt = bpfs.filter(a => a.city_departement == dpt.code);
+        if (bpfsDpt.length == dpt.dpt_cities_number) {
+            doneDpts.push(dpt)
+        }
+    })
 
     return (
         <div className="w-full md:w-1/2 lg:w-1/3 mt-4 bg-blue-300 px-8 py-4 rounded-xl md:mr-8">
@@ -50,7 +49,12 @@ export function BpfStats() {
 
                 <li className="flex space-x-8 items-center px-2">
                     {/* <FlagIcon className="icon-md" /> */}
-                    <p className="text-md lg:text-lg"><span className="font-extrabold text-xl md:text-2xl">{doneDpts} </span>Dpts. terminés</p>
+                    <p className="text-md lg:text-lg">
+                        <span className="font-extrabold text-xl md:text-2xl">
+                            {doneDpts.length}
+                        </span>
+                        Dpts. terminés
+                    </p>
                 </li>
             </ul>
         </div>
