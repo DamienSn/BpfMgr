@@ -83,8 +83,9 @@ function Search() {
                     </form>
 
                     <div className="results mt-8">
-                        {citiesFilteredBySearch.length > 1 && <p className="font-bold">{citiesFilteredBySearch.length} résultat{citiesFilteredBySearch.length > 1 && "s"}</p>}
-                        {citiesFilteredBySearch.length === 0 && <p className="font-bold"><EmojiSadIcon className="icon-sm" />&nbsp;Pas de résultats</p>}
+                        <p className="font-bold">
+                            {citiesFilteredBySearch.length} résultat{citiesFilteredBySearch.length > 1 && "s"} - dont {citiesFilteredBySearch.filter(a => a.city_departement == 974).length} facultatifs
+                        </p>
 
                         {citiesFilteredBySearch.map((city, index) => {
                             return (
