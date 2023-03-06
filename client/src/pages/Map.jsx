@@ -40,21 +40,25 @@ function MapContainerBpf() {
     dispatch({ type: 'SET_BANNER', payload: false })
     dispatch({ type: 'SET_FOOTER', payload: false })
 
+    const [map, setMap] = useState(null);
+
     // Get poi id
     let hash = window.location.hash
     hash = hash.split("/")
 
-    // Pane
-    const pane = hash.length > 2 ? true : false;
+    // Display current city
+    let pane = false;
+    if (hash.length > 2) {
+        pane = true;
+    }
 
-    const [map, setMap] = useState(null);
 
     return (
         <main className="p-0 mt-16 mb-0 md:grid md:grid-cols-6 md:grid-rows-1 map-page">
             <SideControls map={map}/>
-            {pane && <MapPane />}
 
             <MapContainer className="row-start-0 col-start-2 md:col-span-4 lg:col-start-2 lg:col-end-7 h-auto" fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700} whenCreated={setMap}>
+            {pane && <MapPane />}
                 <ZoomControl position="bottomleft" />
 
                 {/* Layers */}

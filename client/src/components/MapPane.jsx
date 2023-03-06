@@ -6,9 +6,12 @@ import { useDispatch } from 'react-redux'
 
 // Lightbox
 import { SRLWrapper } from 'simple-react-lightbox';
+import { useMap } from '@monsonjeremy/react-leaflet';
+import { useEffect } from 'react';
 
 function MapPane(props) {
     const dispatch = useDispatch();
+    const map = useMap();
 
     const cities = useSelector(state => state.cities)
     const dpts = useSelector(state => state.dpts)
@@ -16,13 +19,17 @@ function MapPane(props) {
     const bpfs = useSelector(state => state.bpfs)
 
     // Get poi id
-    // Get poi id
     let hash = window.location.hash
     hash = hash.split("/")
     const poi = hash[2]
 
     const city = cities.find(city => city.city_poi_id == poi)
     const validated = bpfs.find(bpf => bpf.city_poi_id == poi)
+
+    // Focus on map
+    useEffect(() => {
+        map.flyTo([city.city_lat, city.city_long], 12);
+    }, [poi, hash])
 
     function closePane() {
         window.location.hash = "#/map"
