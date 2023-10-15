@@ -1,6 +1,5 @@
 import React from 'react'
-import { useEffect } from 'react'
-import { useState, forwardRef, useImperativeHandle } from 'react'
+import { useState, forwardRef } from 'react'
 
 // A component that generates a control for the map sidebar (checkbox and label + toggling dynamics)
 const MapControl = forwardRef(function MapControl ({ name, toggling, defaultChecked }, ref) {

@@ -24,7 +24,7 @@ export default function DoneBcnsLayer(props) {
                     <Marker position={[bcn.city_lat, bcn.city_long]} icon={icon} key={bcn.bcn_id}>
                         <Popup>
                             {`${bcn.city_name} (${bcn.city_departement})`}<br />
-                            Validé le : {new Date(bcn.bcn_date).toLocaleDateString()}<br/>
+                            Validé le : {new Date(bcn.bpf_date).toLocaleDateString()}<br/>
                             <span className="underline text-blue-600 cursor-pointer" data-city={bcn.city_poi_id} onClick={handleInfoClick}>Plus d'infos</span>
                         </Popup>
                     </Marker>
