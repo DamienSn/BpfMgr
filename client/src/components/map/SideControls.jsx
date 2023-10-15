@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react'
 import {useEffect} from 'react';
-import {AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/outline"
+import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/outline"
 
 import MapControl from './MapControl';
 

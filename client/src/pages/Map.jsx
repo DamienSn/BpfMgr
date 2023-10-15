@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { useContext } from 'react'
-import { UidContext } from '../components/AppContext'
+import React, { useEffect, useState } from 'react'
 
 // Map components
 import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, GeoJSON, ZoomControl, LayerGroup } from '@monsonjeremy/react-leaflet'
@@ -34,7 +32,6 @@ import DoneBcnsLayer from "../components/map/DoneBcnsLayer";
  * Container of the map
  */
 function MapContainerBpf() {
-    const uid = useContext(UidContext);
     const dispatch = useDispatch();
 
     // Don't display banner and footer
