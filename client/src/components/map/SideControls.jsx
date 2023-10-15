@@ -5,7 +5,7 @@ import { AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/reac
 import MapControl from './MapControl';
 
 function SideControls({ map }) {
-    // Hide overlay layers toggle on map
+    // Masquer les contrôles par défaut des calques sur la carte
     useEffect(() => {
         const layers = document.querySelector(".leaflet-control-layers-overlays");
         const separator = document.querySelector(".leaflet-control-layers-separator");
@@ -15,9 +15,11 @@ function SideControls({ map }) {
         }
     })
 
+    // Comportement responsive
     const [isVisible, setIsVisible] = useState(false);
     const [mobile, setMobile] = useState(false);
 
+    // Défintion de l'appareil utilisateur : mobile ou bureau
     useEffect(() => {
         if (window.innerWidth < 724) {
             setMobile(true)
@@ -40,23 +42,28 @@ function SideControls({ map }) {
         map.flyTo([46.632, 1.852], 6)
     }
 
-    // Get the element for each checkbox in the leaflet overlay control
+    // Get the element for each checkbox in the leaflet overlay control WARNING : refer to the order of the layers on the map to know their indice in the childnodes list
     const [doneCheckbox, setDoneCheckbox] = useState(null)
     const [notDoneCheckbox, setNotDoneCheckbox] = useState(null)
     const [dptsShapesCheckbox, setDptsShapesCheckbox] = useState(null);
     const [provincesShapesCheckbox, setProvincesShapesCheckbox] = useState(null);
     const [doneDptsSurfacesCheckbox, setDoneDptsSurfacesCheckbox] = useState(null);
     const [otherDptsSurfacesCheckbox, setOtherDptsSurfacesCheckbox] = useState(null);
+    const [doneDptsSurfacesCheckboxBCN, setDoneDptsSurfacesCheckboxBCN] = useState(null);
+    const [doneBcnsCheckbox, setDoneBcnsCheckbox] = useState(null);
 
     useEffect(() => {
         let overlay = document.querySelector(".leaflet-control-layers-overlays");
-        if (overlay && overlay.childNodes.length == 6) {
+
+        if (overlay && overlay.childNodes.length == 8) {
             setDoneCheckbox(overlay.firstChild);
             setNotDoneCheckbox(overlay.childNodes[1]);
-            setDptsShapesCheckbox(overlay.childNodes[3]);
-            setProvincesShapesCheckbox(overlay.childNodes[2]);
-            setDoneDptsSurfacesCheckbox(overlay.childNodes[4]);
-            setOtherDptsSurfacesCheckbox(overlay.childNodes[5]);
+            setDptsShapesCheckbox(overlay.childNodes[4]);
+            setProvincesShapesCheckbox(overlay.childNodes[3]);
+            setDoneDptsSurfacesCheckbox(overlay.childNodes[5]);
+            setOtherDptsSurfacesCheckbox(overlay.childNodes[6]);
+            setDoneDptsSurfacesCheckboxBCN(overlay.childNodes[7]);
+            setDoneBcnsCheckbox(overlay.childNodes[2]);
         }
     })
 
@@ -85,6 +92,12 @@ function SideControls({ map }) {
                     <h4 className="text-xl lg:text-2xl">Départements des BPF</h4>
                     <MapControl name="Départements terminés (BPF)" defaultChecked={true} toggling={doneDptsSurfacesCheckbox} />
                     <MapControl name="Départements non terminés (BPF)" defaultChecked={false} toggling={otherDptsSurfacesCheckbox} />
+                </div>
+
+                <div>
+                    <h4 className="text-xl lg:text-2xl">Mode BCN</h4>
+                    <MapControl name="Départements terminés (BCN)" defaultChecked={false} toggling={doneDptsSurfacesCheckboxBCN}/>
+                    <MapControl name="BCNs validés" defaultChecked={false} toggling={doneBcnsCheckbox} />
                 </div>
 
                 <div className="space-y-2">
