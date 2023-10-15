@@ -1,11 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import { XIcon, BadgeCheckIcon, XCircleIcon, ArrowsExpandIcon } from '@heroicons/react/outline'
+import { XIcon, BadgeCheckIcon } from '@heroicons/react/outline'
 import { useDispatch } from 'react-redux'
 
 // Lightbox
-import { SRLWrapper } from 'simple-react-lightbox';
 import { useMap } from '@monsonjeremy/react-leaflet';
 import { useEffect } from 'react';
 

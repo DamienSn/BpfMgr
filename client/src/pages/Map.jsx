@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { useContext } from 'react'
-import { UidContext } from '../components/AppContext'
+import React, { useEffect, useState } from 'react'
 
 // Map components
 import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, GeoJSON, ZoomControl, LayerGroup } from '@monsonjeremy/react-leaflet'
@@ -28,12 +26,12 @@ import MapPane from '../components/MapPane'
 import DoneLayer from '../components/map/DoneLayer'
 import CitiesLayer from '../components/map/CitiesLayer'
 import { useDispatch } from 'react-redux'
+import DoneBcnsLayer from "../components/map/DoneBcnsLayer";
 
 /**
  * Container of the map
  */
 function MapContainerBpf() {
-    const uid = useContext(UidContext);
     const dispatch = useDispatch();
 
     // Don't display banner and footer
@@ -87,7 +85,7 @@ function MapContainerBpf() {
                         />
                     </LayersControl.BaseLayer>
 
-                    {/* Marker Layers */}
+                    {/* MARKER LAYERS */}
                     {/* Done BPF layer */}
                     <LayersControl.Overlay name="Mes BPF" checked>
                         <DoneLayer />
@@ -98,6 +96,13 @@ function MapContainerBpf() {
                         <CitiesLayer />
                     </LayersControl.Overlay>
 
+                    {/*Done BCNs  layer*/}
+                    <LayersControl.Overlay name="BCN faits">
+                        <DoneBcnsLayer/>
+                    </LayersControl.Overlay>
+
+
+                    {/* MAP SHAPES */}
                     {/* Provinces */}
                     <LayersControl.Overlay name="Contours des provinces">
                         <ProvincesLayer />
@@ -114,6 +119,11 @@ function MapContainerBpf() {
                     </LayersControl.Overlay>
                     <LayersControl.Overlay name="Coloration des départements non terminés">
                         <NotDoneDptsLayer />
+                    </LayersControl.Overlay>
+
+                    {/* Départements des BCN terminés */}
+                    <LayersControl.Overlay name="Coloration des départements des BCN terminés">
+                        <BcnLayerDoneDpts/>
                     </LayersControl.Overlay>
 
                 </LayersControl>
@@ -223,6 +233,24 @@ function NotDoneDptsLayer() {
     return (
         <LayerGroup>
             {doneBpfs.length != 0 && notDoneDpts.map(dpt => <GeoJSON key={dpt} data={dptsShapes.features.filter(a => a.properties.code == dpt)[0]} style={{ fill: true, fillOpacity: 0.5, color: "red", weight: 0 }} />)}
+        </LayerGroup>
+    )
+}
+
+// LAYERS FOR BCNS
+function BcnLayerDoneDpts() {
+    // Get codes of done dpts into an array
+    let doneBcns = useSelector(state => state.bcns);
+    let doneDpts = [];
+
+    doneBcns.map(bcn => {
+        doneDpts.push(bcn.city_departement)
+    })
+
+//     Display these dpts
+    return (
+        <LayerGroup>
+            {doneDpts.map(dpt => <GeoJSON key={dpt} data={dptsShapes.features.filter(a => a.properties.code == dpt)[0]} style={{ fill: true, fillOpacity: 0.5, color: "green", weight: 0 }} />)}
         </LayerGroup>
     )
 }
