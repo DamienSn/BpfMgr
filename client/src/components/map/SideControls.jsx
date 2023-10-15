@@ -90,7 +90,7 @@ function SideControls({ map }) {
                 <div className="space-y-2">
                     <h4 className='text-xl lg:text-2xl'>Aller à</h4>
                     <button className="btn btn-outline-blue mr-2" onClick={flyToLaReunion}>La Réunion</button>
-                    <button className="btn btn-outline-blue " onClick={flyToFrance}>France</button>
+                    <button className="btn btn-outline-blue " onClick={flyToFrance}>Métropole</button>
                 </div>
             </div>
         </div>
