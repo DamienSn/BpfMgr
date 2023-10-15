@@ -1,23 +1,26 @@
 import React, {useRef, useState} from 'react'
-import { useEffect } from 'react';
-import { AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline"
+import {useEffect} from 'react';
+import {AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/outline"
 
 import MapControl from './MapControl';
 
 function Pills({handler, ref1, ref2}) {
     return (
-        <>
-            <button id="pill-bpf" onClick={handler} className="py-2 px-4 border-2 border-r-0 border-blue-400 rounded-l-full cursor-pointer pill-active" ref={ref1}>
+        <div>
+            <button id="pill-bpf" onClick={handler}
+                    className="py-2 px-4 border-2 border-r-0 border-blue-400 rounded-l-full cursor-pointer pill-active text-sm"
+                    ref={ref1}>
                 BPF
             </button>
-            <button id="pill-bcn" onClick={handler} className="py-2 px-4 border-2 border-blue-400 rounded-r-full cursor-pointer" ref={ref2}>
+            <button id="pill-bcn" onClick={handler}
+                    className="py-2 px-4 border-2 border-blue-400 rounded-r-full cursor-pointer text-sm" ref={ref2}>
                 BCN
             </button>
-        </>
+        </div>
     )
 }
 
-function SideControls({ map }) {
+function SideControls({map}) {
     // Masquer les contrôles par défaut des calques sur la carte
     useEffect(() => {
         const layers = document.querySelector(".leaflet-control-layers-overlays");
@@ -67,10 +70,6 @@ function SideControls({ map }) {
     const [doneDptsSurfacesCheckboxBCN, setDoneDptsSurfacesCheckboxBCN] = useState(null);
     const [doneBcnsCheckbox, setDoneBcnsCheckbox] = useState(null);
 
-    const groupBpfControls = [doneCheckbox, notDoneCheckbox, doneDptsSurfacesCheckbox, otherDptsSurfacesCheckbox];
-    const groupBcnControls = [doneDptsSurfacesCheckboxBCN, doneBcnsCheckbox]
-
-
     useEffect(() => {
         let overlay = document.querySelector(".leaflet-control-layers-overlays");
 
@@ -86,7 +85,7 @@ function SideControls({ map }) {
         }
     })
 
-    // Mode de la carte (BPf ou BCN)
+    // Mode de la carte (BPF ou BCN)
     const refPillBpf = useRef(null);
     const refPillBcn = useRef(null);
 
@@ -94,8 +93,45 @@ function SideControls({ map }) {
     const bcnControls = useRef(null);
     const [bpfControlsDisplay, setBpfControlsDisplay] = useState(true);
     const [bcnControlsDisplay, setBcnControlsDisplay] = useState(false);
+
+    const disableAllBpfsLayers = () => {
+        groupRefsBpfs.map(ref => {
+            if (ref.current.checked) {
+                ref.current.click();
+            }
+        })
+    }
+    const enableBpfsLayers = () => {
+        const refs = [refDoneBpfs, refOthersBpfs, refDoneDptsBpfs];
+        refs.map(ref => {
+            if (!ref.current.checked) {
+                ref.current.click();
+            }
+        })
+    }
+
+    const disableAllBcnsLayers = () => {
+        groupRefsBcns.map(ref => {
+            if (ref.current.checked) {
+                ref.current.click();
+            }
+        })
+    }
+
+    const enableBcnsLayers = () => {
+        groupRefsBcns.map(ref => {
+            if (!ref.current.checked) {
+                ref.current.click();
+            }
+        })
+    }
+
     const handlePills = (e) => {
         if (e.target.innerText === 'BPF') {
+            // Changement vers mode BPF
+            disableAllBcnsLayers();
+            enableBpfsLayers();
+
             refPillBcn.current.classList.remove('pill-active');
             refPillBpf.current.classList.add('pill-active');
 
@@ -103,39 +139,66 @@ function SideControls({ map }) {
             setBpfControlsDisplay(true);
 
         } else {
+            // Changement vers mode BCN
+            disableAllBpfsLayers();
+            enableBcnsLayers();
+
             refPillBpf.current.classList.remove('pill-active');
             refPillBcn.current.classList.add('pill-active');
 
             setBcnControlsDisplay(true);
             setBpfControlsDisplay(false);
+
         }
     }
+
+    // Refs to access the inputs of each control
+    const refDoneBpfs = useRef(null);
+    const refOthersBpfs = useRef(null);
+    const refDoneDptsBpfs = useRef(null);
+    const refOthersDptsBpfs = useRef(null);
+    const groupRefsBpfs = [refDoneBpfs, refOthersBpfs, refDoneDptsBpfs, refOthersDptsBpfs];
+
+    const refDoneBcns = useRef(null);
+    const refDoneDptsBcns = useRef(null);
+    const groupRefsBcns = [refDoneBcns, refDoneDptsBcns];
+
 
     return (
         <div className='md:col-span-2 lg:col-span-1 mt-4 md:ml-4 md:mt-8 space-y-4'>
             {/* Mobile menu toggler */}
-            <div className="visible md:hidden w-full py-2 font-bold text-center" onClick={e => setIsVisible(!isVisible)} aria-role="button">
+            <div className="visible md:hidden w-full py-2 font-bold text-center" onClick={e => setIsVisible(!isVisible)}
+                 aria-role="button">
                 Menu d'affichage&nbsp;
-                {isVisible ? <ChevronUpIcon className="icon-sm" /> : <ChevronDownIcon className="icon-sm" />}
+                {isVisible ? <ChevronUpIcon className="icon-sm"/> : <ChevronDownIcon className="icon-sm"/>}
             </div>
 
-            <div style={{ display: !isVisible && mobile ? "none" : "block" }} className="pb-4 md:pb-0 px-2 md:px-0">
-                <div className="text-xl lg:text-2xl">
+            <div style={{display: !isVisible && mobile ? "none" : "block"}} className="pb-4 md:pb-0 px-2 md:px-0">
+
+                {/* Pills (mode) */}
+                <div className="text-xl lg:text-2xl mb-2 flex-col">
+                    <h4>Mode d'affichage</h4>
                     <Pills ref1={refPillBpf} ref2={refPillBcn} handler={handlePills}/>
                 </div>
 
+
                 {/* Section des contrôles BPF */}
                 <div ref={bpfControls} style={{display: bpfControlsDisplay ? "block" : "none"}}>
-                    <div>
-                        <h4 className="text-xl lg:text-2xl">Sites</h4>
-                        <MapControl name="BPFs validés" defaultChecked={true} toggling={doneCheckbox}/>
-                        <MapControl name="BPFs non validés" defaultChecked={true} toggling={notDoneCheckbox} />
-                    </div>
 
                     <div>
-                        <h4 className="text-xl lg:text-2xl">Départements des BPF</h4>
-                        <MapControl name="Départements terminés (BPF)" defaultChecked={true} toggling={doneDptsSurfacesCheckbox} />
-                        <MapControl name="Départements non terminés (BPF)" defaultChecked={false} toggling={otherDptsSurfacesCheckbox} />
+                        <h4 className="text-lg lg:text-xl">Sites</h4>
+                        <MapControl name="BPFs validés" defaultChecked={true} toggling={doneCheckbox}
+                                    ref={refDoneBpfs}/>
+                        <MapControl name="BPFs non validés" defaultChecked={true} toggling={notDoneCheckbox}
+                                    ref={refOthersBpfs}/>
+                    </div>
+
+                    <div className="mt-2">
+                        <h4 className="text-lg lg:text-xl">Départements</h4>
+                        <MapControl name="Départements terminés (BPF)" defaultChecked={true}
+                                    toggling={doneDptsSurfacesCheckbox} ref={refDoneDptsBpfs}/>
+                        <MapControl name="Départements non terminés (BPF)" defaultChecked={false}
+                                    toggling={otherDptsSurfacesCheckbox} ref={refOthersDptsBpfs}/>
                     </div>
                 </div>
 
@@ -143,16 +206,18 @@ function SideControls({ map }) {
                 {/* Section des contrôles BCN */}
                 <div ref={bcnControls} style={{display: bcnControlsDisplay ? "block" : "none"}}>
                     <div>
-                        <h4 className="text-xl lg:text-2xl">Mode BCN</h4>
-                        <MapControl name="Départements terminés (BCN)" defaultChecked={false} toggling={doneDptsSurfacesCheckboxBCN}/>
-                        <MapControl name="BCNs validés" defaultChecked={false} toggling={doneBcnsCheckbox} />
+                        <h4 className="text-lg lg:text-xl">Mode BCN</h4>
+                        <MapControl name="Départements terminés (BCN)" defaultChecked={false}
+                                    toggling={doneDptsSurfacesCheckboxBCN} ref={refDoneDptsBcns}/>
+                        <MapControl name="BCNs validés" defaultChecked={false} toggling={doneBcnsCheckbox}
+                                    ref={refDoneBcns}/>
                     </div>
                 </div>
 
-                <div>
+                <div className="mt-4">
                     <h4 className="text-xl lg:text-2xl">Contours</h4>
-                    <MapControl name="Départements" defaultChecked={true} toggling={dptsShapesCheckbox} />
-                    <MapControl name="Provinces" defaultChecked={false} toggling={provincesShapesCheckbox} />
+                    <MapControl name="Départements" defaultChecked={true} toggling={dptsShapesCheckbox}/>
+                    <MapControl name="Provinces" defaultChecked={false} toggling={provincesShapesCheckbox}/>
                 </div>
 
                 <div className="space-y-2">
