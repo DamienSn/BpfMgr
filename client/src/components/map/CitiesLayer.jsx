@@ -49,7 +49,7 @@ export default function CitiesLayer(props) {
                             <Popup>
                                 {`${city.city_name} (${city.city_departement})`}<br />
                                 Non validé<br />
-                                <span className="underline text-blue-600 cursor-pointer" data-city={city.city_poi_id} onClick={handleInfoClick}>Plus d'infos</span>
+                                <span className="underline text-blue-600 cursor-pointer" data-city={city.city_poi_id} onClick={handleInfoClick}>Plus d'infos & Validation</span>
                             </Popup>
                         </Marker>
                     )
