@@ -1,8 +1,5 @@
-import { useContext, useState, useEffect } from "react";
-import { UidContext } from "../AppContext";
-import { useDispatch } from "react-redux";
+import {useSelector} from "react-redux";
 import { LayerGroup } from "@monsonjeremy/react-leaflet";
-import {getAllBpfs} from '../../utilities/bpfRequests';
 
 import { Marker, Popup } from "@monsonjeremy/react-leaflet";
 
@@ -47,15 +44,7 @@ export function getIcon (point) {
  * Displays all done bpfs
  */
 export default function DoneLayer(props) {
-    const uid = useContext(UidContext);
-    const dispatch = useDispatch();
-
-    // State
-    const [userBpfs, setUserBpfs] = useState([]);
-
-    useEffect(() => {
-        getAllBpfs(uid, setUserBpfs);
-    }, [uid])
+    const userBpfs = useSelector((state) => state.bpfs.filter(bpf => !bpf.city_is_old_new_id))
 
     function handleInfoClick (e) {
         window.location.hash = `#map/${e.target.attributes["data-city"].value}`;

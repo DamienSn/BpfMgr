@@ -27,6 +27,8 @@ import DoneLayer from '../components/map/DoneLayer'
 import CitiesLayer from '../components/map/CitiesLayer'
 import { useDispatch } from 'react-redux'
 import DoneBcnsLayer from "../components/map/DoneBcnsLayer";
+import CitiesOldLayer from "../components/map/CitiesOldLayer";
+import OldDoneLayer from "../components/map/OldDoneLayer";
 
 /**
  * Container of the map
@@ -95,6 +97,18 @@ function MapContainerBpf() {
                     <LayersControl.Overlay name="BPF non faits" checked>
                         <CitiesLayer />
                     </LayersControl.Overlay>
+
+                    {/*Anciens BPFS validés*/}
+                    <LayersControl.Overlay name="Anciens BPF validés">
+                        <OldDoneLayer />
+                    </LayersControl.Overlay>
+
+                    {/* Anciens BPFS non validés*/}
+                    <LayersControl.Overlay name="Anciens BPF non faits">
+                        <CitiesOldLayer />
+                    </LayersControl.Overlay>
+
+
 
                     {/*Done BCNs  layer*/}
                     <LayersControl.Overlay name="BCN faits">
