@@ -11,7 +11,7 @@ import SideControls from '../components/map/SideControls'
 
 // GeoJSON shapes (departements and provinces)
 import provincesShapes from '../utilities/provinces-shapes.json';
-import dptsShapes from '../utilities/dpts-shapes.json';
+import dptsShapes from '../utilities/dpts-shapes-corse-merged.json';
 
 // Marker icons
 import homeMarker from '../img/icons/marker-home.svg';
