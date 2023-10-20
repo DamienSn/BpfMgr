@@ -22,7 +22,7 @@ function eliminateDuplicateValues(arr) {
  * @param cities list of all cities
  * @return {boolean} isFinished ?
  */
-function getDepartementStatus(bpfs, cities) {
+export default function getDepartementStatus(bpfs, cities) {
     const activeBpfs = bpfs.filter(bpf => !bpf.city_is_old_new_id);
     const oldBpfs = bpfs.filter(bpf => bpf.city_is_old_new_id);
 
