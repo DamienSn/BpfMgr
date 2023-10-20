@@ -58,7 +58,7 @@ export default function DoneLayer(props) {
                     return (
                         <Marker position={[bpf.city_lat, bpf.city_long]} icon={icon} key={bpf.bpf_id}>
                             <Popup>
-                                {`${bpf.city_name} (${bpf.city_departement})`}<br />
+                                {`Ancien BPF - ${bpf.city_name} (${bpf.city_departement})`}<br />
                                 Validé le : {new Date(bpf.bpf_date).toLocaleDateString()}<br/>
                                 <span className="underline text-blue-600 cursor-pointer" data-city={bpf.city_poi_id} onClick={handleInfoClick}>Plus d'infos</span>
                             </Popup>

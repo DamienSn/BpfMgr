@@ -100,7 +100,7 @@ function MapContainerBpf() {
                     </LayersControl.Overlay>
 
                     {/*Anciens BPFS validés*/}
-                    <LayersControl.Overlay name="Anciens BPF validés">
+                    <LayersControl.Overlay name="Anciens BPF validés" checked>
                         <OldDoneLayer />
                     </LayersControl.Overlay>
 
@@ -220,7 +220,7 @@ function DptsLayer() {
         // Get done bpfs of the departement
         const bpfs = doneBpfs.filter(a => a.city_departement == dpt.code);
         // Check if all dpt bpfs are done
-        const status = getDepartementStatus(bpfs, cities)
+        const status = getDepartementStatus(bpfs, cities, dpt.dpt_cities_number)
         if (status) {
             doneDpts.push(dpt.code)
         }

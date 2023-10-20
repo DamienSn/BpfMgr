@@ -203,7 +203,7 @@ function SideControls({map}) {
 
                     <div>
                         <h4 className="text-lg lg:text-xl">Anciens sites</h4>
-                        <MapControl name="Anciens BPFs validés" defaultChecked={false} toggling={doneOldCheckbox} ref={refOldDoneBpfs}/>
+                        <MapControl name="Anciens BPFs validés" defaultChecked={true} toggling={doneOldCheckbox} ref={refOldDoneBpfs}/>
                         <MapControl name="Anciens BPFs non validés" defaultChecked={false} toggling={notDoneOldCheckbox} ref={refOldNotDoneBpfs}/>
                     </div>
 

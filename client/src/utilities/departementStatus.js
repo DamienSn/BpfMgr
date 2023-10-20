@@ -20,17 +20,24 @@ function eliminateDuplicateValues(arr) {
  * Returns if the departement is finished or not, according to the bpfs validated in it
  * @param bpfs list of validated bpfs of the departement
  * @param cities list of all cities
+ * @param dptCitiesNumber number of cities to finish in the departement
  * @return {boolean} isFinished ?
  */
-export default function getDepartementStatus(bpfs, cities) {
+export default function getDepartementStatus(bpfs, cities, dptCitiesNumber) {
+    if (bpfs.length == 0) {
+        return false;
+    }
+
     const activeBpfs = bpfs.filter(bpf => !bpf.city_is_old_new_id);
     const oldBpfs = bpfs.filter(bpf => bpf.city_is_old_new_id);
 
-    console.log(activeBpfs)
-
     // Si le nombre de BPFS actifs validés est de 6, le département est fini
-    if (activeBpfs.length >= 6) {
+    if (activeBpfs.length >= dptCitiesNumber) {
         return true;
+    }
+
+    if (activeBpfs.length < dptCitiesNumber && oldBpfs.length == 0) {
+        return false;
     }
 
     // Sinon, on cherche les id des villes associées aux anciens BPF validés
@@ -42,13 +49,13 @@ export default function getDepartementStatus(bpfs, cities) {
     // ids des villes des bpfs actifs
     const activeBpfsCitiesId = [];
     activeBpfs.map(bpf => {
-        activeBpfsCitiesId.push(bpf.city_id);
+        activeBpfsCitiesId.push(bpf.bpf_city_id);
     })
     // fusion de tous les bpfs validés en équivalent villes actives
     const resultAsActivesBpfs = [...activeBpfsCitiesId, ...associatedActiveCitiesId]
     const resultWithoutDuplicates = eliminateDuplicateValues(resultAsActivesBpfs);
 
-    if (resultWithoutDuplicates.length >= 6 ) {
+    if (resultWithoutDuplicates.length >= dptCitiesNumber ) {
         return true
     } else {
         return false
