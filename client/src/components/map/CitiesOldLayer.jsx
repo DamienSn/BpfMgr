@@ -7,15 +7,15 @@ import { LayerGroup } from "@monsonjeremy/react-leaflet";
 import { Marker, Popup } from "@monsonjeremy/react-leaflet";
 
 /**
- * Displays all not done bpfs
+ * Displays all old and not done bpfs
  */
-export default function CitiesLayer(props) {
+export default function CitiesOldLayer(props) {
     const uid = useContext(UidContext);
     const dispatch = useDispatch();
 
     // State
     const userBpfs = useSelector(state => state.bpfs);
-    const cities = useSelector(state => state.cities.filter(city => !city.city_is_old_new_id)); // only active BPF, not olds
+    const cities = useSelector(state => state.cities.filter(city => city.city_is_old_new_id)); // only olds BPFs
     const [displayedCities, setDisplayedCities] = useState([]);
 
 

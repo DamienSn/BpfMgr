@@ -1,8 +1,5 @@
-import { useContext, useState, useEffect } from "react";
-import { UidContext } from "../AppContext";
-import { useDispatch } from "react-redux";
+import {useSelector} from "react-redux";
 import { LayerGroup } from "@monsonjeremy/react-leaflet";
-import {getAllBpfs} from '../../utilities/bpfRequests';
 
 import { Marker, Popup } from "@monsonjeremy/react-leaflet";
 
@@ -47,15 +44,7 @@ export function getIcon (point) {
  * Displays all done bpfs
  */
 export default function DoneLayer(props) {
-    const uid = useContext(UidContext);
-    const dispatch = useDispatch();
-
-    // State
-    const [userBpfs, setUserBpfs] = useState([]);
-
-    useEffect(() => {
-        getAllBpfs(uid, setUserBpfs);
-    }, [uid])
+    const userBpfs = useSelector((state) => state.bpfs.filter(bpf => !bpf.city_is_old_new_id))
 
     function handleInfoClick (e) {
         window.location.hash = `#map/${e.target.attributes["data-city"].value}`;
@@ -69,7 +58,7 @@ export default function DoneLayer(props) {
                     return (
                         <Marker position={[bpf.city_lat, bpf.city_long]} icon={icon} key={bpf.bpf_id}>
                             <Popup>
-                                {`${bpf.city_name} (${bpf.city_departement})`}<br />
+                                {`Ancien BPF - ${bpf.city_name} (${bpf.city_departement})`}<br />
                                 Validé le : {new Date(bpf.bpf_date).toLocaleDateString()}<br/>
                                 <span className="underline text-blue-600 cursor-pointer" data-city={bpf.city_poi_id} onClick={handleInfoClick}>Plus d'infos</span>
                             </Popup>

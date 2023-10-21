@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "csv-parse": "^5.5.2",
+    "geojson-merge": "^0.3.0",
     "sass": "^1.54.5"
   }
 }
