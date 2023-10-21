@@ -20,6 +20,7 @@ function Pills({handler, ref1, ref2}) {
     )
 }
 
+
 function SideControls({map}) {
     // Masquer les contrôles par défaut des calques sur la carte
     useEffect(() => {
@@ -69,19 +70,23 @@ function SideControls({map}) {
     const [otherDptsSurfacesCheckbox, setOtherDptsSurfacesCheckbox] = useState(null);
     const [doneDptsSurfacesCheckboxBCN, setDoneDptsSurfacesCheckboxBCN] = useState(null);
     const [doneBcnsCheckbox, setDoneBcnsCheckbox] = useState(null);
+    const [doneOldCheckbox, setDoneOldCheckbox] = useState(null);
+    const [notDoneOldCheckbox, setNotDoneOldCheckbox] = useState(null);
 
     useEffect(() => {
         let overlay = document.querySelector(".leaflet-control-layers-overlays");
 
-        if (overlay && overlay.childNodes.length == 8) {
+        if (overlay && overlay.childNodes.length == 10) {
             setDoneCheckbox(overlay.firstChild);
             setNotDoneCheckbox(overlay.childNodes[1]);
-            setDptsShapesCheckbox(overlay.childNodes[4]);
-            setProvincesShapesCheckbox(overlay.childNodes[3]);
-            setDoneDptsSurfacesCheckbox(overlay.childNodes[5]);
-            setOtherDptsSurfacesCheckbox(overlay.childNodes[6]);
-            setDoneDptsSurfacesCheckboxBCN(overlay.childNodes[7]);
-            setDoneBcnsCheckbox(overlay.childNodes[2]);
+            setDptsShapesCheckbox(overlay.childNodes[6]);
+            setProvincesShapesCheckbox(overlay.childNodes[5]);
+            setDoneDptsSurfacesCheckbox(overlay.childNodes[7]);
+            setOtherDptsSurfacesCheckbox(overlay.childNodes[8]);
+            setDoneDptsSurfacesCheckboxBCN(overlay.childNodes[9]);
+            setDoneBcnsCheckbox(overlay.childNodes[4]);
+            setDoneOldCheckbox(overlay.childNodes[2]);
+            setNotDoneOldCheckbox(overlay.childNodes[3])
         }
     })
 
@@ -94,6 +99,7 @@ function SideControls({map}) {
     const [bpfControlsDisplay, setBpfControlsDisplay] = useState(true);
     const [bcnControlsDisplay, setBcnControlsDisplay] = useState(false);
 
+    // FOnctions d'activation / désactivation de tous les calques d'un mode (BPF /BCN)
     const disableAllBpfsLayers = () => {
         groupRefsBpfs.map(ref => {
             if (ref.current.checked) {
@@ -157,7 +163,9 @@ function SideControls({map}) {
     const refOthersBpfs = useRef(null);
     const refDoneDptsBpfs = useRef(null);
     const refOthersDptsBpfs = useRef(null);
-    const groupRefsBpfs = [refDoneBpfs, refOthersBpfs, refDoneDptsBpfs, refOthersDptsBpfs];
+    const refOldDoneBpfs = useRef(null);
+    const refOldNotDoneBpfs = useRef(null);
+    const groupRefsBpfs = [refDoneBpfs, refOthersBpfs, refDoneDptsBpfs, refOthersDptsBpfs, refOldDoneBpfs, refOldNotDoneBpfs];
 
     const refDoneBcns = useRef(null);
     const refDoneDptsBcns = useRef(null);
@@ -191,6 +199,12 @@ function SideControls({map}) {
                                     ref={refDoneBpfs}/>
                         <MapControl name="BPFs non validés" defaultChecked={true} toggling={notDoneCheckbox}
                                     ref={refOthersBpfs}/>
+                    </div>
+
+                    <div>
+                        <h4 className="text-lg lg:text-xl">Anciens sites</h4>
+                        <MapControl name="Anciens BPFs validés" defaultChecked={true} toggling={doneOldCheckbox} ref={refOldDoneBpfs}/>
+                        <MapControl name="Anciens BPFs non validés" defaultChecked={false} toggling={notDoneOldCheckbox} ref={refOldNotDoneBpfs}/>
                     </div>
 
                     <div className="mt-2">

@@ -90,7 +90,7 @@ function Search() {
                         {citiesFilteredBySearch.map((city, index) => {
                             return (
                                 <div key={index} className="mb-6">
-                                    <h4 className="text-blue-600">{city.city_name}</h4>
+                                    <h4 className="text-blue-600">{city.city_is_old_new_id && "Ancien BPF - "}{city.city_name}</h4>
                                     <p>
                                         <span className="font-bold">Département : </span>
                                         {city.city_departement} -&nbsp;
