@@ -11,7 +11,7 @@ import SideControls from '../components/map/SideControls'
 
 // GeoJSON shapes (departements and provinces)
 import provincesShapes from '../utilities/provinces-shapes.json';
-import dptsShapes from '../utilities/dpts-shapes.json';
+import dptsShapes from '../utilities/dpts-shapes-corse-merged.json';
 
 // Marker icons
 import homeMarker from '../img/icons/marker-home.svg';
@@ -27,6 +27,9 @@ import DoneLayer from '../components/map/DoneLayer'
 import CitiesLayer from '../components/map/CitiesLayer'
 import { useDispatch } from 'react-redux'
 import DoneBcnsLayer from "../components/map/DoneBcnsLayer";
+import CitiesOldLayer from "../components/map/CitiesOldLayer";
+import OldDoneLayer from "../components/map/OldDoneLayer";
+import getDepartementStatus from "../utilities/departementStatus";
 
 /**
  * Container of the map
@@ -95,6 +98,18 @@ function MapContainerBpf() {
                     <LayersControl.Overlay name="BPF non faits" checked>
                         <CitiesLayer />
                     </LayersControl.Overlay>
+
+                    {/*Anciens BPFS validés*/}
+                    <LayersControl.Overlay name="Anciens BPF validés" checked>
+                        <OldDoneLayer />
+                    </LayersControl.Overlay>
+
+                    {/* Anciens BPFS non validés*/}
+                    <LayersControl.Overlay name="Anciens BPF non faits">
+                        <CitiesOldLayer />
+                    </LayersControl.Overlay>
+
+
 
                     {/*Done BCNs  layer*/}
                     <LayersControl.Overlay name="BCN faits">
@@ -198,13 +213,15 @@ function DptsShapesLayer() {
 function DptsLayer() {
     let doneBpfs = useSelector(state => state.bpfs);
     let dpts = useSelector(state => state.dpts)
+    const cities = useSelector(state => state.cities);
 
     let doneDpts = [];
     dpts.forEach(dpt => {
         // Get done bpfs of the departement
         const bpfs = doneBpfs.filter(a => a.city_departement == dpt.code);
         // Check if all dpt bpfs are done
-        if (bpfs.length == dpt.dpt_cities_number) {
+        const status = getDepartementStatus(bpfs, cities, dpt.dpt_cities_number)
+        if (status) {
             doneDpts.push(dpt.code)
         }
     })

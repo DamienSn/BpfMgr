@@ -103,7 +103,7 @@ module.exports.getOne = (params, result) => {
     const { id, date } = params;
 
     const queryGetOne = `
-    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, city_poi_id, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
+    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, city_poi_id, dpt_name, city_province_id, city_is_old_new_id, province_name, city_lat, city_long, user_email, user_name
     FROM bpfs
     INNER JOIN cities ON bpf_city_id=city_id
     INNER JOIN users ON bpf_user_id=user_id
@@ -125,7 +125,7 @@ module.exports.getOne = (params, result) => {
 module.exports.getAllByUser = (id, result) => {
     id = parseInt(id);
     const queryGetAllByUser = `
-    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, city_poi_id, dpt_name, city_province_id, province_name, city_lat, city_long, user_email, user_name
+    SELECT bpf_id, bpf_city_id, bpf_user_id, bpf_date, city_name, city_departement, city_poi_id, dpt_name, city_province_id, city_is_old_new_id, province_name, city_lat, city_long, user_email, user_name
     FROM bpfs
     INNER JOIN cities ON bpf_city_id=city_id
     INNER JOIN users ON bpf_user_id=user_id
