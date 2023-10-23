@@ -45,7 +45,7 @@ export default function CitiesOldLayer(props) {
                     return (
                         <Marker position={[city.city_lat, city.city_long]} key={city.city_poi_id} icon={getColoredIcon(city.city_departement, city.city_is_old_new_id)}>
                             <Popup>
-                                {`${city.city_name} (${city.city_departement})`}<br />
+                                {`Ancien BPF - ${city.city_name} (${city.city_departement})`}<br />
                                 Non validé<br />
                                 <span className="underline text-blue-600 cursor-pointer" data-city={city.city_poi_id} onClick={handleInfoClick}>Plus d'infos & Validation</span>
                             </Popup>
