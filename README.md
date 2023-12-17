@@ -13,7 +13,6 @@ Nous avons développé unse solution pour gérer facilement et intuitivement vos
     - [Détails des fonctionnalités](#détails-des-fonctionnalités)
       - [Gestion de BPF/BCN](#gestion-de-bpfbcn)
       - [Liste et carte des sites](#liste-et-carte-des-sites)
-  - [Plateformes](#plateformes)
   - [A propos](#a-propos)
   - [Copyright](#copyright)
 
@@ -42,18 +41,6 @@ Voici ses différentes fonctionnalités
 #### Liste et carte des sites
 BpfMgr propose une carte qui affcihe tous le sites.
 Les sites que vous avez pointés sont affichés avec une autre couleur, icone, personnalisables
-
-## Plateformes
-| Plateforme              | Etat  |
-| :---------------------- | :---: |
-| App Web (Tous supports) |   ✔   |
-| Windows                 |   ⏲   |
-| Mac OS                  |   ⏲   |
-| Android                 |   ⏲   |
-| iOS                     |   ⏲   |
-| GNU/Linux               |   ⏲   |
-
-> En cours : support de l'app en tant que PWA (Installable depuis le navigateur)
 
 ## A propos
 Le terme BpfMgr désigne "Bpf Manager"
