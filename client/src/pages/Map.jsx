@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { useContext } from 'react'
-import { UidContext } from '../components/AppContext'
+import React, { useEffect, useState } from 'react'
 
 // Map components
 import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl, GeoJSON, ZoomControl, LayerGroup } from '@monsonjeremy/react-leaflet'
@@ -13,7 +11,7 @@ import SideControls from '../components/map/SideControls'
 
 // GeoJSON shapes (departements and provinces)
 import provincesShapes from '../utilities/provinces-shapes.json';
-import dptsShapes from '../utilities/dpts-shapes.json';
+import dptsShapes from '../utilities/dpts-shapes-corse-merged.json';
 
 // Marker icons
 import homeMarker from '../img/icons/marker-home.svg';
@@ -28,33 +26,40 @@ import MapPane from '../components/MapPane'
 import DoneLayer from '../components/map/DoneLayer'
 import CitiesLayer from '../components/map/CitiesLayer'
 import { useDispatch } from 'react-redux'
+import DoneBcnsLayer from "../components/map/DoneBcnsLayer";
+import CitiesOldLayer from "../components/map/CitiesOldLayer";
+import OldDoneLayer from "../components/map/OldDoneLayer";
+import getDepartementStatus from "../utilities/departementStatus";
 
 /**
  * Container of the map
  */
 function MapContainerBpf() {
-    const uid = useContext(UidContext);
     const dispatch = useDispatch();
 
     // Don't display banner and footer
     dispatch({ type: 'SET_BANNER', payload: false })
     dispatch({ type: 'SET_FOOTER', payload: false })
 
+    const [map, setMap] = useState(null);
+
     // Get poi id
     let hash = window.location.hash
     hash = hash.split("/")
 
-    // Pane
-    const pane = hash.length > 2 ? true : false;
+    // Display current city
+    let pane = false;
+    if (hash.length > 2) {
+        pane = true;
+    }
 
-    const [map, setMap] = useState(null);
 
     return (
         <main className="p-0 mt-16 mb-0 md:grid md:grid-cols-6 md:grid-rows-1 map-page">
             <SideControls map={map}/>
-            {pane && <MapPane />}
 
             <MapContainer className="row-start-0 col-start-2 md:col-span-4 lg:col-start-2 lg:col-end-7 h-auto" fullscreenControl={true} center={[46.632, 1.852]} zoom={5} scrollWheelZoom={true} zoomControl={false} zIndex={700} whenCreated={setMap}>
+            {pane && <MapPane />}
                 <ZoomControl position="bottomleft" />
 
                 {/* Layers */}
@@ -83,7 +88,7 @@ function MapContainerBpf() {
                         />
                     </LayersControl.BaseLayer>
 
-                    {/* Marker Layers */}
+                    {/* MARKER LAYERS */}
                     {/* Done BPF layer */}
                     <LayersControl.Overlay name="Mes BPF" checked>
                         <DoneLayer />
@@ -94,6 +99,25 @@ function MapContainerBpf() {
                         <CitiesLayer />
                     </LayersControl.Overlay>
 
+                    {/*Anciens BPFS validés*/}
+                    <LayersControl.Overlay name="Anciens BPF validés" checked>
+                        <OldDoneLayer />
+                    </LayersControl.Overlay>
+
+                    {/* Anciens BPFS non validés*/}
+                    <LayersControl.Overlay name="Anciens BPF non faits">
+                        <CitiesOldLayer />
+                    </LayersControl.Overlay>
+
+
+
+                    {/*Done BCNs  layer*/}
+                    <LayersControl.Overlay name="BCN faits">
+                        <DoneBcnsLayer/>
+                    </LayersControl.Overlay>
+
+
+                    {/* MAP SHAPES */}
                     {/* Provinces */}
                     <LayersControl.Overlay name="Contours des provinces">
                         <ProvincesLayer />
@@ -110,6 +134,11 @@ function MapContainerBpf() {
                     </LayersControl.Overlay>
                     <LayersControl.Overlay name="Coloration des départements non terminés">
                         <NotDoneDptsLayer />
+                    </LayersControl.Overlay>
+
+                    {/* Départements des BCN terminés */}
+                    <LayersControl.Overlay name="Coloration des départements des BCN terminés">
+                        <BcnLayerDoneDpts/>
                     </LayersControl.Overlay>
 
                 </LayersControl>
@@ -184,13 +213,15 @@ function DptsShapesLayer() {
 function DptsLayer() {
     let doneBpfs = useSelector(state => state.bpfs);
     let dpts = useSelector(state => state.dpts)
+    const cities = useSelector(state => state.cities);
 
     let doneDpts = [];
     dpts.forEach(dpt => {
         // Get done bpfs of the departement
         const bpfs = doneBpfs.filter(a => a.city_departement == dpt.code);
         // Check if all dpt bpfs are done
-        if (bpfs.length == dpt.dpt_cities_number) {
+        const status = getDepartementStatus(bpfs, cities, dpt.dpt_cities_number)
+        if (status) {
             doneDpts.push(dpt.code)
         }
     })
@@ -219,6 +250,24 @@ function NotDoneDptsLayer() {
     return (
         <LayerGroup>
             {doneBpfs.length != 0 && notDoneDpts.map(dpt => <GeoJSON key={dpt} data={dptsShapes.features.filter(a => a.properties.code == dpt)[0]} style={{ fill: true, fillOpacity: 0.5, color: "red", weight: 0 }} />)}
+        </LayerGroup>
+    )
+}
+
+// LAYERS FOR BCNS
+function BcnLayerDoneDpts() {
+    // Get codes of done dpts into an array
+    let doneBcns = useSelector(state => state.bcns);
+    let doneDpts = [];
+
+    doneBcns.map(bcn => {
+        doneDpts.push(bcn.city_departement)
+    })
+
+//     Display these dpts
+    return (
+        <LayerGroup>
+            {doneDpts.map(dpt => <GeoJSON key={dpt} data={dptsShapes.features.filter(a => a.properties.code == dpt)[0]} style={{ fill: true, fillOpacity: 0.5, color: "green", weight: 0 }} />)}
         </LayerGroup>
     )
 }

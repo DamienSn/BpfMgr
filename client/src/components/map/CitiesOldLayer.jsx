@@ -7,15 +7,15 @@ import { LayerGroup } from "@monsonjeremy/react-leaflet";
 import { Marker, Popup } from "@monsonjeremy/react-leaflet";
 
 /**
- * Displays all not done bpfs
+ * Displays all old and not done bpfs
  */
-export default function CitiesLayer(props) {
+export default function CitiesOldLayer(props) {
     const uid = useContext(UidContext);
     const dispatch = useDispatch();
 
     // State
     const userBpfs = useSelector(state => state.bpfs);
-    const cities = useSelector(state => state.cities.filter(city => !city.city_is_old_new_id)); // only active BPF, not olds
+    const cities = useSelector(state => state.cities.filter(city => city.city_is_old_new_id)); // only olds BPFs
     const [displayedCities, setDisplayedCities] = useState([]);
 
 
@@ -45,7 +45,7 @@ export default function CitiesLayer(props) {
                     return (
                         <Marker position={[city.city_lat, city.city_long]} key={city.city_poi_id} icon={getColoredIcon(city.city_departement, city.city_is_old_new_id)}>
                             <Popup>
-                                {`${city.city_name} (${city.city_departement})`}<br />
+                                {`Ancien BPF - ${city.city_name} (${city.city_departement})`}<br />
                                 Non validé<br />
                                 <span className="underline text-blue-600 cursor-pointer" data-city={city.city_poi_id} onClick={handleInfoClick}>Plus d'infos & Validation</span>
                             </Popup>
